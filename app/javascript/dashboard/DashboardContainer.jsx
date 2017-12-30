@@ -41,7 +41,16 @@ class DashboardContainer extends React.Component {
             records: cases,
           },
         });
-        console.log(cases[0]);
+      })
+      .catch(err => {
+        throw err;
+      });
+
+    axios
+      .get('/api/referrals/123')
+      .then(res => res.data)
+      .then(referrals => {
+        debugger;
       })
       .catch(err => {
         throw err;
