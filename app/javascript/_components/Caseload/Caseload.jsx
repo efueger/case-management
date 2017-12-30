@@ -24,8 +24,8 @@ const defaultProps = {
 const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
   const getHeaderText = () => {
     return status === 'ready' && cases && cases.length
-      ? `Caseload (${cases.length})`
-      : 'Caseload';
+      ? `Cases (${cases.length})`
+      : 'Cases';
   };
   const renderRecords = () => {
     if (!cases || !cases.length) {
@@ -38,8 +38,8 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
             <th>Name</th>
             <th>Service Component</th>
             <th>Type</th>
-            <th>Assignment Date</th>
-            <th>Response Comments</th>
+            {/* <th>Assignment Date</th> */}
+            {/* <th>Response Comments</th> */}
           </tr>
         </thead>
         <tbody>
@@ -56,8 +56,8 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
                   <td>{name}</td>
                   <td>{serviceComponent}</td>
                   <td>{assignmentType}</td>
-                  <td>{assignmentDate}</td>
-                  <td />
+                  {/* <td>{assignmentDate}</td> */}
+                  {/* <td /> */}
                 </tr>
               );
             }

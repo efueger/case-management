@@ -3,6 +3,20 @@ import axios from 'axios';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
 import Caseload from '../_components/Caseload';
 
+/**
+ * @param {CWDS.CaseResponse} res
+ * @returns {CWDS.CaseSummary}
+ */
+function transformCase(res) {
+  return {
+    id: res.identifier,
+    name: res.case_name,
+    assignmentType: res.assignment_type,
+    assignmentDate: '?',
+    serviceComponent: res.active_service_component,
+  };
+}
+
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -13,22 +27,25 @@ class DashboardContainer extends React.Component {
     };
   }
   componentDidMount() {
-    setTimeout(() => {
-      axios
-        .get('/api/cases/123/index')
-        .then(res => {
-          this.setState({
-            ...this.state,
-            caseload: {
-              XHRStatus: 'ready',
-              records: res.data,
-            },
-          });
-        })
-        .catch(e => {
-          throw e;
+    // TODO: Don't leapfrog the rails API
+    axios
+      // .get('/api/cases/123/index')
+      .get('//localhost:8080/staff/0Ki/cases')
+      .then(res => res.data)
+      .then(cases => cases.map(transformCase))
+      .then(cases => {
+        this.setState({
+          ...this.state,
+          caseload: {
+            XHRStatus: 'ready',
+            records: cases,
+          },
         });
-    }, 750);
+        console.log(cases[0]);
+      })
+      .catch(err => {
+        throw err;
+      });
   }
   render() {
     return (
