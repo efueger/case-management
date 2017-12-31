@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
 import Caseload from '../_components/Caseload';
+import Table from '../_components/Table';
 
 /**
  * @param {CWDS.CaseResponse} res
@@ -24,6 +25,8 @@ function transformCase(res) {
 function transformReferral(dirty) {
   return {
     id: dirty.identifier,
+    name: dirty.referral_name,
+    assignmentType: dirty.assignment_type,
   };
 }
 
@@ -37,10 +40,14 @@ class DashboardContainer extends React.Component {
     };
   }
   renderReferrals = () => {
-    return <div>alskdjf</div>;
-    // {this.state.referrals &&
-    //   this.state.referrals.map(d => <div>I AM A Referral</div>)}
-    // <div>alskdfj</div>
+    if (!this.state.referrals) return false;
+    const data = this.state.referrals.reduce(
+      (aggr, { id, name, assignmentType }) => {
+        return [...aggr, [id, name, assignmentType]];
+      },
+      []
+    );
+    return <Table colNames={['Id', 'Name', 'Assignment Type']} data={data} />;
   };
   componentDidMount() {
     // TODO: Don't leapfrog the rails API
@@ -69,9 +76,7 @@ class DashboardContainer extends React.Component {
       .then(referrals => {
         this.setState({
           ...this.state,
-          referrals: {
-            records: referrals,
-          },
+          referrals,
         });
       })
       .catch(err => {
