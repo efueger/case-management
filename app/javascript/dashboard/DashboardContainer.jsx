@@ -17,6 +17,16 @@ function transformCase(res) {
   };
 }
 
+/**
+ * @param {CWDS.ReferralResponse} dirty
+ * @returns {CWDS.CaseSummary}
+ */
+function transformReferral(dirty) {
+  return {
+    id: dirty.identifier,
+  };
+}
+
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +36,12 @@ class DashboardContainer extends React.Component {
       },
     };
   }
+  renderReferrals = () => {
+    return <div>alskdjf</div>;
+    // {this.state.referrals &&
+    //   this.state.referrals.map(d => <div>I AM A Referral</div>)}
+    // <div>alskdfj</div>
+  };
   componentDidMount() {
     // TODO: Don't leapfrog the rails API
     axios
@@ -49,8 +65,14 @@ class DashboardContainer extends React.Component {
     axios
       .get('/api/referrals/123')
       .then(res => res.data)
+      .then(referrals => referrals.map(transformReferral))
       .then(referrals => {
-        debugger;
+        this.setState({
+          ...this.state,
+          referrals: {
+            records: referrals,
+          },
+        });
       })
       .catch(err => {
         throw err;
@@ -76,7 +98,9 @@ class DashboardContainer extends React.Component {
                   />
                 )}
               />
-              <Cards cardHeaderText="Referrals" cardbgcolor="transparent" />
+              <Cards cardHeaderText="Referrals" cardbgcolor="transparent">
+                {this.renderReferrals()}
+              </Cards>
             </div>
             <div className="col-md-3">
               <div className="list-group double-gap-top card">
