@@ -6,9 +6,9 @@ module Api
       conn = Faraday.new(:url => 'http://case-api:8080') do |faraday|
         faraday.adapter  Faraday.default_adapter 
       end
-      
+
       res = conn.get do |req|
-        req.url '/staff/0Ki/referrals'
+        req.url "/staff/#{params[:user_id]}/referrals"
         req.headers['Accept'] = 'application/json'
       end
 

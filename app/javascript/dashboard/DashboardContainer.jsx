@@ -42,7 +42,7 @@ class DashboardContainer extends React.Component {
 
   fetchReferrals = () => {
     return axios
-      .get('/api/referrals/123')
+      .get('/api/referrals/0Ki')
       .then(res => res.data)
       .then(referrals => referrals.map(transformReferral))
       .catch(err => {
