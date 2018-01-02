@@ -3,32 +3,12 @@ import axios from 'axios';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
 import Caseload from '../_components/Caseload';
 import Table from '../_components/Table';
+import { transformCase, transformReferral } from './transforms';
 
 /**
- * @param {CWDS.CaseResponse} dirty
- * @returns {CWDS.CaseSummary}
+ * @todo: Use a service to manage the user profile when one exists
  */
-function transformCase(dirty) {
-  return {
-    id: dirty.identifier,
-    name: dirty.case_name,
-    assignmentType: dirty.assignment_type,
-    assignmentDate: '?',
-    serviceComponent: dirty.active_service_component,
-  };
-}
-
-/**
- * @param {CWDS.ReferralResponse} dirty
- * @returns {CWDS.CaseSummary}
- */
-function transformReferral(dirty) {
-  return {
-    id: dirty.identifier,
-    name: dirty.referral_name,
-    assignmentType: dirty.assignment_type,
-  };
-}
+const getUserId = () => '0Ki';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -42,7 +22,7 @@ class DashboardContainer extends React.Component {
 
   fetchReferrals = () => {
     return axios
-      .get('/api/referrals/0Ki')
+      .get(`/api/referrals/${getUserId()}`)
       .then(res => res.data)
       .then(referrals => referrals.map(transformReferral))
       .catch(err => {
@@ -52,7 +32,7 @@ class DashboardContainer extends React.Component {
 
   fetchCases = () => {
     return axios
-      .get('//localhost:8080/staff/0Ki/cases')
+      .get(`/api/cases/${getUserId()}/index`)
       .then(res => res.data)
       .then(cases => cases.map(transformCase))
       .catch(err => {
@@ -87,6 +67,15 @@ class DashboardContainer extends React.Component {
     );
   }
 
+  renderEmptyCaseload = () => (
+    <Alert
+      alertClassName="info"
+      alertMessage="Your caseload is empty!"
+      alertCross={null}
+      faIcon="fa-rocket"
+    />
+  );
+
   render() {
     return (
       <div>
@@ -98,14 +87,7 @@ class DashboardContainer extends React.Component {
               <Caseload
                 status={this.state.caseload.XHRStatus}
                 cases={this.state.caseload.records}
-                renderEmpty={() => (
-                  <Alert
-                    alertClassName="info"
-                    alertMessage="Your caseload is empty!"
-                    alertCross={null}
-                    faIcon="fa-rocket"
-                  />
-                )}
+                renderEmpty={this.renderEmptyCaseload}
               />
               <Cards cardHeaderText="Referrals" cardbgcolor="transparent">
                 {this.renderReferrals()}

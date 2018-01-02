@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Cards } from 'react-wood-duck';
 import Caseload from './Caseload';
+import Table from '../Table';
 
 describe('Caseload', () => {
   it('should wrap <Card />', () => {
@@ -30,10 +31,9 @@ describe('Caseload', () => {
       ];
     });
 
-    it('should return a table', () => {
+    it('should return a Table', () => {
       const Wrapper = shallow(<Caseload status="ready" cases={cases} />);
-      const children = Wrapper.find('tbody > tr');
-      expect(children.length).toBe(cases.length);
+      expect(Wrapper.find(Table).exists()).toBe(true);
     });
   });
 
