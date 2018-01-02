@@ -62,7 +62,10 @@ describe('<DashboardContainer />', () => {
         wrapper
           .instance()
           .fetchReferrals()
-          .then(duh => console.log(duh));
+          .then(() => {
+            const referrals = wrapper.state('referrals');
+            expect(referrals.records.length).toEqual(3);
+          });
         // const wrapper = shallow(<DashboardContainer />, {
         //   lifecycleExperimental: true,
         // });
@@ -95,8 +98,11 @@ describe('<DashboardContainer />', () => {
         wrapper
           .instance()
           .fetchCases()
-          .then(duh => {
-            console.log(duh);
+          .then(() => {
+            const caseload = wrapper.state('caseload');
+            expect(caseload).toBeDefined();
+            expect(caseload.XHRStatus).toEqual('ready');
+            expect(caseload.records.length).toEqual(3);
           });
       });
     });

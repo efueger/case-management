@@ -8,7 +8,7 @@ const CaseType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   assignmentType: PropTypes.string.isRequired,
   assignmentDate: PropTypes.string.isRequired,
-  serviceComponent: PropTypes.string.isRequired,
+  serviceComponent: PropTypes.string,
 });
 
 const propTypes = {
