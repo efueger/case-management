@@ -66,9 +66,6 @@ describe('<DashboardContainer />', () => {
             const referrals = wrapper.state('referrals');
             expect(referrals.records.length).toEqual(3);
           });
-        // const wrapper = shallow(<DashboardContainer />, {
-        //   lifecycleExperimental: true,
-        // });
       });
     });
 
