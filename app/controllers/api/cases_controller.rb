@@ -3,7 +3,7 @@
 module Api
   class CasesController < ActionController::API
     def cases_by_user
-      conn = Faraday.new(url => 'http://case-api:8080') do |faraday|
+      conn = Faraday.new(:url => 'http://case-api:8080') do |faraday|
         faraday.adapter Faraday.default_adapter
       end
 
