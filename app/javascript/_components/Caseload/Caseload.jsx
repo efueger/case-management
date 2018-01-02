@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Cards } from 'react-wood-duck';
+import Table from '../../_components/Table';
 
 const CaseType = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -32,38 +33,12 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
       return renderEmpty();
     }
     return (
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Service Component</th>
-            <th>Type</th>
-            {/* <th>Assignment Date</th> */}
-            {/* <th>Response Comments</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {cases.map(
-            ({
-              id,
-              name,
-              serviceComponent,
-              assignmentType,
-              assignmentDate,
-            }) => {
-              return (
-                <tr key={id}>
-                  <td>{name}</td>
-                  <td>{serviceComponent}</td>
-                  <td>{assignmentType}</td>
-                  {/* <td>{assignmentDate}</td> */}
-                  {/* <td /> */}
-                </tr>
-              );
-            }
-          )}
-        </tbody>
-      </table>
+      <Table
+        colNames={['Name', 'Service Component', 'Type']}
+        data={cases.map(({ id, name, serviceComponent, assignmentType }) => {
+          return [name, serviceComponent, assignmentType];
+        })}
+      />
     );
   };
   return (

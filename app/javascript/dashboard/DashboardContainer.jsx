@@ -5,16 +5,16 @@ import Caseload from '../_components/Caseload';
 import Table from '../_components/Table';
 
 /**
- * @param {CWDS.CaseResponse} res
+ * @param {CWDS.CaseResponse} dirty
  * @returns {CWDS.CaseSummary}
  */
-function transformCase(res) {
+function transformCase(dirty) {
   return {
-    id: res.identifier,
-    name: res.case_name,
-    assignmentType: res.assignment_type,
+    id: dirty.identifier,
+    name: dirty.case_name,
+    assignmentType: dirty.assignment_type,
     assignmentDate: '?',
-    serviceComponent: res.active_service_component,
+    serviceComponent: dirty.active_service_component,
   };
 }
 
@@ -39,6 +39,27 @@ class DashboardContainer extends React.Component {
       },
     };
   }
+
+  fetchReferrals = () => {
+    return axios
+      .get('/api/referrals/123')
+      .then(res => res.data)
+      .then(referrals => referrals.map(transformReferral))
+      .catch(err => {
+        throw err;
+      });
+  };
+
+  fetchCases = () => {
+    return axios
+      .get('//localhost:8080/staff/0Ki/cases')
+      .then(res => res.data)
+      .then(cases => cases.map(transformCase))
+      .catch(err => {
+        throw err;
+      });
+  };
+
   renderReferrals = () => {
     if (!this.state.referrals) return false;
     const data = this.state.referrals.reduce(
@@ -49,40 +70,23 @@ class DashboardContainer extends React.Component {
     );
     return <Table colNames={['Id', 'Name', 'Assignment Type']} data={data} />;
   };
-  componentDidMount() {
-    // TODO: Don't leapfrog the rails API
-    axios
-      // .get('/api/cases/123/index')
-      .get('//localhost:8080/staff/0Ki/cases')
-      .then(res => res.data)
-      .then(cases => cases.map(transformCase))
-      .then(cases => {
-        this.setState({
-          ...this.state,
-          caseload: {
-            XHRStatus: 'ready',
-            records: cases,
-          },
-        });
-      })
-      .catch(err => {
-        throw err;
-      });
 
-    axios
-      .get('/api/referrals/123')
-      .then(res => res.data)
-      .then(referrals => referrals.map(transformReferral))
-      .then(referrals => {
-        this.setState({
-          ...this.state,
-          referrals,
-        });
+  componentDidMount() {
+    this.fetchCases().then(cases =>
+      this.setState({
+        ...this.state,
+        caseload: {
+          XHRStatus: 'ready',
+          records: cases,
+        },
       })
-      .catch(err => {
-        throw err;
-      });
+    );
+
+    this.fetchReferrals().then(referrals =>
+      this.setState({ ...this.state, referrals })
+    );
   }
+
   render() {
     return (
       <div>
