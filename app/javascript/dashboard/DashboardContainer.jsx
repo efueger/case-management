@@ -4,6 +4,8 @@ import Table from '../_components/Table';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
 
+const noop = () => {};
+
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -29,9 +31,7 @@ class DashboardContainer extends React.Component {
           },
         })
       )
-      .catch(err => {
-        throw err;
-      });
+      .catch(noop);
   };
 
   fetchCases = () => {
@@ -45,9 +45,7 @@ class DashboardContainer extends React.Component {
           },
         })
       )
-      .catch(err => {
-        throw err;
-      });
+      .catch(noop);
   };
 
   renderCases = () => {
