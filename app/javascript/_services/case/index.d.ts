@@ -1,4 +1,3 @@
-import { AxiosPromise, AxiosResponse } from 'axios';
 export = CaseService;
 declare class CaseService {
   static fetch(): Promise<CaseService.Case[]>;

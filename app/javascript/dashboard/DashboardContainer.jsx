@@ -1,15 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
 import Caseload from '../_components/Caseload';
 import Table from '../_components/Table';
 import CaseService from '../_services/case';
-import { transformReferral } from './transforms';
-
-/**
- * @todo: Use a service to manage the user profile when one exists
- */
-const getUserId = () => '0Ki';
+import ReferralService from '../_services/referral';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -21,31 +15,28 @@ class DashboardContainer extends React.Component {
     };
   }
 
-  fetchReferrals = () => {
-    return axios
-      .get(`/api/referrals/${getUserId()}`)
-      .then(res => res.data)
-      .then(referrals => referrals.map(transformReferral))
-      .catch(err => {
-        throw err;
-      });
-  };
-
-  fetchCases = () => {
-    return CaseService.fetch().catch(err => {
+  fetchReferrals = () =>
+    ReferralService.fetch().catch(err => {
       throw err;
     });
-  };
+
+  fetchCases = () =>
+    CaseService.fetch().catch(err => {
+      throw err;
+    });
 
   renderReferrals = () => {
     if (!this.state.referrals) return false;
-    const data = this.state.referrals.reduce(
-      (aggr, { id, name, assignmentType }) => {
-        return [...aggr, [id, name, assignmentType]];
-      },
-      []
+    return (
+      <Table
+        colNames={['Id', 'Name', 'Assignment Type']}
+        data={this.state.referrals.map(d => [
+          d.identifier,
+          d.referral_name,
+          d.assignment_type,
+        ])}
+      />
     );
-    return <Table colNames={['Id', 'Name', 'Assignment Type']} data={data} />;
   };
 
   componentDidMount() {
