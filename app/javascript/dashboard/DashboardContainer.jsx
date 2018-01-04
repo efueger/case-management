@@ -3,7 +3,8 @@ import axios from 'axios';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
 import Caseload from '../_components/Caseload';
 import Table from '../_components/Table';
-import { transformCase, transformReferral } from './transforms';
+import CaseService from '../_services/case';
+import { transformReferral } from './transforms';
 
 /**
  * @todo: Use a service to manage the user profile when one exists
@@ -31,13 +32,9 @@ class DashboardContainer extends React.Component {
   };
 
   fetchCases = () => {
-    return axios
-      .get(`/api/cases/${getUserId()}/index`)
-      .then(res => res.data)
-      .then(cases => cases.map(transformCase))
-      .catch(err => {
-        throw err;
-      });
+    return CaseService.fetch().catch(err => {
+      throw err;
+    });
   };
 
   renderReferrals = () => {

@@ -35,9 +35,16 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
     return (
       <Table
         colNames={['Name', 'Service Component', 'Type']}
-        data={cases.map(({ id, name, serviceComponent, assignmentType }) => {
-          return [name, serviceComponent, assignmentType];
-        })}
+        data={cases.map(
+          ({
+            identifier,
+            case_name,
+            active_service_component,
+            assignment_type,
+          }) => {
+            return [case_name, active_service_component, assignment_type];
+          }
+        )}
       />
     );
   };
