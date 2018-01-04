@@ -9,58 +9,110 @@ class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      caseload: {
-        XHRStatus: 'waiting',
-      },
+      cases: { XHRStatus: 'idle' },
+      referrals: { XHRStatus: 'idle' },
     };
   }
 
-  fetchReferrals = () =>
-    ReferralService.fetch().catch(err => {
-      throw err;
-    });
+  componentDidMount() {
+    this.fetchCases();
+    this.fetchReferrals();
+  }
 
-  fetchCases = () =>
-    CaseService.fetch().catch(err => {
-      throw err;
-    });
+  fetchReferrals = () => {
+    this.setState({ referrals: { XHRStatus: 'waiting' } });
+    return ReferralService.fetch()
+      .then(referrals =>
+        this.setState({
+          referrals: {
+            XHRStatus: 'ready',
+            records: referrals,
+          },
+        })
+      )
+      .catch(err => {
+        throw err;
+      });
+  };
 
-  renderReferrals = () => {
-    if (!this.state.referrals) return false;
+  fetchCases = () => {
+    this.setState({ cases: { XHRStatus: 'waiting' } });
+    return CaseService.fetch()
+      .then(cases =>
+        this.setState({
+          cases: {
+            XHRStatus: 'ready',
+            records: cases,
+          },
+        })
+      )
+      .catch(err => {
+        throw err;
+      });
+  };
+
+  renderCases = () => {
+    const { records, XHRStatus } = this.state.cases;
+    const headerText =
+      XHRStatus === 'ready' && records && records.length
+        ? `Cases (${records.length})`
+        : 'Cases';
+    const content = (() => {
+      if (XHRStatus === 'idle') return false;
+      if (XHRStatus === 'waiting') return 'waiting...';
+      if (!records.length) return this.renderEmpty();
+      return (
+        <Table
+          colNames={['Name', 'Service Component', 'Type']}
+          data={records.map(record => [
+            record.case_name,
+            record.active_service_component,
+            record.assignment_type,
+          ])}
+        />
+      );
+    })();
     return (
-      <Table
-        colNames={['Id', 'Name', 'Assignment Type']}
-        data={this.state.referrals.map(d => [
-          d.identifier,
-          d.referral_name,
-          d.assignment_type,
-        ])}
-      />
+      <Cards cardHeaderText={headerText} cardbgcolor="transparent">
+        {content}
+      </Cards>
     );
   };
 
-  componentDidMount() {
-    this.fetchCases().then(cases =>
-      this.setState({
-        ...this.state,
-        caseload: {
-          XHRStatus: 'ready',
-          records: cases,
-        },
-      })
+  renderReferrals = () => {
+    const { records, XHRStatus } = this.state.referrals;
+    const headerText =
+      XHRStatus === 'ready' && records && records.length
+        ? `Referrals (${records.length})`
+        : 'Referrals';
+    const content = (() => {
+      if (XHRStatus === 'idle') return false;
+      if (XHRStatus === 'waiting') return 'waiting...';
+      if (!records.length) return this.renderEmpty();
+      return (
+        <Table
+          colNames={['Name', 'Type', 'received_date']}
+          data={records.map(referral => [
+            referral.referral_name,
+            referral.assignment_type,
+            referral.received_date,
+          ])}
+        />
+      );
+    })();
+    return (
+      <Cards cardHeaderText={headerText} cardbgcolor="transparent">
+        {content}
+      </Cards>
     );
+  };
 
-    this.fetchReferrals().then(referrals =>
-      this.setState({ ...this.state, referrals })
-    );
-  }
-
-  renderEmptyCaseload = () => (
+  renderEmpty = (message = 'No records found!') => (
     <Alert
       alertClassName="info"
-      alertMessage="Your caseload is empty!"
+      alertMessage={message}
       alertCross={null}
-      faIcon="fa-rocket"
+      faIcon="fa-info-circle"
     />
   );
 
@@ -72,14 +124,8 @@ class DashboardContainer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-md-9">
-              <Caseload
-                status={this.state.caseload.XHRStatus}
-                cases={this.state.caseload.records}
-                renderEmpty={this.renderEmptyCaseload}
-              />
-              <Cards cardHeaderText="Referrals" cardbgcolor="transparent">
-                {this.renderReferrals()}
-              </Cards>
+              {this.renderCases()}
+              {this.renderReferrals()}
             </div>
             <div className="col-md-3">
               <div className="list-group double-gap-top card">

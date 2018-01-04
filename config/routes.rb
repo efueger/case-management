@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     resources :cases, only: [ :index ] do
       collection do
-        get ':user_id/index', to: 'cases#cases_by_user'
+        get ':user_id', to: 'cases#cases_by_user'
       end
     end
 

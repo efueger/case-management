@@ -4,11 +4,10 @@ import { Cards } from 'react-wood-duck';
 import Table from '../../_components/Table';
 
 const CaseType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  assignmentType: PropTypes.string.isRequired,
-  assignmentDate: PropTypes.string.isRequired,
-  serviceComponent: PropTypes.string,
+  identifier: PropTypes.string.isRequired,
+  case_name: PropTypes.string.isRequired,
+  assignment_type: PropTypes.string.isRequired,
+  active_service_component: PropTypes.string,
 });
 
 const propTypes = {
@@ -22,7 +21,7 @@ const defaultProps = {
   renderEmpty: () => 'empty!',
 };
 
-const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
+const Caseload = ({ status, cases, renderWaiting, renderEmpty }) => {
   const getHeaderText = () => {
     return status === 'ready' && cases && cases.length
       ? `Cases (${cases.length})`
@@ -35,16 +34,7 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
     return (
       <Table
         colNames={['Name', 'Service Component', 'Type']}
-        data={cases.map(
-          ({
-            identifier,
-            case_name,
-            active_service_component,
-            assignment_type,
-          }) => {
-            return [case_name, active_service_component, assignment_type];
-          }
-        )}
+        data={toTableData(cases)}
       />
     );
   };
@@ -55,7 +45,21 @@ const CaseloadCard = ({ status, cases, renderWaiting, renderEmpty }) => {
   );
 };
 
-CaseloadCard.propTypes = propTypes;
-CaseloadCard.defaultProps = defaultProps;
+Caseload.propTypes = propTypes;
+Caseload.defaultProps = defaultProps;
 
-export default CaseloadCard;
+export default Caseload;
+
+/**
+ * @todo(de): camel-case-ify payloads at Java or Ruby layer
+ */
+
+/* eslint-disable camelcase */
+function toTableData(cases) {
+  return cases.map(
+    ({ identifier, case_name, active_service_component, assignment_type }) => {
+      return [case_name, active_service_component, assignment_type];
+    }
+  );
+}
+/* eslint-enable camelcase */
