@@ -7,8 +7,11 @@ module Case
     end
 
     def cases_by_user_id(user_id)
-      raw_json = @http_service.get("/cases/_search=user=#{user_id}")
-      JSON.parse(raw_json, symbolize_names: true)[:results].map { |result| Case.new(result) }
+      response = @http_service.get("/staff/#{user_id}/cases")
+      # JSON.parse(response.body, symbolize_names: true)[:results].map { |result| Case.new(result) }
+      # @(ed): y u no work???
+      # response.body.map { |result| Case::Case.new(result) }
+      response.body
     end
   end
 end

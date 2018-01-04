@@ -11,6 +11,6 @@ module Case
   class Case < Dry::Struct
     constructor_type :schema
 
-    attribute :id, Types::String.optional
+    attribute :identifier, Types::String.optional
   end
 end

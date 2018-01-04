@@ -17,7 +17,9 @@
     "clean": "rimraf public/packs*",
     "build:webpacker": "./bin/webpack",
     "start": "scripts/start.sh",
-    "build": "npm-run-all --serial clean lint test build:webpacker"
+    "build": "npm-run-all --serial clean lint test build:webpacker",
+    "dc:up": "docker-compose up",
+    "dc:rebuild": "docker-compose stop case-web && docker-compose build case-web && docker-compose up -d case-web"
   },
   "dependencies": {
     "@rails/webpacker": "^3.1.1",
