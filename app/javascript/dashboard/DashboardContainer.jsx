@@ -1,6 +1,5 @@
 import React from 'react';
 import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
-import Caseload from '../_components/Caseload';
 import Table from '../_components/Table';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
