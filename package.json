@@ -9,10 +9,10 @@
     "test:rspec": "bundle exec rspec",
     "test:jest:watch": "npm run test:jest -- --watch",
     "lint:eslint": "eslint --format tap \"app/javascript/**/*.{js,jsx}\"",
-    "lint:eslint:chkconfig": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "lint:LKSDJFLKSDJF": "run-p --print-label lint:test:*",
     "lint:rubocop": "bundle exec rubocop --format tap",
-    "lint": "npm-run-all lint:eslint lint:rubocop",
+    "lint:chkconfig:eslint": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "lint:chkconfig": "run-p --print-label lint:chkconfig:*",
+    "lint": "npm-run-all lint:eslint lint:rubocop lint:chkconfig",
     "license-dump": "license-checker --csv",
     "clean": "rimraf public/packs*",
     "build:webpacker": "./bin/webpack",
@@ -33,7 +33,6 @@
     "sass-loader": "^6.0.6"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/enzyme": "^3.1.5",
     "@types/jasmine": "^2.8.2",
     "@types/jest": "^22.0.0",

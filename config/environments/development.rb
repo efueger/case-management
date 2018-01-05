@@ -48,8 +48,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.log_level = :warn
-
   if not ENV["DOCKER_DEV"]
 
     # Use an evented file watcher to asynchronously detect changes in source code,
