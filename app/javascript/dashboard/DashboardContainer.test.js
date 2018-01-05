@@ -1,5 +1,4 @@
 import React from 'react';
-// import moxios from 'moxios';
 import { shallow } from 'enzyme';
 import DashboardContainer from './DashboardContainer';
 

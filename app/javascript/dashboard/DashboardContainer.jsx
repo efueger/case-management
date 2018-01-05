@@ -1,6 +1,6 @@
 import React from 'react';
-import { GlobalHeader, PageHeader, Cards, Alert } from 'react-wood-duck';
-import Table from '../_components/Table';
+import { GlobalHeader, PageHeader, Alert } from 'react-wood-duck';
+import { DataGridCard } from '../_components';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
 
@@ -47,81 +47,40 @@ class DashboardContainer extends React.Component {
   };
 
   renderCases = () => {
-    const { records, XHRStatus } = this.state.cases;
-    const headerText =
-      XHRStatus === 'ready' && records && records.length
-        ? `Cases (${records.length})`
-        : 'Cases';
-    const content = (() => {
-      if (XHRStatus === 'idle') return false;
-      if (XHRStatus === 'error')
-        return this.renderAlert(
-          'There was a problem retrieving your cases!',
-          'error'
-        );
-      if (XHRStatus === 'waiting') return 'waiting...';
-      if (records && !records.length)
-        return this.renderAlert('No cases found!', 'info');
-      return (
-        <Table
-          colNames={['Name', 'Service Component', 'Type']}
-          data={records.map(record => [
+    return (
+      <DataGridCard
+        cardHeaderText={getCardHeaderText(this.state.cases, 'Cases')}
+        status={this.state.cases.XHRStatus}
+        columns={['Name', 'Type', 'Recieved Date']}
+        rows={
+          this.state.cases.records &&
+          this.state.cases.records.map(record => [
             record.case_name,
             record.active_service_component,
             record.assignment_type,
-          ])}
-        />
-      );
-    })();
-    return (
-      <Cards cardHeaderText={headerText} cardbgcolor="transparent">
-        {content}
-      </Cards>
+          ])
+        }
+      />
     );
   };
 
   renderReferrals = () => {
-    const { records, XHRStatus } = this.state.referrals;
-    const headerText =
-      XHRStatus === 'ready' && records && records.length
-        ? `Referrals (${records.length})`
-        : 'Referrals';
-    const content = (() => {
-      if (XHRStatus === 'idle') return false;
-      if (XHRStatus === 'error')
-        return this.renderAlert(
-          'There was a problem retrieving your referrals!',
-          'error'
-        );
-      if (XHRStatus === 'waiting') return 'waiting...';
-      if (!records.length)
-        return this.renderAlert('No referrals were found!', 'info');
-      return (
-        <Table
-          colNames={['Name', 'Type', 'received_date']}
-          data={records.map(referral => [
-            referral.referral_name,
-            referral.assignment_type,
-            referral.received_date,
-          ])}
-        />
-      );
-    })();
     return (
-      <Cards cardHeaderText={headerText} cardbgcolor="transparent">
-        {content}
-      </Cards>
+      <DataGridCard
+        cardHeaderText={getCardHeaderText(this.state.referrals, 'Referals')}
+        status={this.state.referrals.XHRStatus}
+        columns={['Name', 'Type', 'Received Data']}
+        rows={
+          this.state.referrals.records &&
+          this.state.referrals.records.map(record => [
+            record.referral_name,
+            record.assignment_type,
+            record.received_date,
+          ])
+        }
+      />
     );
   };
-
-  renderAlert = (message = 'No records found!', type = 'info') => (
-    <Alert
-      alertClassName={type}
-      alertMessage={message}
-      alertCross={null}
-      faIcon="fa-info-circle"
-    />
-  );
 
   render() {
     return (
@@ -155,3 +114,9 @@ class DashboardContainer extends React.Component {
 }
 
 export default DashboardContainer;
+
+function getCardHeaderText({ XHRStatus, records }, text = 'Records') {
+  return XHRStatus === 'ready' && records && records.length
+    ? `${text} (${records.length})`
+    : text;
+}
