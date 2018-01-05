@@ -8,7 +8,7 @@ module Api
       let(:case_repository) { instance_double('Case::CaseRepository') }
 
       it 'has a route' do
-        expect(get: 'api/cases/42/index').to route_to(
+        expect(get: 'api/cases/42').to route_to(
           controller: 'api/cases',
           action: 'cases_by_user',
           user_id: '42',

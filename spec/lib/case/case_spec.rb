@@ -8,7 +8,7 @@ module Case
   describe Case do
     describe 'attributes' do
       subject { Case }
-      it { is_expected.to have_attribute(:id, Types::String.optional) }
+      it { is_expected.to have_attribute(:identifier, Types::String.optional) }
     end
   end
 end

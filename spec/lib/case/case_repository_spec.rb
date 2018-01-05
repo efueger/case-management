@@ -12,11 +12,11 @@ module Case
     describe '#cases_by_user' do
       context 'with no cases' do
         let(:empty_json) do
-          JSON.generate(results: [])
+          JSON.generate(body: [])
         end
 
         it 'returns an empty collection' do
-          allow(http_service).to receive(:get).with('/cases/_search=user=12').and_return(empty_json)
+          allow(http_service).to receive(:get).with('/staff/12/cases').and_return(empty_json)
           expect(case_repository.cases_by_user_id('12')).to eq []
         end
       end
