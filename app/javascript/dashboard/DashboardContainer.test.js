@@ -1,10 +1,48 @@
 import React from 'react';
 import moxios from 'moxios';
-import CaseService from '../_services/case';
+// import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
 import { shallow } from 'enzyme';
 import DashboardContainer from './DashboardContainer';
-import Alert from 'react-wood-duck/dist/Alert';
+// import Alert from 'react-wood-duck/dist/Alert';
+
+const mockFetchReferrals = jest.fn(() => Promise.resolve([]));
+console.log(mockFetchReferrals);
+jest.mock('../_services/referral', () => ({
+  fetch: mockFetchReferrals,
+}));
+// jest.mock('../_services/referral', );
+// const ReferralService = require('../_services/referral');
+console.log(ReferralService);
+// ReferralService.mockImplementation({
+//   fetch: mockFetchReferrals,
+// });
+// jest.mock('../_services/referral', () => {
+//   return {
+//     fetch: jest.fn()
+//   };
+// });
+// ReferralService.mockImplementation(() => {
+//   return {
+//     fetch: () => Promise.resolve([]),
+//   };
+// });
+
+// const mockFetchCases = jest.fn();
+
+// const mockFetchReferrals = jest.fn();
+
+// jest.mock('../_services/case', () => {
+//   return {
+//     fetch: () => mockFetchCases,
+//   };
+// });
+
+// jest.mock('../_services/referral', () => {
+//   return {
+//     fetch: mockFetchReferrals,
+//   };
+// });
 
 describe('<DashboardContainer />', () => {
   it('exists', () => {
@@ -12,6 +50,8 @@ describe('<DashboardContainer />', () => {
   });
 
   it('renders', () => {
+    // mockFetchCases.mockImplementationOnce(() => Promise.resolve([]));
+    // mockFetchReferrals.mockImplementationOnce(() => Promise.resolve([]));
     expect(() => {
       shallow(<DashboardContainer />);
     }).not.toThrow();
@@ -31,45 +71,34 @@ describe('<DashboardContainer />', () => {
   //   });
   // });
 
-  describe('data access request methods', () => {
-    beforeEach(() => moxios.install());
-
-    afterEach(() => moxios.uninstall());
-
-    describe('#fetchReferrals()', () => {
-      it('fetches referrals from API', done => {
-        moxios.stubRequest('/api/referrals/0Ki', {
-          status: 200,
-          response: [
-            {
-              identifier: '1',
-              referral_name: 'ref-1',
-              assignment_type: 'assignmentType',
-            },
-            {
-              identifier: '2',
-              referral_name: 'ref-2',
-              assignment_type: 'assignmentType',
-            },
-            {
-              identifier: '3',
-              referral_name: 'ref-3',
-              assignment_type: 'assignmentType',
-            },
-          ],
-        });
-        const wrapper = shallow(<DashboardContainer />);
-        wrapper
-          .instance()
-          .fetchReferrals()
-          .then(() => {
-            const referrals = wrapper.state('referrals');
-            expect(referrals.records.length).toEqual(3);
-          })
-          .catch(done);
-      });
+  describe('#fetchReferrals()', () => {
+    it('is applied during the componentDidMount lifecycle', () => {
+      const instance = shallow(<DashboardContainer />).instance();
+      const spy = jest.spyOn(instance, 'fetchReferrals');
+      expect(spy).not.toHaveBeenCalled();
+      instance.componentDidMount();
+      expect(spy).toHaveBeenCalledWith();
     });
 
+    fit('calls the ReferralsService', () => {
+      // const wrapper = shallow(<DashboardContainer />).instance();
+      // wrapper.fetchReferrals();
+      // console.log(DashboardContainer.prototype.fetchReferrals);
+      const promise = shallow(<DashboardContainer />)
+        .instance()
+        .fetchReferrals();
+      // console.log(promise);
+      // promise.then(d => {
+      //   console.log(d);
+      // });
+      // // console.log(mockFetchReferrals.mock.calls);
+      // mockFetchReferrals.mockClear();
+
+      expect(mockFetchReferrals).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('data access request methods', () => {
     describe('#fetchCases()', () => {
       it('fetches cases from API', done => {
         moxios.stubRequest('/api/cases/0Ki', {

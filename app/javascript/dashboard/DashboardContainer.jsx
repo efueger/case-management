@@ -4,8 +4,6 @@ import Table from '../_components/Table';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
 
-const noop = () => {};
-
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +29,7 @@ class DashboardContainer extends React.Component {
           },
         })
       )
-      .catch(noop);
+      .catch(() => this.setState({ referrals: { XHRStatus: 'error' } }));
   };
 
   fetchCases = () => {
@@ -45,7 +43,7 @@ class DashboardContainer extends React.Component {
           },
         })
       )
-      .catch(noop);
+      .catch(() => this.setState({ cases: { XHRStatus: 'error' } }));
   };
 
   renderCases = () => {
@@ -56,8 +54,14 @@ class DashboardContainer extends React.Component {
         : 'Cases';
     const content = (() => {
       if (XHRStatus === 'idle') return false;
+      if (XHRStatus === 'error')
+        return this.renderAlert(
+          'There was a problem retrieving your cases!',
+          'error'
+        );
       if (XHRStatus === 'waiting') return 'waiting...';
-      if (!records.length) return this.renderEmpty();
+      if (records && !records.length)
+        return this.renderAlert('No cases found!', 'info');
       return (
         <Table
           colNames={['Name', 'Service Component', 'Type']}
@@ -84,8 +88,14 @@ class DashboardContainer extends React.Component {
         : 'Referrals';
     const content = (() => {
       if (XHRStatus === 'idle') return false;
+      if (XHRStatus === 'error')
+        return this.renderAlert(
+          'There was a problem retrieving your referrals!',
+          'error'
+        );
       if (XHRStatus === 'waiting') return 'waiting...';
-      if (!records.length) return this.renderEmpty();
+      if (!records.length)
+        return this.renderAlert('No referrals were found!', 'info');
       return (
         <Table
           colNames={['Name', 'Type', 'received_date']}
@@ -104,9 +114,9 @@ class DashboardContainer extends React.Component {
     );
   };
 
-  renderEmpty = (message = 'No records found!') => (
+  renderAlert = (message = 'No records found!', type = 'info') => (
     <Alert
-      alertClassName="info"
+      alertClassName={type}
       alertMessage={message}
       alertCross={null}
       faIcon="fa-info-circle"
