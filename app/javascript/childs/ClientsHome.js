@@ -3,7 +3,7 @@ import { GlobalHeader, PageHeader, Alert } from 'react-wood-duck';
 import { DataGridCard } from '../_components';
 import ClientService from '../_services/clients';
 
-class ClientsDashboard extends React.Component {
+class ClientsHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ class ClientsDashboard extends React.Component {
   }
 }
 
-export default ClientsDashboard;
+export default ClientsHome;
 
 function getCardHeaderText({ XHRStatus, records }, text = 'Records') {
   return XHRStatus === 'ready' && records && records.length
