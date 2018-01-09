@@ -40,6 +40,15 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 #
+
+gem 'redis-rails', '~> 5.0'
+gem 'redis-namespace'
+gem 'redis'
+gem 'redis-rack-cache'
+gem 'faraday'
+gem 'faraday_middleware'
+gem 'cwds-authentication', github: 'ca-cwds/cwds-authentication', :ref => "a32f309"
+
 group :test do
   gem 'rails-controller-testing'
   gem 'rspec'
