@@ -75,7 +75,6 @@ GEM
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     diff-lcs (1.3)
-<<<<<<< HEAD
     dry-configurable (0.7.0)
       concurrent-ruby (~> 1.0)
     dry-container (0.6.0)
@@ -111,24 +110,12 @@ GEM
     ffi (1.9.18)
     foreman (0.84.0)
       thor (~> 0.19.1)
-=======
-    erubi (1.7.0)
-    execjs (2.7.0)
-    faraday (0.9.2)
-      multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.12.2)
-      faraday (>= 0.7.4, < 1.0)
-    ffi (1.9.18)
->>>>>>> basic-login-cm
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
-<<<<<<< HEAD
     ice_nine (0.11.2)
     inflecto (0.0.2)
-=======
->>>>>>> basic-login-cm
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -163,11 +150,6 @@ GEM
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
-<<<<<<< HEAD
-=======
-    rack-cache (1.6.1)
-      rack (>= 0.4)
->>>>>>> basic-login-cm
     rack-proxy (0.6.3)
       rack
     rack-test (0.8.2)
@@ -199,53 +181,20 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-<<<<<<< HEAD
     rainbow (3.0.0)
-=======
-    rainbow (2.2.2)
-      rake
->>>>>>> basic-login-cm
     rake (12.3.0)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-<<<<<<< HEAD
-=======
-    redis (4.0.1)
-    redis-actionpack (5.0.2)
-      actionpack (>= 4.0, < 6)
-      redis-rack (>= 1, < 3)
-      redis-store (>= 1.1.0, < 2)
-    redis-activesupport (5.0.4)
-      activesupport (>= 3, < 6)
-      redis-store (>= 1.3, < 2)
-    redis-namespace (1.6.0)
-      redis (>= 3.0.4)
-    redis-rack (2.0.3)
-      rack (>= 1.5, < 3)
-      redis-store (>= 1.2, < 2)
-    redis-rack-cache (2.0.1)
-      rack-cache (~> 1.6.0)
-      redis-store (~> 1.3.0)
-    redis-rails (5.0.2)
-      redis-actionpack (>= 5.0, < 6)
-      redis-activesupport (>= 5.0, < 6)
-      redis-store (>= 1.2, < 2)
-    redis-store (1.3.0)
-      redis (>= 2.2)
->>>>>>> basic-login-cm
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
     rspec-core (3.7.0)
       rspec-support (~> 3.7.0)
-<<<<<<< HEAD
     rspec-dry-struct (0.3.0)
       dry-struct
       rspec
-=======
->>>>>>> basic-login-cm
     rspec-expectations (3.7.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
@@ -261,11 +210,7 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
-<<<<<<< HEAD
     rubocop (0.52.0)
-=======
-    rubocop (0.51.0)
->>>>>>> basic-login-cm
       parallel (~> 1.10)
       parser (>= 2.4.0.2, < 3.0)
       powerpack (~> 0.1)
@@ -310,11 +255,7 @@ GEM
     turbolinks-source (5.0.3)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
-<<<<<<< HEAD
     uglifier (4.0.2)
-=======
-    uglifier (4.0.1)
->>>>>>> basic-login-cm
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.3.0)
     web-console (3.5.1)
@@ -340,18 +281,12 @@ DEPENDENCIES
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
-<<<<<<< HEAD
   dry-struct (~> 0.4.0)
   dry-types (~> 0.12.2)
   faraday (~> 0.13.1)
   faraday_middleware (~> 0.12.2)
   feature
   foreman (~> 0.84.0)
-=======
-  cwds-authentication!
-  faraday
-  faraday_middleware
->>>>>>> basic-login-cm
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   pry
