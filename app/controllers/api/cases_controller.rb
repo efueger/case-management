@@ -7,5 +7,5 @@ module Api
         render json: cases
       end
     end
-  end
+end
   

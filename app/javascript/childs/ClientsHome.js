@@ -1,43 +1,46 @@
 import React from 'react';
 import { GlobalHeader, PageHeader, Alert } from 'react-wood-duck';
 import { DataGridCard } from '../_components';
-import ClientService from '../_services/clients';
+import ClientDetailsService from '../_services/clientdetails';
 
 class ClientsHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clients: { XHRStatus: 'idle' },
+      clientdetails: { XHRStatus: 'idle' },
     };
   }
 
   componentDidMount() {
-    this.fetchClients();
+    this.fetchClientDetails();
   }
 
-  fetchClients = () => {
-    this.setState({ clients: { XHRStatus: 'waiting' } });
-    return ClientService.fetch()
-      .then(clients =>
+  fetchClientDetails = () => {
+    this.setState({ clientdetails: { XHRStatus: 'waiting' } });
+    return ClientDetailsService.fetch()
+      .then(clientdetails =>
         this.setState({
-          clients: {
+          clientdetails: {
             XHRStatus: 'ready',
-            records: clients,
+            records: clientdetails,
           },
         })
       )
-      .catch(() => this.setState({ clients: { XHRStatus: 'error' } }));
+      .catch(() => this.setState({ clientdetails: { XHRStatus: 'error' } }));
   };
 
-  renderClients = () => {
+  renderClientDetails = () => {
     return (
       <DataGridCard
-        cardHeaderText={getCardHeaderText(this.state.clients, 'Clients List')}
-        status={this.state.clients.XHRStatus}
+        cardHeaderText={getCardHeaderText(
+          this.state.clientdetails,
+          'Clients List'
+        )}
+        status={this.state.clientdetails.XHRStatus}
         columns={['Name', 'Type', 'Recieved Date']}
         rows={
-          this.state.clients.records &&
-          this.state.clients.records.map(record => [
+          this.state.clientdetails.records &&
+          this.state.clientdetails.records.map(record => [
             record.case_name,
             record.active_service_component,
             record.assignment_type,
@@ -54,7 +57,7 @@ class ClientsHome extends React.Component {
         <PageHeader pageTitle="Dashboard" button={null} />
         <div className="container">
           <div className="row">
-            <div className="col-md-9">{this.renderClients()}</div>
+            <div className="col-md-9">{this.renderClientDetails()}</div>
             <div className="col-md-3">
               <div className="list-group double-gap-top card">
                 <span className="list-group-item">

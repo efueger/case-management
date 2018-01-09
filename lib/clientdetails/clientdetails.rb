@@ -7,8 +7,8 @@ module Types
   include Dry::Types.module
 end
 
-module Client
-  class Client < Dry::Struct
+module Clientdetails
+  class Clientdetails < Dry::Struct
     constructor_type :schema
 
     attribute :identifier, Types::String.optional

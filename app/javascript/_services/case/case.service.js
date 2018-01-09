@@ -2,7 +2,9 @@ import ApiService from '../api';
 
 class CaseService {
   static fetch() {
-    return ApiService.get('/cases/0Ki').then(response => response.data);
+    return ApiService.get('/clients/0YIPkZU0S0').then(
+      response => response.data
+    );
   }
 }
 
