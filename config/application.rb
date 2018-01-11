@@ -18,6 +18,9 @@ module CaseManagement
     require 'infrastructure/cwds_authenticator'
     config.middleware.use Infrastructure::CwdsAuthenticator
 
+    require 'infrastructure/api_proxy'
+    config.middleware.use Infrastructure::ApiProxy, {ssl_verify_none: true}
+
     config.micro_services = config_for(:micro_services)
   end
 end

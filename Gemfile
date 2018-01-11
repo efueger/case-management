@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'rack-proxy', '~> 0.6.3'
 gem 'dry-struct', '~> 0.4.0'
 gem 'dry-types', '~> 0.12.2'
 gem 'faraday', '~> 0.13.1'
