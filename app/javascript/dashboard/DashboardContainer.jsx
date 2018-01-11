@@ -1,8 +1,7 @@
 import React from 'react';
 import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import { DataGridCard } from '../_components';
-import CaseService from '../_services/case';
-import ReferralService from '../_services/referral';
+import { StaffApi } from 'case-management-api-client';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -20,7 +19,8 @@ class DashboardContainer extends React.Component {
 
   fetchReferrals = () => {
     this.setState({ referrals: { XHRStatus: 'waiting' } });
-    return ReferralService.fetch()
+    return new StaffApi()
+      .getReferrals({ id: '0Ki' })
       .then(referrals =>
         this.setState({
           referrals: {
@@ -34,7 +34,9 @@ class DashboardContainer extends React.Component {
 
   fetchCases = () => {
     this.setState({ cases: { XHRStatus: 'waiting' } });
-    return CaseService.fetch()
+    // return CaseService.fetch()
+    return new StaffApi()
+      .getCases({ id: '0Ki' })
       .then(cases =>
         this.setState({
           cases: {
