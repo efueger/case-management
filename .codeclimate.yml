@@ -6,10 +6,7 @@ checks:
     enabled: true
   file-lines:
     enabled: true
-    config:
-      languages:
-        javascript:
-          threshold: 350
+    threshold: 350
   method-complexity:
     enabled: true
   method-count:
@@ -17,19 +14,13 @@ checks:
   method-lines:
     enabled: true
     config:
-      languages:
-        javascript:
-          threshold: 50
+      threshold: 50
   nested-control-flow:
     enabled: true
   return-statements:
     enabled: true
   similar-code:
-    enabled: true
-    config:
-      languages:
-        - javascript:
-          enabled: false
+    enabled: false
   identical-code:
     enabled: true
 plugins:
@@ -38,7 +29,7 @@ plugins:
   bundler-audit:
     enabled: true
   stylelint:
-    enabled: true  
+    enabled: true
     exclude_patterns:
     - "public/"
     - "yarn.lock"
@@ -68,6 +59,9 @@ plugins:
     channel: rubocop-0-48
   git-legal:
     enabled: true
+    config:
+      allow_affero_copyleft: true
+      allow_strong_copyleft: true
     issue_override:
       severity: major
 exclude_patterns:
@@ -82,4 +76,4 @@ exclude_patterns:
   - "**/tests/"
   - "**/vendor/"
   - "**/*.d.ts"
-  - app/assets
+  - "app/assets"
