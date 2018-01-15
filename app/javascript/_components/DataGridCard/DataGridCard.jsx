@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Cards } from 'react-wood-duck';
-import Table from '../Table';
 
 const propTypes = {
   cardHeaderText: PropTypes.string,
   status: PropTypes.oneOf(['idle', 'waiting', 'ready', 'error']),
-  columns: PropTypes.arrayOf(PropTypes.string),
-  rows: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
-  ),
+  empty: PropTypes.bool,
   renderOnError: PropTypes.func,
   renderOnEmpty: PropTypes.func,
+  render: PropTypes.func,
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
 const defaultRenderOnEmpty = () => (
@@ -36,22 +34,28 @@ const defaultProps = {
   status: 'idle',
   renderOnEmpty: defaultRenderOnEmpty,
   renderOnError: defaultRenderOnError,
+  render: () => {},
 };
 
 const DataGridCard = ({
   cardHeaderText,
   status,
-  columns,
-  rows,
+  empty,
   renderOnError,
   renderOnEmpty,
+  render,
 }) => {
   const content = (() => {
-    if (status === 'idle') return false;
-    if (status === 'error') return renderOnError();
-    if (status === 'waiting') return 'waiting...';
-    if (!rows.length) return renderOnEmpty();
-    return <Table colNames={columns} data={rows} />;
+    switch (status) {
+      case 'idle':
+        return false;
+      case 'error':
+        return renderOnError();
+      case 'waiting':
+        return 'waiting...';
+      default:
+        return empty ? renderOnEmpty() : render();
+    }
   })();
   return (
     <Cards cardHeaderText={cardHeaderText} cardbgcolor="transparent">

@@ -3,6 +3,7 @@ import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import { DataGridCard } from '../_components';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -51,15 +52,23 @@ class DashboardContainer extends React.Component {
       <DataGridCard
         cardHeaderText={getCardHeaderText(this.state.cases, 'Cases')}
         status={this.state.cases.XHRStatus}
-        columns={['Name', 'Service Component', 'Assignment Type']}
-        rows={
-          this.state.cases.records &&
-          this.state.cases.records.map(record => [
-            record.case_name,
-            record.active_service_component,
-            record.assignment_type,
-          ])
-        }
+        empty={isEmpty(this.state.cases.records)}
+        render={() => (
+          <BootstrapTable data={this.state.cases.records}>
+            <TableHeaderColumn dataField="identifier" isKey hidden dataSort>
+              Id
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="case_name" dataSort>
+              Name
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="active_service_component" dataSort>
+              Service Component
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="assignment_type" dataSort>
+              Assignment Type
+            </TableHeaderColumn>
+          </BootstrapTable>
+        )}
       />
     );
   };
@@ -69,16 +78,26 @@ class DashboardContainer extends React.Component {
       <DataGridCard
         cardHeaderText={getCardHeaderText(this.state.referrals, 'Referrals')}
         status={this.state.referrals.XHRStatus}
-        columns={['Name', 'Response Time', 'Assignment Type', 'Received Date']}
-        rows={
-          this.state.referrals.records &&
-          this.state.referrals.records.map(record => [
-            record.referral_name,
-            record.referral_response_type,
-            record.assignment_type,
-            record.received_date,
-          ])
-        }
+        empty={isEmpty(this.state.referrals.records)}
+        render={() => (
+          <BootstrapTable data={this.state.referrals.records}>
+            <TableHeaderColumn dataField="identifier" isKey hidden dataSort>
+              Id
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="referral_name" dataSort>
+              Name
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="referral_response_type" dataSort>
+              Response Time
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="assignment_type" dataSort>
+              Assignment Type
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="received_date" dataSort>
+              Received Date
+            </TableHeaderColumn>
+          </BootstrapTable>
+        )}
       />
     );
   };
@@ -120,4 +139,8 @@ function getCardHeaderText({ XHRStatus, records }, text) {
   return XHRStatus === 'ready' && records && records.length
     ? `${text} (${records.length})`
     : text;
+}
+
+function isEmpty(records) {
+  return !!records && !records.length;
 }

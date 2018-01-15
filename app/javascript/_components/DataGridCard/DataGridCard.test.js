@@ -23,11 +23,7 @@ describe('DataGridCard', () => {
   it('renders empty result set', () => {
     const OnEmpty = () => <div>NOTHING TO SEE HERE</div>;
     const wrapper = shallow(
-      <DataGridCard
-        status="ready"
-        rows={[]}
-        renderOnEmpty={() => <OnEmpty />}
-      />
+      <DataGridCard status="ready" empty renderOnEmpty={() => <OnEmpty />} />
     );
     expect(wrapper.find(OnEmpty).exists()).toBe(true);
   });
@@ -37,22 +33,18 @@ describe('DataGridCard', () => {
     expect(wrapper.children().text()).toEqual('waiting...');
   });
 
-  it('renders a Table', () => {
-    const columns = ['a', 'b', 'c'];
-    const rows = [['a1', 'b1', 'c1'], ['a2', 'b2', 'c2']];
-    const wrapper = shallow(
-      <DataGridCard status="ready" columns={columns} rows={rows} />
-    );
-    const tableComponent = wrapper.find('Table').first();
-    expect(tableComponent.exists()).toBe(true);
-    expect(tableComponent.prop('colNames')).toBe(columns);
-    expect(tableComponent.prop('data')).toBe(rows);
+  it('renders the renderProp', () => {
+    const myRender = jest.fn();
+    myRender.mockImplementation(() => <div>HELLO WORLD</div>);
+    const wrapper = shallow(<DataGridCard status="ready" render={myRender} />);
+    expect(myRender).toHaveBeenCalledWith();
+    expect(wrapper.children().text()).toEqual('HELLO WORLD');
   });
 
   describe('default renderers', () => {
     describe('onEmpty', () => {
       it('renders an Alert of type info', () => {
-        const wrapper = shallow(<DataGridCard status="ready" rows={[]} />);
+        const wrapper = shallow(<DataGridCard status="ready" empty />);
         const alertComponent = wrapper.find('Alert').first();
         expect(alertComponent.exists()).toBe(true);
         expect(alertComponent.prop('alertClassName')).toEqual('info');
