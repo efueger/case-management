@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'cases/case'
-require 'json'
 
 module Cases
   describe CaseRepository do
-    let(:http_service) { instance_double('Infrastructure::Service') }
+    let(:http_service) { instance_double('Infrastructure::HttpService') }
     let(:case_repository) { CaseRepository.new(http_service) }
 
     describe '#cases_by_user' do

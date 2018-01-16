@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 require 'rspec/dry/struct'
-require 'cases/case'
 
 module Cases
   describe Case do
