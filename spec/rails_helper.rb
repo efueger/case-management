@@ -3,6 +3,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 require 'capybara'
+require 'simplecov'
+SimpleCov.start do
+  coverage_dir 'coverage/ruby'
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)

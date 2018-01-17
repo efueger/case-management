@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'simplecov'
+SimpleCov.start do
+  coverage_dir 'coverage/ruby'
+end
 require 'active_support'
 require 'active_support/dependencies'
 
