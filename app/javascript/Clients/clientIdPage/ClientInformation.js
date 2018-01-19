@@ -8,7 +8,7 @@ import {
   DateTimePicker,
   CheckboxRadioGroup,
 } from 'react-wood-duck';
-import Table from '../../_components/Table';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 const gender = [
   { value: 'M', label: 'Male' },
@@ -344,7 +344,17 @@ export default class ClientInformation extends React.Component {
         </div>
         {this.state.csecBlock && (
           <div>
-            <Table colNames={['CSEC Type', 'Start Date', 'End Date']} />
+            <BootstrapTable>
+              <TableHeaderColumn dataField="CSEC Type" isKey dataSort>
+                CSEC Type
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="Start Date" dataSort>
+                Start Date
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="End Date" dataSort>
+                End Date
+              </TableHeaderColumn>
+            </BootstrapTable>
             <div>
               <DropDownField
                 id="dropdown6"

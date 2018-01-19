@@ -60,7 +60,8 @@ describe('Client Information', () => {
     expect(clientPage.find('DropDownField').length).toBe(5);
     clientPage.setState({ csecBlock: true });
     expect(clientPage.find('DropDownField').length).toBe(6);
-    expect(clientPage.find('Table').length).toBe(1);
+    expect(clientPage.find('BootstrapTable').length).toBe(1);
+    expect(clientPage.find('TableHeaderColumn').length).toBe(3);
   });
 
   it('dropdown is available on click', () => {

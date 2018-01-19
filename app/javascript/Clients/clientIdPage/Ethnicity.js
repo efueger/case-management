@@ -7,7 +7,7 @@ import {
   RaceFormContainer,
   CheckboxRadioGroup,
 } from 'react-wood-duck';
-import Table from '../../_components/Table';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 const county = [
   { value: 'Los Angeles County', label: 'Los Angeles County' },
@@ -63,7 +63,14 @@ export default class Ethnicity extends React.Component {
               options={this.state.icwaElegible}
               selectedOptions={this.state.selected}
             />
-            <Table colNames={['County', 'Date']} />
+            <BootstrapTable>
+              <TableHeaderColumn dataField="County" isKey dataSort>
+                County
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="Date" dataSort>
+                Date
+              </TableHeaderColumn>
+            </BootstrapTable>
             <div>
               <DropDownField
                 id="dropdown1"

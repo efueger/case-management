@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Cards,
-  Table,
   DropDownField,
   DateTimePicker,
   TextArea,
   Button,
 } from 'react-wood-duck';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 const activationinCounty = [
   { value: 'Los Angeles County', label: 'Los Angeles County' },
@@ -80,9 +80,17 @@ export default class SafetyAlertInformation extends React.Component {
             onClick={this.onClick}
           />
         </div>
-        <Table />
+
         {this.state.addAlert && (
           <div>
+            <BootstrapTable>
+              <TableHeaderColumn dataField="Activation Date" isKey dataSort>
+                Activation Date
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="Date" dataSort>
+                Reason
+              </TableHeaderColumn>
+            </BootstrapTable>
             <label htmlFor="Safety Alert Activation">
               Safety Alert Activation
             </label>

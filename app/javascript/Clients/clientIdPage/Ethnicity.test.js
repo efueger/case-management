@@ -22,7 +22,8 @@ describe('Ethnicity', () => {
   });
 
   it('should render the Table component', () => {
-    expect(component.find('Table').length).toEqual(1);
+    expect(component.find('BootstrapTable').length).toEqual(1);
+    expect(component.find('TableHeaderColumn').length).toEqual(2);
   });
 
   it('renders RaceFormContainer Component', () => {

@@ -16,10 +16,6 @@ describe('Safety Alert Information', () => {
     expect(safetyAlert.find('Button').length).toEqual(1);
   });
 
-  it('should render the table component', () => {
-    expect(safetyAlert.find('Table').length).toEqual(1);
-  });
-
   it('should an event handler that sets state', () => {
     const instance = safetyAlert.instance();
     const myFunction = instance.onChange('myKey');
@@ -50,6 +46,8 @@ describe('Safety Alert Information', () => {
     expect(safetyAlert.find('DropDownField').length).toEqual(3);
     expect(safetyAlert.find('TextArea').length).toEqual(2);
     expect(safetyAlert.find('DateTimePicker').length).toEqual(2);
+    expect(safetyAlert.find('BootstrapTable').length).toEqual(1);
+    expect(safetyAlert.find('TableHeaderColumn').length).toEqual(2);
   });
 
   it('should manage the Deactive change', () => {
