@@ -113,6 +113,10 @@
   version "22.0.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.0.1.tgz#6370a6d60cce3845e4cd5d00bf65f654264685bc"
 
+"@types/luxon@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-0.2.2.tgz#ca83c1026980b111254ef78587ee027483e57df4"
+
 "@types/moxios@^0.4.8":
   version "0.4.8"
   resolved "https://registry.yarnpkg.com/@types/moxios/-/moxios-0.4.8.tgz#b478ae7127779be2a8de55e71a5a11333273b06f"
@@ -5029,6 +5033,10 @@ lru-cache@^4.0.1, lru-cache@^4.1.1:
 ltcdr@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/ltcdr/-/ltcdr-2.2.1.tgz#5ab87ad1d4c1dab8e8c08bbf037ee0c1902287cf"
+
+luxon@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-0.3.1.tgz#627f78f5fea94ac19e1cf2900f398a9338422bbd"
 
 macaddress@^0.2.8:
   version "0.2.8"

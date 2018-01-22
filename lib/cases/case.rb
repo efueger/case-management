@@ -18,5 +18,6 @@ module Cases
     attribute :client_last_name, Types::String.optional
     attribute :active_service_component, Types::String.optional
     attribute :assignment_type, Types::String.optional
+    attribute :assignment_start_date, Types::String.optional
   end
 end

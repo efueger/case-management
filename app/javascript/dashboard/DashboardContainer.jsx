@@ -4,6 +4,7 @@ import { DataGridCard } from '../_components';
 import CaseService from '../_services/case';
 import ReferralService from '../_services/referral';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { toCapitalizeCase, toDateFormat } from '../_utils/formatters';
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -64,8 +65,19 @@ class DashboardContainer extends React.Component {
             <TableHeaderColumn dataField="active_service_component" dataSort>
               Service Component
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="assignment_type" dataSort>
-              Assignment Type
+            <TableHeaderColumn
+              dataField="assignment_type"
+              dataFormat={toCapitalizeCase}
+              dataSort
+            >
+              Assignment
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="assignment_start_date"
+              dataSort
+              dataFormat={toDateFormat}
+            >
+              Assignment Date
             </TableHeaderColumn>
           </BootstrapTable>
         )}
@@ -90,11 +102,19 @@ class DashboardContainer extends React.Component {
             <TableHeaderColumn dataField="referral_response_type" dataSort>
               Response Time
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="assignment_type" dataSort>
-              Assignment Type
+            <TableHeaderColumn
+              dataField="assignment_type"
+              dataFormat={toCapitalizeCase}
+              dataSort
+            >
+              Assignment
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="received_date" dataSort>
-              Received Date
+            <TableHeaderColumn
+              dataField="received_datetime"
+              dataSort
+              dataFormat={toDateFormat}
+            >
+              Call Date/Time
             </TableHeaderColumn>
           </BootstrapTable>
         )}
@@ -114,16 +134,18 @@ class DashboardContainer extends React.Component {
               {this.renderReferrals()}
             </div>
             <div className="col-md-3">
-              <div className="list-group double-gap-top card">
-                <span className="list-group-item">
-                  <span className="card-header">Quick Links</span>
-                </span>
-                <a href="/clientid/index" className="list-group-item">
-                  Client ID Page
-                </a>
-                <a href="/family_finding/index" className="list-group-item">
-                  Network Finding Tool
-                </a>
+              <div
+                className="double-gap-top card"
+                style={{ padding: '5px 15px' }}
+              >
+                <ul className="list-unstyled">
+                  <li className="h4">
+                    <a href="/clients/index">Client ID Page</a>
+                  </li>
+                  <li className="h4">
+                    <a href="/family_finding/index">Network Finding Tool</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

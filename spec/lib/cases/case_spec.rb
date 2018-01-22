@@ -14,6 +14,7 @@ module Cases
       it { is_expected.to have_attribute(:client_last_name, Types::String.optional) }
       it { is_expected.to have_attribute(:active_service_component, Types::String.optional) }
       it { is_expected.to have_attribute(:assignment_type, Types::String.optional) }
+      it { is_expected.to have_attribute(:assignment_start_date, Types::String.optional) }
     end
   end
 end
