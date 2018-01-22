@@ -21,7 +21,8 @@ module Api
         allow(Referrals::ReferralRepository).to receive(:new)
           .with(no_args).and_return(referral_repository)
         allow(referral_repository).to receive(:referrals_by_user_id)
-          .with('42').and_return([referral])
+          .with('42', 'token').and_return([referral])
+        request.session[:token] = 'token'
         get :referrals_by_user, params: { user_id: 42 }
         expect(response.body).to eq [referral].to_json
       end

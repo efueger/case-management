@@ -19,8 +19,11 @@ module Api
 
       it 'returns cases' do
         allow(Cases::CaseRepository).to receive(:new).with(no_args).and_return(case_repository)
-        allow(case_repository).to receive(:cases_by_user_id).with('42').and_return([child_case])
+        allow(case_repository).to receive(:cases_by_user_id)
+          .with('42', 'token').and_return([child_case])
+        request.session[:token] = 'token'
         get :cases_by_user, params: { user_id: 42 }
+
         expect(response.body).to eq [child_case].to_json
       end
     end

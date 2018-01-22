@@ -3,7 +3,8 @@
 module Api
   class ReferralsController < ActionController::API
     def referrals_by_user
-      referrals = Referrals::ReferralRepository.new.referrals_by_user_id params[:user_id]
+      referral_respository = Referrals::ReferralRepository.new
+      referrals = referral_respository.referrals_by_user_id(params[:user_id], session[:token])
       render json: referrals
     end
   end

@@ -6,8 +6,8 @@ module Cases
       @http_service = http_service
     end
 
-    def cases_by_user_id(user_id)
-      response = @http_service.get("/staff/#{user_id}/cases")
+    def cases_by_user_id(user_id, token)
+      response = @http_service.get("/staff/#{user_id}/cases", token)
       response.body.map { |result| Case.new(result) }
     end
   end

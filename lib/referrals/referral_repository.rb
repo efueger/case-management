@@ -6,8 +6,8 @@ module Referrals
       @http_service = http_service
     end
 
-    def referrals_by_user_id(user_id)
-      response = @http_service.get("/staff/#{user_id}/referrals")
+    def referrals_by_user_id(user_id, token)
+      response = @http_service.get("/staff/#{user_id}/referrals", token)
       response.body.map { |result| Referral.new(result) }
     end
   end

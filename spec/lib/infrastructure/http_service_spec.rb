@@ -11,8 +11,8 @@ module Infrastructure
         allow(Faraday).to receive(:new)
           .with(url: 'https://casemgmapi.test.cwds.io')
           .and_return(connection)
-        expect(connection).to receive(:get).with('/resource')
-        Infrastructure::HttpService.new.get('/resource')
+        expect(connection).to receive(:get).with('/resource?token=showbiz_pizza_token')
+        Infrastructure::HttpService.new.get('/resource', 'showbiz_pizza_token')
       end
 
       it 'sets json and uses the default adapter' do
@@ -22,8 +22,8 @@ module Infrastructure
         expect(connection).to receive(:response)
           .with(:json, parser_options: { symbolize_names: true })
         expect(connection).to receive(:adapter).with(Faraday.default_adapter)
-        allow(connection).to receive(:get).with('/resource')
-        Infrastructure::HttpService.new.get('/resource')
+        allow(connection).to receive(:get).with('/resource?token=showbiz_pizza_token')
+        Infrastructure::HttpService.new.get('/resource', 'showbiz_pizza_token')
       end
     end
   end

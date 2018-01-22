@@ -6,8 +6,8 @@ module Clients
       @http_service = http_service
     end
 
-    def show(id)
-      response = @http_service.get("/clients/#{id}")
+    def show(id, token)
+      response = @http_service.get("/clients/#{id}", token)
       Client.new(response.body)
     end
   end

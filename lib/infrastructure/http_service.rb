@@ -6,12 +6,12 @@ module Infrastructure
       @base_url = base_url
     end
 
-    def get(url)
-      connection = Faraday.new(url: @base_url) do |conn|
-        conn.response :json, parser_options: { symbolize_names: true }
-        conn.adapter Faraday.default_adapter
+    def get(url, token)
+      http_connection = Faraday.new(url: @base_url) do |connection|
+        connection.response :json, parser_options: { symbolize_names: true }
+        connection.adapter Faraday.default_adapter
       end
-      connection.get(url)
+      http_connection.get("#{url}?token=#{token}")
     end
   end
 end

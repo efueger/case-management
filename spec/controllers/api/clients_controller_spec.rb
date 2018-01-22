@@ -20,7 +20,8 @@ module Api
       it 'returns a client' do
         allow(Clients::ClientRepository).to receive(:new)
           .with(no_args).and_return(client_repository)
-        allow(client_repository).to receive(:show).with('5').and_return(client)
+        allow(client_repository).to receive(:show).with('5', 'token').and_return(client)
+        request.session[:token] = 'token'
         get :show, params: { id: 5 }
         expect(response.body).to eq client.to_json
       end

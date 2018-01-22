@@ -6,6 +6,7 @@ module Cases
   describe CaseRepository do
     let(:http_service) { instance_double('Infrastructure::HttpService') }
     let(:case_repository) { CaseRepository.new(http_service) }
+    let(:token) { 'starcade_token' }
 
     describe '#cases_by_user' do
       let(:response) { instance_double('Faraday::Response') }
@@ -15,9 +16,9 @@ module Cases
           allow(response).to receive(:body).and_return([])
           allow(http_service)
             .to receive(:get)
-            .with('/staff/12/cases')
+            .with('/staff/12/cases', token)
             .and_return(response)
-          expect(case_repository.cases_by_user_id('12')).to eq []
+          expect(case_repository.cases_by_user_id('12', token)).to eq []
         end
       end
 
@@ -25,9 +26,9 @@ module Cases
         it 'returns cases' do
           allow(response).to receive(:body).and_return([{ id: '12' }])
           allow(http_service).to receive(:get)
-            .with('/staff/12/cases')
+            .with('/staff/12/cases', token)
             .and_return(response)
-          expect(case_repository.cases_by_user_id('12')).to eq [Case.new(id: '12')]
+          expect(case_repository.cases_by_user_id('12', token)).to eq [Case.new(id: '12')]
         end
       end
     end
