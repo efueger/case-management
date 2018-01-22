@@ -21,7 +21,8 @@ module Infrastructure
     end
 
     def login_url(callback)
-      "#{Rails.configuration.micro_services['perry_api_base_url']}/authn/login?callback=#{callback}"
+      perry_api_base_url = ENV.fetch('PERRY_API_BASE_URL', 'https://perry.test.cwds.io')
+      "#{perry_api_base_url}/authn/login?callback=#{callback}"
     end
   end
 end
