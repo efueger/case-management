@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'dashboard#index'
 
-  get 'clientid/index'
+  get 'clients/index'
   get 'family_finding/index'
 
   namespace :api, defaults: {format: 'json'} do

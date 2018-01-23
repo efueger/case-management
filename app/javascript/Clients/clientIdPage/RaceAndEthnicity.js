@@ -17,7 +17,7 @@ const county = [
   { value: 'Merced County', label: 'Merced County' },
 ];
 
-export default class Ethnicity extends React.Component {
+export default class RaceAndEthnicity extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,6 +91,6 @@ export default class Ethnicity extends React.Component {
     );
   }
 }
-Ethnicity.propTypes = {
+RaceAndEthnicity.propTypes = {
   anchorId: PropTypes.string,
 };

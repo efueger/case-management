@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Ethnicity from './Ethnicity.js';
+import RaceAndEthnicity from './RaceAndEthnicity.js';
 
 describe('Ethnicity', () => {
   let component;
 
   beforeEach(() => {
-    component = shallow(<Ethnicity />);
+    component = shallow(<RaceAndEthnicity />);
   });
 
   it('renders Card Component', () => {

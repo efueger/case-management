@@ -41,7 +41,7 @@ describe('Client ID Page', () => {
   });
 
   it('Has Ethnicity ', () => {
-    expect(clientPage.find('Ethnicity').length).toBe(1);
+    expect(clientPage.find('RaceAndEthnicity').length).toBe(1);
   });
 
   it('Has Class Names ', () => {
