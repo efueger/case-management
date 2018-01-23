@@ -8,11 +8,11 @@ node {
       stage('Checkout') {
         checkout scm
       }
-      stage('Notify SaaS') {
-        sh "curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter"
-        sh "chmod +x ./cc-test-reporter"
-        sh "./cc-test-reporter before-build --debug"
-      }
+      // stage('Notify SaaS') {
+      //   sh "curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter"
+      //   sh "chmod +x ./cc-test-reporter"
+      //   sh "./cc-test-reporter before-build --debug"
+      // }
       stage('Build Docker Image') {
         app = docker.build("${DOCKER_GROUP}/${DOCKER_IMAGE}:${env.BUILD_ID}")
       }
@@ -25,13 +25,13 @@ node {
         stage('Unit Test') {
           sh "docker exec -t ${container.id} yarn test"
         }
-        stage('Publish Coverage Reports') {
-          sh "docker cp ${container.id}:/app/coverage ./coverage"
-          sh "./cc-test-reporter format-coverage -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
-          sh "./cc-test-reporter format-coverage -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
-          sh "./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2"
-          sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
-        }
+        // stage('Publish Coverage Reports') {
+        //   sh "docker cp ${container.id}:/app/coverage ./coverage"
+        //   sh "./cc-test-reporter format-coverage -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
+        //   sh "./cc-test-reporter format-coverage -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
+        //   sh "./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2"
+        //   sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
+        // }
       }
     } catch(Exception e) {
       currentBuild.result = "FAILURE"
