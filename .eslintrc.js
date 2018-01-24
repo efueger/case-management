@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['./.eslintrc-common.js', './.eslintrc-codeclimate-unsupported.js'],
+  extends: ['./.eslintrc-codeclimate-unsupported.js', './.eslintrc-common.js'],
 };
