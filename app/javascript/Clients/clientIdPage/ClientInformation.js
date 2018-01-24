@@ -9,6 +9,7 @@ import {
   CheckboxRadioGroup,
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import moment from 'moment';
 
 const gender = [
   { value: 'M', label: 'Male' },
@@ -22,14 +23,17 @@ const marital = [
   { value: '3', label: 'Divorced' },
 ];
 const ageUnit = [
-  { value: '1 year', label: '1 year' },
-  { value: '2 years', label: '2 years' },
-  { value: '3 years', label: '3 years' },
+  { value: 'Dy', label: 'Day' },
+  { value: 'D', label: 'Days' },
+  { value: 'Mn', label: 'Month' },
+  { value: 'M', label: 'Months' },
+  { value: 'Yr', label: 'Year' },
+  { value: 'Y', label: 'Years' },
 ];
 const stateTypes = [{ value: '0', label: 'CA' }, { value: '1', label: 'NY' }];
 const nameType = [
-  { value: 'Primary', label: 'Primary' },
-  { value: 'Secondary', label: 'Secondary' },
+  { value: '1313', label: 'Primary' },
+  { value: '1314', label: 'Secondary' },
 ];
 
 export default class ClientInformation extends React.Component {
@@ -57,14 +61,16 @@ export default class ClientInformation extends React.Component {
       suffix: '',
       socialSecurityNumber: '',
       birthDate: '',
-      age: '',
       clientNumber: '',
       alienRegistration: '',
       driverLicensNumber: '',
       csecBlock: false,
+      age: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.getAge = this.getAge.bind(this);
+    this.handleDobChange = this.handleDobChange.bind(this);
   }
 
   componentDidMount() {
@@ -97,7 +103,6 @@ export default class ClientInformation extends React.Component {
         suffix: response.suffix_title_description,
         socialSecurityNumber: response.social_security_number,
         birthDate: response.birth_dt,
-        age: response.adopted_age,
         clientNumber: response.identifier,
         alienRegistration: response.alien_registration_number,
         driverLicensNumber: response.driver_licens_number,
@@ -105,7 +110,7 @@ export default class ClientInformation extends React.Component {
         maritalValue: String(response.material_status_type),
         ageUnitValue: response.ageUnit,
         stateTypesValue: String(response.driver_license_state_code_type),
-        nameType: response.name_type,
+        nameType: String(response.name_type),
       })
     );
   };
@@ -130,6 +135,49 @@ export default class ClientInformation extends React.Component {
   }
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
+  }
+
+  getAge(birthDate) {
+    let dob = moment(birthDate);
+    let months = moment().diff(dob, 'months');
+    let years = moment().diff(dob, 'years');
+    let days = moment().diff(dob, 'days');
+    let age;
+    let ageUnitSelection;
+    if (years <= 0 && months <= 0 && days < 1) {
+      age = '0';
+    } else if (years === 0 && months === 0 && days === 1) {
+      age = days;
+      ageUnitSelection = 'Dy';
+    } else if (years === 0 && months === 0 && days < 31) {
+      age = days;
+      ageUnitSelection = 'D';
+    } else if (years === 0 && months === 1) {
+      age = months;
+      ageUnitSelection = 'Mn';
+    } else if (years === 0 && months > 1) {
+      age = months;
+      ageUnitSelection = 'M';
+    } else if (years === 1) {
+      age = years;
+      ageUnitSelection = 'Yr';
+    } else if (years > 1) {
+      age = years;
+      ageUnitSelection = 'Y';
+    }
+    if (!age) {
+      age = '';
+    }
+    return { age, ageUnitSelection };
+  }
+
+  handleDobChange(event) {
+    const ageValue = this.getAge(event.target.value);
+    this.setState({
+      birthDate: event.target.value,
+      age: ageValue.age,
+      ageUnitValue: ageValue.ageUnitSelection,
+    });
   }
 
   render() {
@@ -181,7 +229,7 @@ export default class ClientInformation extends React.Component {
           <DropDownField
             id="dropdown1"
             gridClassName="col-md-3 col-sm-6 col-xs-12"
-            selectedOption={this.state.nameTypeValue}
+            selectedOption={this.state.nameType}
             options={nameType}
             label="Name Type (required)"
             onChange={this.handleDropdownChange('nameTypeValue')}
@@ -213,7 +261,7 @@ export default class ClientInformation extends React.Component {
           <div>
             <DropDownField
               id="dropdown3"
-              name="Find Placement Dropdown"
+              name="Gender"
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               selectedOption={this.state.genderValue}
               options={gender}
@@ -225,15 +273,16 @@ export default class ClientInformation extends React.Component {
             label="Date Of Birth"
             gridClassName="col-md-3 col-sm-6 col-xs-12"
             fieldClassName="form-group"
-            type="text"
+            type="date"
             value={this.state.birthDate}
+            onChange={this.handleDobChange}
           />
           <InputComponent
             gridClassName="col-md-3 col-sm-6 col-xs-12"
             fieldClassName="form-group"
             label="Age"
-            type="number"
-            placeholder={this.state.age}
+            type="string"
+            value={this.state.age}
           />
           <DropDownField
             id="dropdown4"
@@ -250,8 +299,8 @@ export default class ClientInformation extends React.Component {
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               fieldClassName="form-group"
               label="Client Number"
-              type="number"
-              placeholder={this.state.clientNumber}
+              type="string"
+              value={this.state.clientNumber}
             />
           </div>
           <InputComponent

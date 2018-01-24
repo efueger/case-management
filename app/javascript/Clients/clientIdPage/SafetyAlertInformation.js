@@ -68,19 +68,12 @@ export default class SafetyAlertInformation extends React.Component {
         cardActionButtons={true}
       >
         <div className="row">
-          <label
-            htmlFor="There are no safety alerts recorded at this point of time"
-            className="col-md-8 col-sm-6 col-xs-12"
-          >
-            There are no safety alerts recorded at this point of time
-          </label>
           <Button
             btnClassName="default pull-right"
             btnName="Add Alert"
             onClick={this.onClick}
           />
         </div>
-
         {this.state.addAlert && (
           <div>
             <BootstrapTable>
