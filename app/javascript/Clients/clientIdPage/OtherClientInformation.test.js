@@ -2,6 +2,36 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import OtherClientInformation from './OtherClientInformation.js';
 
+jest.mock('../../_services/client');
+let ClientService = require('../../_services/client').default;
+
+describe('#setClients', () => {
+  let setClientSpy;
+  beforeEach(() => {
+    setClientSpy = jest.spyOn(ClientService, 'fetch');
+    setClientSpy.mockReset();
+  });
+
+  afterEach(() => {
+    setClientSpy.mockRestore();
+  });
+
+  it('renders', () => {
+    ClientService.fetch.mockReturnValue(Promise.resolve([]));
+    expect(() => shallow(<OtherClientInformation />)).not.toThrow();
+  });
+
+  it('calls the ClientService', () => {
+    ClientService.fetch.mockReturnValue(Promise.resolve([]));
+    expect(setClientSpy).not.toHaveBeenCalled();
+    const wrapper = shallow(<OtherClientInformation />).instance();
+    expect(setClientSpy).toHaveBeenCalledTimes(1);
+    wrapper.setClient();
+    expect(setClientSpy).toHaveBeenCalledWith();
+    expect(setClientSpy).toHaveBeenCalledTimes(2);
+  });
+});
+
 describe('Other Client Information', () => {
   let otherClient;
   beforeEach(() => {
@@ -10,8 +40,8 @@ describe('Other Client Information', () => {
 
   it('renders a Cards, DropDownFields and CheckboxRadioGroup', () => {
     expect(otherClient.find('Cards').length).toBeGreaterThan(0);
-    expect(otherClient.find('DropDownField').length).toEqual(2);
-    expect(otherClient.find('CheckboxRadioGroup').length).toEqual(4);
+    expect(otherClient.find('DropDownField').length).toEqual(4);
+    expect(otherClient.find('CheckboxRadioGroup').length).toEqual(2);
   });
 
   describe('#handleChange() Functions', () => {
@@ -29,27 +59,6 @@ describe('Other Client Information', () => {
       expect(instance.state.spokenInSelection).toContain('No');
       instance.handleSpokenInChange({ target: { value: 'Yes' } });
       expect(instance.state.spokenInSelection).not.toContain(['Yes']);
-    });
-
-    it('should manage the Literate selection', () => {
-      const instance = otherClient.instance();
-      instance.handleLiterateChange({ target: { value: 'Unknown' } });
-      expect(instance.state.literateSelection).toContain('Unknown');
-      instance.handleLiterateChange({ target: { value: 'Not Applicable' } });
-
-      expect(instance.state.literateSelection).not.toContain([
-        'Not Applicable',
-      ]);
-    });
-
-    it('should manage the Incapacitated selection', () => {
-      const instance = otherClient.instance();
-      instance.handleIncapacitated({ target: { value: 'Yes' } });
-      expect(instance.state.incapacitatedParentSelection).toContain('Yes');
-      instance.handleIncapacitated({ target: { value: 'unknown' } });
-      expect(instance.state.incapacitatedParentSelection).not.toContain([
-        'unknown',
-      ]);
     });
   });
 

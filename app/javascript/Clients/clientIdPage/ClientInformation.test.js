@@ -6,15 +6,15 @@ import moment from 'moment';
 jest.mock('../../_services/client');
 let ClientService = require('../../_services/client').default;
 
-describe('#fetchClients', () => {
-  let fetchClientSpy;
+describe('#setClients', () => {
+  let setClientSpy;
   beforeEach(() => {
-    fetchClientSpy = jest.spyOn(ClientService, 'fetch');
-    fetchClientSpy.mockReset();
+    setClientSpy = jest.spyOn(ClientService, 'fetch');
+    setClientSpy.mockReset();
   });
 
   afterEach(() => {
-    fetchClientSpy.mockRestore();
+    setClientSpy.mockRestore();
   });
 
   it('renders', () => {
@@ -24,12 +24,12 @@ describe('#fetchClients', () => {
 
   it('calls the ClientService', () => {
     ClientService.fetch.mockReturnValue(Promise.resolve([]));
-    expect(fetchClientSpy).not.toHaveBeenCalled();
+    expect(setClientSpy).not.toHaveBeenCalled();
     const wrapper = shallow(<ClientInformation />).instance();
-    expect(fetchClientSpy).toHaveBeenCalledTimes(2);
-    wrapper.fetchClient();
-    expect(fetchClientSpy).toHaveBeenCalledWith();
-    expect(fetchClientSpy).toHaveBeenCalledTimes(3);
+    expect(setClientSpy).toHaveBeenCalledTimes(1);
+    wrapper.setClient();
+    expect(setClientSpy).toHaveBeenCalledWith();
+    expect(setClientSpy).toHaveBeenCalledTimes(2);
   });
 });
 

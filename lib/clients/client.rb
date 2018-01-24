@@ -26,5 +26,9 @@ module Clients
     attribute :ageUnit, Types::String.optional
     attribute :name_type, Types::String.optional
     attribute :driver_license_state_code_type, Types::String.optional
+    attribute :primary_language_type, Types::String.optional
+    attribute :secondary_language_type, Types::String.optional
+    attribute :litrate_code, Types::String.optional
+    attribute :incapacitated_parent_code, Types::String.optional
   end
 end

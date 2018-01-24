@@ -35,7 +35,6 @@ const nameType = [
   { value: '1313', label: 'Primary' },
   { value: '1314', label: 'Secondary' },
 ];
-
 export default class ClientInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -74,23 +73,8 @@ export default class ClientInformation extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchClient();
     this.setClient();
   }
-
-  fetchClient = () => {
-    this.setState({ response: { XHRStatus: 'waiting' } });
-    return ClientService.fetch()
-      .then(response =>
-        this.setState({
-          response: {
-            XHRStatus: 'ready',
-            record: response,
-          },
-        })
-      )
-      .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
-  };
 
   setClient = () => {
     return ClientService.fetch().then(response =>

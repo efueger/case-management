@@ -21,6 +21,10 @@ declare namespace ClientService {
        ageUnit?: string;
        name_type?: string;
        driver_license_state_code_type?: string;
+       primary_language_type?: string;
+       secondary_language_type?: string;
+       litrate_code?: string;
+       incapacitated_parent_code?: string;
   }
 }
 

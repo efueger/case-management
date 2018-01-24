@@ -1,45 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropDownField, Cards, CheckboxRadioGroup } from 'react-wood-duck';
+import ClientService from '../../_services/client';
 
 const primaryLanguage = [
-  { value: 'English', label: 'English' },
-  { value: 'Spanish', label: 'Spanish' },
-  { value: 'French', label: 'French' },
-  { value: 'Hindi', label: 'Hindi' },
-  { value: 'Chinese', label: 'Chinese' },
+  { value: '1253', label: 'English' },
+  { value: '1', label: 'Spanish' },
+  { value: '2', label: 'French' },
+  { value: '3', label: 'Hindi' },
+  { value: '4', label: 'Chinese' },
 ];
 const secondaryLanguage = [
-  { value: 'English', label: 'English' },
-  { value: 'Spanish', label: 'Spanish' },
-  { value: 'Chinese', label: 'Chinese' },
-  { value: 'Hindi', label: 'Hindi' },
-  { value: 'French', label: 'French' },
+  { value: '0', label: 'English' },
+  { value: '1', label: 'Spanish' },
+  { value: '2', label: 'Chinese' },
+  { value: '3', label: 'Hindi' },
+  { value: '4', label: 'French' },
 ];
 
+const literate = [
+  { value: 'YES', label: 'Yes' },
+  { value: 'NO', label: 'No' },
+  { value: 'UNKNOWN', label: 'Unknown' },
+  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
+];
+
+const incapacitatedParent = [
+  { value: 'YES', label: 'Yes' },
+  { value: 'NO', label: 'No' },
+  { value: 'UNKNOWN', label: 'Unknown' },
+  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
+];
 export default class OtherClientInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      response: { XHRStatus: 'idle' },
       checked: false,
       value: '',
+      primaryLanguageValue: '',
+      secondaryLanguageValue: '',
       spokenIn: ['Yes', 'No'],
       spokenInHome: ['Yes', 'No'],
-      literate: ['Yes', 'No', 'Unknown', 'Not Applicable'],
-      incapacitatedParent: ['Yes', 'No', 'Unknown', 'Not Applicable'],
+      literateValue: '',
+      incapacitatedParentValue: '',
       selected: [],
-      primaryLanguage: '',
-      secondaryLamguage: '',
       spokenInSelection: [],
-      literateSelection: [],
-      incapacitatedParentSelection: [],
     };
     this.handleSpokenChange = this.handleSpokenChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleSpokenInChange = this.handleSpokenInChange.bind(this);
-    this.handleLiterateChange = this.handleLiterateChange.bind(this);
-    this.handleIncapacitated = this.handleIncapacitated.bind(this);
   }
+
+  componentDidMount() {
+    this.setClient();
+  }
+
+  setClient = () => {
+    return ClientService.fetch()
+      .then(response =>
+        this.setState({
+          primaryLanguageValue: String(response.primary_language_type),
+          secondaryLanguageValue: String(response.secondary_language_type),
+          literateValue: String(response.litrate_code),
+          incapacitatedParentValue: String(response.incapacitated_parent_code),
+        })
+      )
+      .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
+  };
 
   handleSpokenChange(event) {
     this.setState({ selected: [event.target.value] });
@@ -47,12 +75,7 @@ export default class OtherClientInformation extends React.Component {
   handleSpokenInChange(event) {
     this.setState({ spokenInSelection: [event.target.value] });
   }
-  handleLiterateChange(event) {
-    this.setState({ literateSelection: [event.target.value] });
-  }
-  handleIncapacitated(event) {
-    this.setState({ incapacitatedParentSelection: [event.target.value] });
-  }
+
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
   }
@@ -70,18 +93,18 @@ export default class OtherClientInformation extends React.Component {
             <DropDownField
               id="dropdown1"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.primaryLanguage}
+              selectedOption={this.state.primaryLanguageValue}
               options={primaryLanguage}
               label="Primary Language"
-              onChange={this.handleDropdownChange('primaryLanguage')}
+              onChange={this.handleDropdownChange('primaryLanguageValue')}
             />
             <DropDownField
               id="dropdown2"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.secondaryLanguage}
+              selectedOption={this.state.secondaryLanguageValue}
               options={secondaryLanguage}
               label="Secondary Language"
-              onChange={this.handleDropdownChange('secondaryLanguage')}
+              onChange={this.handleDropdownChange('secondaryLanguageValue')}
             />
           </div>
           <div className="col-md-6 ">
@@ -106,26 +129,24 @@ export default class OtherClientInformation extends React.Component {
               selectedOptions={this.state.spokenInSelection}
             />
           </div>
-          <div className="col-md-6 ">
-            <label htmlFor="Literate">Literate</label>
-            <CheckboxRadioGroup
-              id="radio3"
-              name={'literate'}
-              type={'radio'}
-              options={this.state.literate}
-              handleOnChange={this.handleLiterateChange}
-              selectedOptions={this.state.literateSelection}
+          <div>
+            <DropDownField
+              id="dropdown3"
+              gridClassName="col-md-6 col-sm-6 col-xs-12"
+              selectedOption={this.state.literateValue}
+              options={literate}
+              label="Litearate"
+              onChange={this.handleDropdownChange('literateValue')}
             />
           </div>
-          <div className="col-md-6 ">
-            <label htmlFor="Incapacitated Parent">Incapacitated Parent</label>
-            <CheckboxRadioGroup
-              id="radio4"
-              name={'incapacitatedParent'}
-              type={'radio'}
-              options={this.state.incapacitatedParent}
-              handleOnChange={this.handleIncapacitated}
-              selectedOptions={this.state.incapacitatedParentSelection}
+          <div>
+            <DropDownField
+              id="dropdown4"
+              gridClassName="col-md-6 col-sm-6 col-xs-12"
+              selectedOption={this.state.incapacitatedParentValue}
+              options={incapacitatedParent}
+              label="Incapacitated Parent"
+              onChange={this.handleDropdownChange('incapacitatedParentValue')}
             />
           </div>
         </div>
