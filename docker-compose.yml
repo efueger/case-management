@@ -37,6 +37,11 @@ services:
     ports:
       - "3000:3000"
       - "3035:3035"
+    environment:
+      - SECRET_KEY_BASE
+      - CASE_API_BASE_URL
+      - PERRY_API_BASE_URL
     command: ['foreman', 'start', '-f', 'Procfile.dev.docker']
     depends_on:
       - redis
+      - case-api

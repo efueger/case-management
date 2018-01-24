@@ -54,6 +54,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
+  gem 'dotenv-rails'
   gem 'foreman', '~> 0.84.0'
   gem 'pry'
   gem 'pry-byebug'
