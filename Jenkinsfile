@@ -44,8 +44,8 @@ node('cm-slave') {
             }
         }
         stage('Deploy') {
-            sh "docker ps --all --quiet --filter \"name=cm-latest\" | xargs docker stop"
-            sh "docker ps --all --quiet --filter \"name=cm-latest\" | xargs docker rm"
+            sh "docker ps --all --quiet --filter \"name=cm-latest\" | xargs docker stop || true"
+            sh "docker ps --all --quiet --filter \"name=cm-latest\" | xargs docker rm || true"
             withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
                 sh "docker pull ${DOCKER_GROUP}/${DOCKER_IMAGE}"
                 sh "docker run --detach --publish 80:3000 --name ${DOCKER_CONTAINER_NAME} --env APP_NAME=casemanagement --env RAILS_ENV=test ${DOCKER_GROUP}/${DOCKER_IMAGE}"
