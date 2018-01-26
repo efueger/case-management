@@ -62,11 +62,11 @@ node('cm-slave') {
             sh "docker ps --all --quiet --filter \"name=cm-latest\" | xargs docker rm || true"
             withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
                 sh "docker pull ${DOCKER_GROUP}/${DOCKER_IMAGE}"
-                sh "docker run --detach --publish 80:3000 --name ${DOCKER_CONTAINER_NAME} --env APP_NAME=casemanagement --env RAILS_ENV=test ${DOCKER_GROUP}/${DOCKER_IMAGE}"
+                sh "docker run --detach --rm --publish 80:3000 --name ${DOCKER_CONTAINER_NAME} --env APP_NAME=casemanagement --env RAILS_ENV=test ${DOCKER_GROUP}/${DOCKER_IMAGE}"
             }
         }
         stage('Clean Up') {
-            sh "docker images ${DOCKER_GROUP}/${DOCKER_IMAGE} --filter \"before=${DOCKER_GROUP}/${DOCKER_IMAGE}:${env.BUILD_ID}\" -q | xargs docker rmi || true"
+            sh "docker images ${DOCKER_GROUP}/${DOCKER_IMAGE} --filter \"before=${DOCKER_GROUP}/${DOCKER_IMAGE}:${env.BUILD_ID}\" -q | xargs docker rmi -f || true"
         }
     } catch(Exception e) {
        currentBuild.result = "FAILURE"
