@@ -1,6 +1,7 @@
 DOCKER_GROUP = 'cwds'
 DOCKER_IMAGE = 'casemanagement'
 DOCKER_REGISTRY_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+CC_TEST_REPORTER_ID = 'e90a72f974bf96ece9ade12a041c8559fef59fd7413cfb08f1db5adc04337197'
 DOCKER_CONTAINER_NAME = 'cm-latest'
 SLACK_CHANNEL = '#casemanagement-stream'
 SLACK_CREDENTIALS_ID = 'slackmessagetpt2'
@@ -21,8 +22,14 @@ def notify(String status) {
 node('cm-slave') {
     def app
     try {
+        deleteDir()
         stage('Checkout') {
             checkout scm
+        }
+        stage('Notify SaaS') {
+            sh "curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter"
+            sh "chmod +x ./cc-test-reporter"
+            sh "./cc-test-reporter before-build --debug"
         }
         stage('Build Docker Image') {
             app = docker.build("${DOCKER_GROUP}/${DOCKER_IMAGE}:${env.BUILD_ID}")
@@ -35,6 +42,13 @@ node('cm-slave') {
             }
             stage('Unit Test') {
                 sh "docker exec -t ${container.id} yarn test"
+            }
+            stage('Publish Coverage Reports') {
+                sh "docker cp ${container.id}:/app/coverage ./coverage"
+                sh "./cc-test-reporter format-coverage -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
+                sh "./cc-test-reporter format-coverage -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
+                sh "./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2"
+                sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
             }
         }
         stage('Publish Image') {
