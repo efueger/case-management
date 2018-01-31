@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropDownField, Cards, CheckboxRadioGroup } from 'react-wood-duck';
-import ClientService from '../../_services/client';
+import ChildClientService from '../../_services/child_client';
 
 const primaryLanguage = [
-  { value: '1253', label: 'English' },
+  { value: '0', label: 'English' },
   { value: '1', label: 'Spanish' },
   { value: '2', label: 'French' },
   { value: '3', label: 'Hindi' },
@@ -57,7 +57,7 @@ export default class OtherClientInformation extends React.Component {
   }
 
   setClient = () => {
-    return ClientService.fetch()
+    return ChildClientService.fetch()
       .then(response =>
         this.setState({
           primaryLanguageValue: String(response.primary_language_type),

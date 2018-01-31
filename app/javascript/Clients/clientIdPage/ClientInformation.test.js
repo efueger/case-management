@@ -3,13 +3,13 @@ import { shallow } from 'enzyme';
 import ClientInformation from './ClientInformation.js';
 import moment from 'moment';
 
-jest.mock('../../_services/client');
-let ClientService = require('../../_services/client').default;
+jest.mock('../../_services/child_client');
+let ChildClientService = require('../../_services/child_client').default;
 
 describe('#setClients', () => {
   let setClientSpy;
   beforeEach(() => {
-    setClientSpy = jest.spyOn(ClientService, 'fetch');
+    setClientSpy = jest.spyOn(ChildClientService, 'fetch');
     setClientSpy.mockReset();
   });
 
@@ -18,12 +18,12 @@ describe('#setClients', () => {
   });
 
   it('renders', () => {
-    ClientService.fetch.mockReturnValue(Promise.resolve([]));
+    ChildClientService.fetch.mockReturnValue(Promise.resolve({}));
     expect(() => shallow(<ClientInformation />)).not.toThrow();
   });
 
   it('calls the ClientService', () => {
-    ClientService.fetch.mockReturnValue(Promise.resolve([]));
+    ChildClientService.fetch.mockReturnValue(Promise.resolve({}));
     expect(setClientSpy).not.toHaveBeenCalled();
     const wrapper = shallow(<ClientInformation />).instance();
     expect(setClientSpy).toHaveBeenCalledTimes(1);

@@ -1,5 +1,5 @@
 import React from 'react';
-import ClientService from '../../_services/client';
+import ChildClientService from '../../_services/child_client';
 import PropTypes from 'prop-types';
 import {
   DropDownField,
@@ -12,9 +12,9 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import moment from 'moment';
 
 const gender = [
-  { value: 'M', label: 'Male' },
-  { value: 'F', label: 'Female' },
-  { value: 'O', label: 'Other' },
+  { value: 'MALE', label: 'Male' },
+  { value: 'FEMALE', label: 'Female' },
+  { value: 'OTHER', label: 'Other' },
 ];
 const marital = [
   { value: '0', label: 'Married' },
@@ -77,9 +77,9 @@ export default class ClientInformation extends React.Component {
   }
 
   setClient = () => {
-    return ClientService.fetch().then(response =>
+    return ChildClientService.fetch().then(response =>
       this.setState({
-        status: this.state.response.XHRStatus,
+        response,
         prefix: response.name_prefix_description,
         firstName: response.common_first_name,
         middleName: response.common_middle_name,
@@ -154,7 +154,6 @@ export default class ClientInformation extends React.Component {
     }
     return { age, ageUnitSelection };
   }
-
   handleDobChange(event) {
     const ageValue = this.getAge(event.target.value);
     this.setState({

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     resources :clients, only: [ :show ] do
     end
 
+    resources :child_clients, only: [ :show ] do
+    end
+
     resources :cases, only: [ :index ] do
       collection do
         get ':user_id', to: 'cases#cases_by_user'
