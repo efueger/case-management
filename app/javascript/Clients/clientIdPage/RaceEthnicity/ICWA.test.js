@@ -1,16 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import RaceAndEthnicity from './RaceAndEthnicity.js';
+import ICWA from './ICWA.js';
 
-describe('Ethnicity', () => {
+describe('ICWA', () => {
   let component;
 
   beforeEach(() => {
-    component = shallow(<RaceAndEthnicity />);
-  });
-
-  it('renders Card Component', () => {
-    expect(component.find('Cards').length).toBe(1);
+    component = shallow(<ICWA />);
   });
 
   it('renders DropDownField Component', () => {
@@ -24,10 +20,6 @@ describe('Ethnicity', () => {
   it('should render the Table component', () => {
     expect(component.find('BootstrapTable').length).toEqual(1);
     expect(component.find('TableHeaderColumn').length).toEqual(2);
-  });
-
-  it('renders RaceFormContainer Component', () => {
-    expect(component.find('RaceFormContainer').length).toBe(1);
   });
 
   describe('#handleDropdownChange', () => {

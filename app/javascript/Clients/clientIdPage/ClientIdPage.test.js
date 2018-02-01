@@ -40,10 +40,6 @@ describe('Client ID Page', () => {
     expect(clientPage.find('SafetyAlertInformation').length).toBe(1);
   });
 
-  it('Has Ethnicity ', () => {
-    expect(clientPage.find('RaceAndEthnicity').length).toBe(1);
-  });
-
   it('Has Class Names ', () => {
     expect(
       clientPage
