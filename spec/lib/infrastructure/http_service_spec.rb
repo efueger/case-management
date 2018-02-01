@@ -9,7 +9,7 @@ module Infrastructure
     describe '#get' do
       it 'makes a get request' do
         allow(Faraday).to receive(:new)
-          .with(url: 'https://casemgmapi.test.cwds.io')
+          .with(url: 'https://case-api.test')
           .and_return(connection)
         expect(connection).to receive(:get).with('/resource?token=showbiz_pizza_token')
         Infrastructure::HttpService.new.get('/resource', 'showbiz_pizza_token')
@@ -17,7 +17,7 @@ module Infrastructure
 
       it 'sets json and uses the default adapter' do
         allow(Faraday).to receive(:new)
-          .with(url: 'https://casemgmapi.test.cwds.io')
+          .with(url: 'https://case-api.test')
           .and_yield(connection).and_return(connection)
         expect(connection).to receive(:response)
           .with(:json, parser_options: { symbolize_names: true })

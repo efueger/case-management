@@ -2,7 +2,7 @@
 
 module Infrastructure
   class HttpService
-    def initialize(base_url = ENV.fetch('CASE_API_BASE_URL', 'https://casemgmapi.test.cwds.io'))
+    def initialize(base_url = Rails.configuration.micro_services['case_api_base_url'])
       @base_url = base_url
     end
 

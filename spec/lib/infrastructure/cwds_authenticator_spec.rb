@@ -22,7 +22,7 @@ module Infrastructure
             .with(instance_of(Rack::Request)).and_return(false)
           status, headers = cwds_authenticator.call(environment)
           expect(status).to eq 301
-          expect(headers['Location']).to eq 'https://perry.test.cwds.io/authn/login?callback=http://example.com/'
+          expect(headers['Location']).to eq 'https://perry-api.test/authn/login?callback=http://example.com/'
         end
       end
 
@@ -82,7 +82,7 @@ module Infrastructure
               .with(instance_of(Rack::Request)).and_return(false)
             status, headers = cwds_authenticator.call(environment)
             expect(status).to eq 301
-            expect(headers['Location']).to eq 'https://perry.test.cwds.io/authn/login' \
+            expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
               '?callback=http://example.com/?token=sometoken'
           end
         end
@@ -144,7 +144,7 @@ module Infrastructure
               .with(instance_of(Rack::Request)).and_return(false)
             status, headers = cwds_authenticator.call(environment)
             expect(status).to eq 301
-            expect(headers['Location']).to eq 'https://perry.test.cwds.io/authn/login' \
+            expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
               '?callback=http://example.com/'
           end
         end

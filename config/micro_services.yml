@@ -1,9 +1,12 @@
+defaults: &defaults
+  case_api_base_url: <%= ENV.fetch('CASE_API_BASE_URL', 'http://case-api:8080') %>
+  perry_api_base_url: <%= ENV.fetch('PERRY_API_BASE_URL', 'http://perry-api') %>
+  geo_api_base_url: <%= ENV.fetch('GEO_API_BASE_URL', 'http://geo-api') %>
 development:
-  case_api_base_url: 'http://case-api:8080' # 'https://casemgmapi.dev.cwds.io'
-  perry_api_base_url: 'http://perry.local.cwds.io'
+  <<: *defaults
 test:
-  case_api_base_url: 'https://casemgmapi.test.cwds.io'
-  perry_api_base_url: 'https://perry.test.cwds.io'
-preint:
-  case_api_base_url: 'https://casemgmapi.preint.cwds.io'
-  perry_api_base_url: 'https://web.preint.cwds.io/perry'
+  case_api_base_url: 'https://case-api.test'
+  perry_api_base_url: 'https://perry-api.test'
+  geo_api_base_url: 'http://geo-api.test'
+production:
+  <<: *defaults
