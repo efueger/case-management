@@ -29,7 +29,7 @@ function formatter(results) {
 function outputDiagnostics(diagnostic) {
   var prefix = '  ';
   var output = prefix + '---\n';
-  output += prefix + diagnostic.split('\n').join('\n' + prefix);
+  output += prefix + diagnostic.message.split('\n').join('\n' + prefix);
   output += '...\n';
   return output;
 }
