@@ -30,5 +30,6 @@ module Clients
     attribute :secondary_language_type, Types::String.optional
     attribute :litrate_code, Types::String.optional
     attribute :incapacitated_parent_code, Types::String.optional
+    attribute :address, Addresses::Address
   end
 end

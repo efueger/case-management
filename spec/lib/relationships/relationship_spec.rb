@@ -15,7 +15,7 @@ module Relationships
       it { is_expected.to have_attribute(:relationship_start_date, Types::String.optional) }
       it { is_expected.to have_attribute(:relationship_end_date, Types::String.optional) }
       it { is_expected.to have_attribute(:same_home_status, Types::String.optional) }
-      it { is_expected.to have_attribute(:related_client, Types::Array) }
+      it { is_expected.to have_attribute(:related_client, Clients::Client) }
     end
   end
 end

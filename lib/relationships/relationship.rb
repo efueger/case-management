@@ -18,6 +18,6 @@ module Relationships
     attribute :relationship_start_date, Types::String.optional
     attribute :relationship_end_date, Types::String.optional
     attribute :same_home_status, Types::String.optional
-    attribute :related_client, Types::Array
+    attribute :related_client, Clients::Client
   end
 end

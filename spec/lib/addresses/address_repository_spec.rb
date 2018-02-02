@@ -9,30 +9,38 @@ module Addresses
     let(:http_service) { instance_double('Infrastructure::Service') }
     let(:addresses_repository) { AddressRepository.new(http_service) }
     let(:token) { 'star_wars' }
+    let(:address) { '202 Spurlock Ct' }
 
     describe '#show' do
       let(:response) { instance_double('Faraday::Response') }
 
       context 'with no addresses' do
         it 'returns an empty addresses' do
-          allow(response).to receive(:body).and_return({})
+          allow(response).to receive(:status)
+            .and_return(404)
           allow(http_service)
             .to receive(:get)
-            .with('/addresses/80', token)
+            .with('/child-clients/80/addresses', token)
             .and_return(response)
-          expect(addresses_repository.show('80', token)).to eq Address.new({})
+          expect(addresses_repository.addresses_by_client_id('80', token))
+            .to eq []
         end
       end
 
       context 'with addresses' do
         it 'returns addresses' do
-          allow(response).to receive(:body).and_return(identifier: '80')
+          allow(response)
+            .to receive(:status)
+            .and_return(200)
+          allow(response)
+            .to receive(:body)
+            .and_return([{ address: { id: '805' } }, { address: { id: '808' } }])
           allow(http_service)
             .to receive(:get)
-            .with('/addresses/80', token)
+            .with('/child-clients/80/addresses', token)
             .and_return(response)
-          expect(addresses_repository.show('80', token))
-            .to eq Address.new(identifier: '80')
+          expect(addresses_repository.addresses_by_client_id('80', token))
+            .to eq [Address.new(id: '805'), Address.new(id: '808')]
         end
       end
     end

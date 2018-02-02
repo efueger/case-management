@@ -23,6 +23,7 @@ module Clients
       it { is_expected.to have_attribute(:material_status_type, Types::String.optional) }
       it { is_expected.to have_attribute(:ageUnit, Types::String.optional) }
       it { is_expected.to have_attribute(:name_type, Types::String.optional) }
+      it { is_expected.to have_attribute(:address, Addresses::Address) }
     end
   end
 end

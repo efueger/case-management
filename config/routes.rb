@@ -5,12 +5,6 @@ Rails.application.routes.draw do
   get 'family_finding/index'
 
   namespace :api, defaults: {format: 'json'} do
-    resources :addresses, only: [ :index ] do
-      collection do
-        get ':client_id', to: 'addresses#address_by_client'
-      end
-    end
-
     resources :clients, only: [ :show ] do
     end
 
@@ -23,10 +17,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :relationships, only: [ :index ] do
+    resources :placements, only: [] do
       collection do
-        get ':id', to: 'relationships#relationships_by_client'
-      end      
+        get ':client_id', to: 'placements#clients_by_related_client_id'
+      end
     end
 
     resources :referrals, only: [ :index ] do
