@@ -79,6 +79,15 @@ class DashboardContainer extends React.Component {
             >
               Assignment Date
             </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="client_identifier"
+              width="34px"
+              dataFormat={cilentId => (
+                <a href={`/placement/client/${cilentId}`}>
+                  <i className="glyphicon glyphicon-map-marker" />
+                </a>
+              )}
+            />
           </BootstrapTable>
         )}
       />
@@ -141,9 +150,6 @@ class DashboardContainer extends React.Component {
                 <ul className="list-unstyled">
                   <li className="h4">
                     <a href="/clients/index">Client ID Page</a>
-                  </li>
-                  <li className="h4">
-                    <a href="/family_finding/index">Network Finding Tool</a>
                   </li>
                 </ul>
               </div>

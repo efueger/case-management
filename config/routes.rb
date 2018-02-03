@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   root 'dashboard#index'
 
   get 'clients/index'
-  get 'family_finding/index'
+
+  # TODO: How to glob empty also?
+  get 'placement', to: 'placement#index'
+  get 'placement/*args', to: 'placement#index'
 
   namespace :api, defaults: {format: 'json'} do
     resources :clients, only: [ :show ] do

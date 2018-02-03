@@ -15,3 +15,9 @@
  */
 @import 'bootstrap/dist/css/bootstrap.css';
 @import 'react-wood-duck/dist/styles/application.css';
+@import url('https://js.arcgis.com/4.6/esri/css/main.css');
+
+.map-view {
+  height: 790px;
+  padding-top: 25px;
+}
