@@ -33,4 +33,4 @@ package-lock.json
 *.sublime-project
 /.vscode
 
-/.env
+/.env*
