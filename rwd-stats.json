@@ -1,0 +1,161 @@
+[
+    {
+        "id": 14,
+        "identifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/react-wood-duck/index.js",
+        "name": "./node_modules/react-wood-duck/index.js",
+        "index": 60,
+        "index2": 267,
+        "size": 2139,
+        "cacheable": true,
+        "built": true,
+        "optional": false,
+        "prefetched": false,
+        "chunks": [
+            0,
+            1,
+            2
+        ],
+        "assets": [],
+        "issuer": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/dashboard/DashboardContainer.jsx",
+        "issuerId": 372,
+        "issuerName": "./app/javascript/dashboard/DashboardContainer.jsx",
+        "profile": {
+            "factory": 414,
+            "building": 20
+        },
+        "failed": false,
+        "errors": 0,
+        "warnings": 0,
+        "reasons": [
+            {
+                "moduleId": 337,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/_components/DataGridCard/DataGridCard.jsx",
+                "module": "./app/javascript/_components/DataGridCard/DataGridCard.jsx",
+                "moduleName": "./app/javascript/_components/DataGridCard/DataGridCard.jsx",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "3:0-47"
+            },
+            {
+                "moduleId": 358,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/ClientIdPage.js",
+                "module": "./app/javascript/Clients/clientIdPage/ClientIdPage.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/ClientIdPage.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "14:0-59"
+            },
+            {
+                "moduleId": 359,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/ClientInformation.js",
+                "module": "./app/javascript/Clients/clientIdPage/ClientInformation.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/ClientInformation.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "16:0-107"
+            },
+            {
+                "moduleId": 361,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/OtherClientInformation.js",
+                "module": "./app/javascript/Clients/clientIdPage/OtherClientInformation.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/OtherClientInformation.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "13:0-75"
+            },
+            {
+                "moduleId": 362,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/SafetyAlertInformation.js",
+                "module": "./app/javascript/Clients/clientIdPage/SafetyAlertInformation.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/SafetyAlertInformation.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "13:0-89"
+            },
+            {
+                "moduleId": 363,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/ClientIdSideBar.js",
+                "module": "./app/javascript/Clients/clientIdPage/ClientIdSideBar.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/ClientIdSideBar.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "11:0-61"
+            },
+            {
+                "moduleId": 364,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/RaceEthnicity/RaceEthnicityForm.js",
+                "module": "./app/javascript/Clients/clientIdPage/RaceEthnicity/RaceEthnicityForm.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/RaceEthnicity/RaceEthnicityForm.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "11:0-40"
+            },
+            {
+                "moduleId": 365,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/RaceEthnicity/Race.js",
+                "module": "./app/javascript/Clients/clientIdPage/RaceEthnicity/Race.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/RaceEthnicity/Race.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "14:0-43"
+            },
+            {
+                "moduleId": 367,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/RaceEthnicity/Ethnicity.js",
+                "module": "./app/javascript/Clients/clientIdPage/RaceEthnicity/Ethnicity.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/RaceEthnicity/Ethnicity.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "12:0-48"
+            },
+            {
+                "moduleId": 369,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/Clients/clientIdPage/RaceEthnicity/ICWA.js",
+                "module": "./app/javascript/Clients/clientIdPage/RaceEthnicity/ICWA.js",
+                "moduleName": "./app/javascript/Clients/clientIdPage/RaceEthnicity/ICWA.js",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "14:0-84"
+            },
+            {
+                "moduleId": 372,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/dashboard/DashboardContainer.jsx",
+                "module": "./app/javascript/dashboard/DashboardContainer.jsx",
+                "moduleName": "./app/javascript/dashboard/DashboardContainer.jsx",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "10:0-59"
+            },
+            {
+                "moduleId": 387,
+                "moduleIdentifier": "/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/node_modules/babel-loader/lib/index.js??ref--0-0!/Users/daniel.eck/Documents/workspace/cwds/workspace/case-management/app/javascript/placement/PlacementApp.jsx",
+                "module": "./app/javascript/placement/PlacementApp.jsx",
+                "moduleName": "./app/javascript/placement/PlacementApp.jsx",
+                "type": "harmony import",
+                "userRequest": "react-wood-duck",
+                "loc": "4:0-59"
+            }
+        ],
+        "usedExports": [
+            "Alert",
+            "Button",
+            "Cards",
+            "CheckboxRadioGroup",
+            "DateTimePicker",
+            "DropDownField",
+            "EthnicityForm",
+            "GlobalHeader",
+            "InputComponent",
+            "NavLink",
+            "NavLinks",
+            "PageHeader",
+            "RaceForm",
+            "SideBar",
+            "TextArea"
+        ],
+        "providedExports": null,
+        "optimizationBailout": [],
+        "depth": 3,
+        "source": "var Alert = require('./dist/Alert.js').default;\nvar AddressesForm = require('./dist/person/AddressesForm').default;\nvar Button = require('./dist/Button.js').default;\nvar Cards = require('./dist/Cards.js').default;\nvar CheckboxRadioGroup = require('./dist/CheckboxRadioGroup.js').default;\nvar DropDownField = require('./dist/DropDownField.js').default;\nvar EthnicityForm = require('./dist/EthnicityForm.js').default;\nvar InputComponent = require('./dist/InputComponent.js').default;\nvar AddAdditionalItem = require('./dist/AddAdditionalItem.js').default;\nvar Table = require('./dist/Table.js').default;\nvar TextArea = require('./dist/TextArea.js').default;\nvar DateTimePicker = require('./dist/DateTimePicker.js').default;\nvar PreIcon = require('./dist/PreIcon.js').default;\nvar PostIcon = require('./dist/PostIcon.js').default;\nvar RaceForm = require('./dist/Race/RaceForm.js').default;\nvar Link = require('./dist/Link.js').default;\nvar NavLink = require('./dist/NavLink.js').default;\nvar NavLinks = require('./dist/NavLinks.js').default;\nvar MultiSelect = require('./dist/MultiSelect.js').default;\nvar GlobalHeader = require('./dist/GlobalHeader.js').default;\nvar PageHeader = require('./dist/PageHeader.js').default;\nvar SideBar = require('./dist/SideBar.js').default;\nvar Layout01 = require('./dist/Layout01.js').default;\nvar Layout03 = require('./dist/Layout03.js').default;\nvar CommonAddressComponent = require('./dist/CommonAddressComponent.js')\n  .default;\n\nmodule.exports = {\n  Alert: Alert,\n  AddressesForm: AddressesForm,\n  Button: Button,\n  Cards: Cards,\n  CheckboxRadioGroup: CheckboxRadioGroup,\n  DropDownField: DropDownField,\n  EthnicityForm: EthnicityForm,\n  InputComponent: InputComponent,\n  AddAdditionalItem: AddAdditionalItem,\n  Table: Table,\n  TextArea: TextArea,\n  DateTimePicker: DateTimePicker,\n  PreIcon: PreIcon,\n  PostIcon: PostIcon,\n  RaceForm: RaceForm,\n  Link: Link,\n  NavLink: NavLink,\n  NavLinks: NavLinks,\n  MultiSelect: MultiSelect,\n  GlobalHeader: GlobalHeader,\n  PageHeader: PageHeader,\n  SideBar: SideBar,\n  Layout01: Layout01,\n  Layout03: Layout03,\n  CommonAddressComponent: CommonAddressComponent,\n};\n"
+    }
+]
