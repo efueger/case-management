@@ -19,6 +19,6 @@ module CaseManagement
     require 'infrastructure/cwds_authenticator'
     config.middleware.use Infrastructure::CwdsAuthenticator
 
-    config.micro_services = config_for(:micro_services)
+    # config.micro_services = config_for(:micro_services)
   end
 end
