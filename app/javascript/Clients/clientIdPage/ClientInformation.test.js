@@ -86,7 +86,7 @@ describe('Client Information', () => {
     let old = wrapper.getAge(date);
     expect(old.age).toBeTruthy();
     expect(old.ageUnitSelection).not.toBeUndefined();
-    let born = moment('2017 12 02', 'YYYY MM DD');
+    let born = moment('2018 01 02', 'YYYY MM DD');
     let myAge = wrapper.getAge(born);
     expect(myAge.age).toBeTruthy();
     expect(myAge.ageUnitSelection).not.toBeUndefined();
@@ -94,7 +94,7 @@ describe('Client Information', () => {
     let ageInMonths = wrapper.getAge(monthsOldBaby);
     expect(ageInMonths.age).toEqual(2);
     expect(ageInMonths.ageUnitSelection).not.toBeUndefined();
-    let daysOldBaby = moment('2018 01 02', 'YYYY MM DD');
+    let daysOldBaby = moment('2018 01 31', 'YYYY MM DD');
     let ageInDays = wrapper.getAge(daysOldBaby);
     expect(ageInDays.age).toBeTruthy();
     expect(ageInDays.ageUnitSelection).not.toBeUndefined();
