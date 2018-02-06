@@ -4,6 +4,7 @@ require 'rails_helper'
 require 'feature/testing'
 
 module Infrastructure
+
   describe CwdsAuthenticator do
     describe '#call' do
       let(:application) { instance_double('ActionDispatch::Routing::RouteSet') }
@@ -18,13 +19,11 @@ module Infrastructure
         let(:environment) { Rack::MockRequest.env_for('http://example.com/', {}) }
 
         it 'redirects the user to perry login url' do
-          Feature.run_with_activated(:authentication) do
-            allow(security_policy).to receive(:valid?)
-              .with(instance_of(Rack::Request)).and_return(false)
-            status, headers = cwds_authenticator.call(environment)
-            expect(status).to eq 301
-            expect(headers['Location']).to eq 'https://perry-api.test/authn/login?callback=http://example.com/'
-          end
+          allow(security_policy).to receive(:valid?)
+            .with(instance_of(Rack::Request)).and_return(false)
+          status, headers = cwds_authenticator.call(environment)
+          expect(status).to eq 301
+          expect(headers['Location']).to eq 'https://perry-api.test/authn/login?callback=http://example.com/'
         end
       end
 
@@ -68,13 +67,11 @@ module Infrastructure
           end
 
           it 'stores the token in the session' do
-            Feature.run_with_activated(:authentication) do
-              allow(application).to receive(:call).with(environment).and_return([200, {}, {}])
-              allow(security_policy).to receive(:valid?)
-                .with(instance_of(Rack::Request)).and_return(true)
-              cwds_authenticator.call(environment)
-              expect(Rack::Request.new(environment).session['token']).to eq 'sometoken'
-            end
+            allow(application).to receive(:call).with(environment).and_return([200, {}, {}])
+            allow(security_policy).to receive(:valid?)
+              .with(instance_of(Rack::Request)).and_return(true)
+            cwds_authenticator.call(environment)
+            expect(Rack::Request.new(environment).session['token']).to eq 'sometoken'
           end
         end
 
@@ -82,14 +79,12 @@ module Infrastructure
           let(:response) { Faraday::Response.new(status: 406) }
 
           it 'redirects to the perry login page' do
-            Feature.run_with_activated(:authentication) do
-              allow(security_policy).to receive(:valid?)
-                .with(instance_of(Rack::Request)).and_return(false)
-              status, headers = cwds_authenticator.call(environment)
-              expect(status).to eq 301
-              expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
-                '?callback=http://example.com/?token=sometoken'
-            end
+            allow(security_policy).to receive(:valid?)
+              .with(instance_of(Rack::Request)).and_return(false)
+            status, headers = cwds_authenticator.call(environment)
+            expect(status).to eq 301
+            expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
+              '?callback=http://example.com/?token=sometoken'
           end
         end
       end
@@ -132,13 +127,11 @@ module Infrastructure
           end
 
           it 'changes the session token' do
-            Feature.run_with_activated(:authentication) do
-              allow(application).to receive(:call).with(environment).and_return([200, {}, {}])
-              allow(security_policy).to receive(:valid?)
-                .with(instance_of(Rack::Request)).and_return(true)
-              cwds_authenticator.call(environment)
-              expect(Rack::Request.new(environment).session['token']).to eq 'new_token'
-            end
+            allow(application).to receive(:call).with(environment).and_return([200, {}, {}])
+            allow(security_policy).to receive(:valid?)
+              .with(instance_of(Rack::Request)).and_return(true)
+            cwds_authenticator.call(environment)
+            expect(Rack::Request.new(environment).session['token']).to eq 'new_token'
           end
         end
 
@@ -148,14 +141,12 @@ module Infrastructure
           let(:response) { Faraday::Response.new(status: 406) }
 
           it 'redirects to the perry login page' do
-            Feature.run_with_activated(:authentication) do
-              allow(security_policy).to receive(:valid?)
-                .with(instance_of(Rack::Request)).and_return(false)
-              status, headers = cwds_authenticator.call(environment)
-              expect(status).to eq 301
-              expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
-                '?callback=http://example.com/'
-            end
+            allow(security_policy).to receive(:valid?)
+              .with(instance_of(Rack::Request)).and_return(false)
+            status, headers = cwds_authenticator.call(environment)
+            expect(status).to eq 301
+            expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
+              '?callback=http://example.com/'
           end
         end
       end
