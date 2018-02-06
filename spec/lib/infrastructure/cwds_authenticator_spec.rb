@@ -19,11 +19,12 @@ module Infrastructure
 
         it 'redirects the user to perry login url' do
           Feature.run_with_activated(:authentication) do
+            allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
             allow(security_policy).to receive(:valid?)
               .with(instance_of(Rack::Request)).and_return(false)
             status, headers = cwds_authenticator.call(environment)
             expect(status).to eq 301
-            expect(headers['Location']).to eq 'https://perry-api.test/authn/login?callback=http://example.com/'
+            expect(headers['Location']).to eq 'https://perry/authn/login?callback=http://example.com/'
           end
         end
       end
@@ -83,11 +84,12 @@ module Infrastructure
 
           it 'redirects to the perry login page' do
             Feature.run_with_activated(:authentication) do
+              allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
               allow(security_policy).to receive(:valid?)
                 .with(instance_of(Rack::Request)).and_return(false)
               status, headers = cwds_authenticator.call(environment)
               expect(status).to eq 301
-              expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
+              expect(headers['Location']).to eq 'https://perry/authn/login' \
                 '?callback=http://example.com/?token=sometoken'
             end
           end
@@ -149,11 +151,12 @@ module Infrastructure
 
           it 'redirects to the perry login page' do
             Feature.run_with_activated(:authentication) do
+              allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
               allow(security_policy).to receive(:valid?)
                 .with(instance_of(Rack::Request)).and_return(false)
               status, headers = cwds_authenticator.call(environment)
               expect(status).to eq 301
-              expect(headers['Location']).to eq 'https://perry-api.test/authn/login' \
+              expect(headers['Location']).to eq 'https://perry/authn/login' \
                 '?callback=http://example.com/'
             end
           end

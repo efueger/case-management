@@ -10,7 +10,7 @@ module Infrastructure
     private
 
     def validation_url(token)
-      perry_api_base_url = Rails.configuration.micro_services[:perry_api_base_url]
+      perry_api_base_url = ENV.fetch('PERRY_API_BASE_URL')
       "#{perry_api_base_url}/authn/validate?token=#{token}"
     end
   end

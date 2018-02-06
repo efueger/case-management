@@ -11,10 +11,11 @@ module Infrastructure
 
       context 'with a valid token' do
         it 'returns true' do
+          allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
           allow(response).to receive(:status).and_return(200)
           allow(response).to receive(:body).and_return('json')
           allow(Faraday).to receive(:get)
-            .with('https://perry-api.test/authn/validate?token=valid_token')
+            .with('https://perry/authn/validate?token=valid_token')
             .and_return(response)
           expect(security_gateway.valid_token?('valid_token')).to eq 'json'
         end
@@ -22,9 +23,10 @@ module Infrastructure
 
       context 'with an invalid token' do
         it 'returns false' do
+          allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
           allow(response).to receive(:status).and_return(401)
           allow(Faraday).to receive(:get)
-            .with('https://perry-api.test/authn/validate?token=invalid_token')
+            .with('https://perry/authn/validate?token=invalid_token')
             .and_return(response)
           expect(security_gateway.valid_token?('invalid_token')).to eq nil
         end

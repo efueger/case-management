@@ -8,16 +8,18 @@ module Infrastructure
 
     describe '#get' do
       it 'makes a get request' do
+        allow(ENV).to receive(:fetch).with('CASE_API_BASE_URL').and_return('https://case-api')
         allow(Faraday).to receive(:new)
-          .with(url: 'https://case-api.test')
+          .with(url: 'https://case-api')
           .and_return(connection)
         expect(connection).to receive(:get).with('/resource?token=showbiz_pizza_token')
         Infrastructure::HttpService.new.get('/resource', 'showbiz_pizza_token')
       end
 
       it 'sets json and uses the default adapter' do
+        allow(ENV).to receive(:fetch).with('CASE_API_BASE_URL').and_return('https://case-api')
         allow(Faraday).to receive(:new)
-          .with(url: 'https://case-api.test')
+          .with(url: 'https://case-api')
           .and_yield(connection).and_return(connection)
         expect(connection)
           .to receive(:response)
@@ -35,9 +37,10 @@ module Infrastructure
       let(:post_parameters) { 'This is params' }
 
       it 'sets json and uses the default adapter' do
+        allow(ENV).to receive(:fetch).with('CASE_API_BASE_URL').and_return('https://case-api')
         expect(Faraday)
           .to receive(:new)
-          .with(url: 'https://case-api.test')
+          .with(url: 'https://case-api')
           .and_yield(connection).and_return(connection)
         expect(connection)
           .to receive(:response)
@@ -50,9 +53,10 @@ module Infrastructure
       end
 
       it 'makes a post request' do
+        allow(ENV).to receive(:fetch).with('CASE_API_BASE_URL').and_return('https://case-api')
         allow(Faraday)
           .to receive(:new)
-          .with(url: 'https://case-api.test')
+          .with(url: 'https://case-api')
           .and_yield(connection).and_return(connection)
         allow(connection)
           .to receive(:response)
