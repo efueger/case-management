@@ -18,7 +18,5 @@ module CaseManagement
     # -- all .rb files in that directory are automatically loaded.
     require 'infrastructure/cwds_authenticator'
     config.middleware.use Infrastructure::CwdsAuthenticator
-
-    # config.micro_services = config_for(:micro_services)
   end
 end
