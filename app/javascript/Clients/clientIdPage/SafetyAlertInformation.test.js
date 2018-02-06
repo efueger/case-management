@@ -2,6 +2,44 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import SafetyAlertInformation from './SafetyAlertInformation.js';
 
+jest.mock('../../_services/client');
+let ClientService = require('../../_services/client').default;
+
+describe('#setClients', () => {
+  let getSafetyAlertSpy;
+  beforeEach(() => {
+    getSafetyAlertSpy = jest.spyOn(ClientService, 'fetchSafetyAlerts');
+    getSafetyAlertSpy.mockReset();
+  });
+
+  afterEach(() => {
+    getSafetyAlertSpy.mockRestore();
+  });
+
+  it('renders', () => {
+    ClientService.fetchSafetyAlerts.mockReturnValue(Promise.resolve());
+    expect(() => shallow(<SafetyAlertInformation />)).not.toThrow();
+  });
+
+  describe('#fetchSafetyAlerts', () => {
+    describe('when records are returned', () => {
+      it('returns records', () => {
+        ClientService.fetchSafetyAlerts.mockReturnValue(Promise.resolve());
+        expect(getSafetyAlertSpy).not.toHaveBeenCalled();
+      });
+
+      it('sets XHR status to  ready', () => {
+        ClientService.fetchSafetyAlerts.mockReturnValue(Promise.resolve());
+        const wrapper = shallow(<SafetyAlertInformation />).instance();
+        expect(getSafetyAlertSpy).toHaveBeenCalledTimes(1);
+        wrapper.fetchSafetyAlerts();
+        expect(getSafetyAlertSpy).toHaveBeenCalledWith();
+        expect(getSafetyAlertSpy).toHaveBeenCalledTimes(2);
+      });
+    });
+  });
+});
+
 describe('Safety Alert Information', () => {
   let safetyAlert;
   beforeEach(() => {
@@ -47,7 +85,7 @@ describe('Safety Alert Information', () => {
     expect(safetyAlert.find('TextArea').length).toEqual(2);
     expect(safetyAlert.find('DateTimePicker').length).toEqual(2);
     expect(safetyAlert.find('BootstrapTable').length).toEqual(1);
-    expect(safetyAlert.find('TableHeaderColumn').length).toEqual(2);
+    expect(safetyAlert.find('TableHeaderColumn').length).toEqual(5);
   });
 
   it('should manage the Deactive change', () => {

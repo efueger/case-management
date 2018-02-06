@@ -7,6 +7,12 @@ class ClientService {
     );
   }
 
+  static fetchSafetyAlerts() {
+    return ApiService.get('/clients/R06FKZ20X5/safety_alerts').then(
+      response => response.data
+    );
+  }
+
   static getRelatedClientsByChildClientId(childClientId) {
     // return ApiService.get(`/placement/${childClientId}/relatedClients`).then(
     //   response => response.data

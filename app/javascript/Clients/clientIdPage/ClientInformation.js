@@ -165,249 +165,251 @@ export default class ClientInformation extends React.Component {
 
   render() {
     return (
-      <Cards
-        cardHeaderText="Client Information"
-        id={this.props.anchorId}
-        cardHeaderButton={false}
-        cardActionButtons={true}
-      >
-        <div>
-          <InputComponent
-            gridClassName="col-md-1 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Prefix"
-            type="string"
-            value={this.state.prefix}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="First Name (required)"
-            type="string"
-            value={this.state.firstName}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Middle Name"
-            type="string"
-            value={this.state.middleName}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Last Name (required)"
-            type="string"
-            value={this.state.lastName}
-          />
-          <InputComponent
-            gridClassName="col-md-2 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Suffix"
-            type="string"
-            value={this.state.suffix}
-          />
-        </div>
-        <div>
-          <DropDownField
-            id="dropdown1"
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            selectedOption={this.state.nameType}
-            options={nameType}
-            label="Name Type (required)"
-            onChange={this.handleDropdownChange('nameTypeValue')}
-          />
-          <DropDownField
-            id="dropdown2"
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            selectedOption={this.state.maritalValue}
-            options={marital}
-            label="Marital Status"
-            onChange={this.handleDropdownChange('maritalValue')}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="SSN"
-            type="number"
-            value={this.state.socialSecurityNumber}
-          />
-          <InputComponent
-            label="Client Index Number"
-            gridClassName="col-md-3 col-sm-3 col-xs-3"
-            fieldClassName="form-group"
-            type="number"
-            value={this.state.clientIndexNumber}
-          />
-        </div>
-        <div className="row">
+      <div>
+        <Cards
+          cardHeaderText="Client Information"
+          id={this.props.anchorId}
+          cardHeaderButton={false}
+          cardActionButtons={true}
+        >
           <div>
-            <DropDownField
-              id="dropdown3"
-              name="Gender"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              selectedOption={this.state.genderValue}
-              options={gender}
-              label="Gender"
-              onChange={this.handleDropdownChange('genderValue')}
+            <InputComponent
+              gridClassName="col-md-1 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Prefix"
+              type="string"
+              value={this.state.prefix}
             />
-          </div>
-          <InputComponent
-            label="Date Of Birth"
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            type="date"
-            value={this.state.birthDate}
-            onChange={this.handleDobChange}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Age"
-            type="string"
-            value={this.state.age}
-          />
-          <DropDownField
-            id="dropdown4"
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            selectedOption={this.state.ageUnitValue}
-            options={ageUnit}
-            label="Age Unit"
-            onChange={this.handleDropdownChange('ageUnitValue')}
-          />
-        </div>
-        <div className="row">
-          <div>
             <InputComponent
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               fieldClassName="form-group"
-              label="Client Number"
+              label="First Name (required)"
               type="string"
-              value={this.state.clientNumber}
+              value={this.state.firstName}
+            />
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Middle Name"
+              type="string"
+              value={this.state.middleName}
+            />
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Last Name (required)"
+              type="string"
+              value={this.state.lastName}
+            />
+            <InputComponent
+              gridClassName="col-md-2 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Suffix"
+              type="string"
+              value={this.state.suffix}
             />
           </div>
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Alien Registration#"
-            type="number"
-            value={this.state.alienRegistration}
-          />
-          <DropDownField
-            id="dropdown5"
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            selectedOption={this.state.stateTypesValue}
-            options={stateTypes}
-            label="Drivers License State"
-            onChange={this.handleDropdownChange('this.state.stateTypesValue')}
-          />
-          <InputComponent
-            gridClassName="col-md-3 col-sm-6 col-xs-12"
-            fieldClassName="form-group"
-            label="Drivers License # "
-            type="number"
-            value={this.state.driverLicensNumber}
-          />
-        </div>
-        <div className="form-group row">
-          <div className="col-md-6">
-            <CheckboxRadioGroup
-              id="checkbox1"
-              name={'child'}
-              type={'checkbox'}
-              handleOnChange={this.handleChange}
-              options={this.state.client}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-          <div className="col-md-6">
-            <CheckboxRadioGroup
-              id="checkbox2"
-              name={'client'}
-              type={'checkbox'}
-              handleOnChange={this.handleChange}
-              options={this.state.clients}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-12">
-            <CheckboxRadioGroup
-              id="checkbox3"
-              name={'Warranty'}
-              type={'checkbox'}
-              handleOnChange={this.handleChange}
-              options={this.state.warranty}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-4">
-            <label htmlFor="CONFIDENTIALITY">CONFIDENTIALITY</label>
-            <CheckboxRadioGroup
-              id="checkbox4"
-              name={'confidentiality'}
-              type={'checkbox'}
-              handleOnChange={this.handleChange}
-              options={this.state.confidentiality}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-          <div className="col-md-5">
-            <label htmlFor="CONFIDENTIALITY EFFECTIVE DATE">
-              CONFIDENTIALITY EFFECTIVE DATE
-            </label>
-            <DateTimePicker />
-          </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-12">
-            <CheckboxRadioGroup
-              id="checkbox5"
-              name={'csec'}
-              type={'checkbox'}
-              handleOnChange={this.handleChange}
-              options={this.state.csec}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-        </div>
-        {this.state.csecBlock && (
           <div>
-            <BootstrapTable>
-              <TableHeaderColumn dataField="CSEC Type" isKey dataSort>
-                CSEC Type
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="Start Date" dataSort>
-                Start Date
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="End Date" dataSort>
-                End Date
-              </TableHeaderColumn>
-            </BootstrapTable>
+            <DropDownField
+              id="dropdown1"
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              selectedOption={this.state.nameType}
+              options={nameType}
+              label="Name Type (required)"
+              onChange={this.handleDropdownChange('nameTypeValue')}
+            />
+            <DropDownField
+              id="dropdown2"
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              selectedOption={this.state.maritalValue}
+              options={marital}
+              label="Marital Status"
+              onChange={this.handleDropdownChange('maritalValue')}
+            />
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="SSN"
+              type="number"
+              value={this.state.socialSecurityNumber}
+            />
+            <InputComponent
+              label="Client Index Number"
+              gridClassName="col-md-3 col-sm-3 col-xs-3"
+              fieldClassName="form-group"
+              type="number"
+              value={this.state.clientIndexNumber}
+            />
+          </div>
+          <div className="row">
             <div>
               <DropDownField
-                id="dropdown6"
-                gridClassName="col-md-4 col-sm-6 col-xs-12"
-                selectedOption={this.state.StateTypesValue}
-                options={stateTypes}
-                label="CSEC Data Type"
-                onChange={this.handleDropdownChange('StateTypesValue')}
+                id="dropdown3"
+                name="Gender"
+                gridClassName="col-md-3 col-sm-6 col-xs-12"
+                selectedOption={this.state.genderValue}
+                options={gender}
+                label="Gender"
+                onChange={this.handleDropdownChange('genderValue')}
               />
-              <div className="col-md-4 col-sm-6 col-xs-12">
-                <label htmlFor="START DATE">START DATE</label>
-                <DateTimePicker />
-              </div>
-              <div className="col-md-4 col-sm-6 col-xs-12">
-                <label htmlFor="END DATE">END DATE</label>
-                <DateTimePicker fieldClassName="form-group" />
-              </div>
+            </div>
+            <InputComponent
+              label="Date Of Birth"
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              type="date"
+              value={this.state.birthDate}
+              onChange={this.handleDobChange}
+            />
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Age"
+              type="string"
+              value={this.state.age}
+            />
+            <DropDownField
+              id="dropdown4"
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              selectedOption={this.state.ageUnitValue}
+              options={ageUnit}
+              label="Age Unit"
+              onChange={this.handleDropdownChange('ageUnitValue')}
+            />
+          </div>
+          <div className="row">
+            <div>
+              <InputComponent
+                gridClassName="col-md-3 col-sm-6 col-xs-12"
+                fieldClassName="form-group"
+                label="Client Number"
+                type="string"
+                value={this.state.clientNumber}
+              />
+            </div>
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Alien Registration#"
+              type="number"
+              value={this.state.alienRegistration}
+            />
+            <DropDownField
+              id="dropdown5"
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              selectedOption={this.state.stateTypesValue}
+              options={stateTypes}
+              label="Drivers License State"
+              onChange={this.handleDropdownChange('this.state.stateTypesValue')}
+            />
+            <InputComponent
+              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              fieldClassName="form-group"
+              label="Drivers License # "
+              type="number"
+              value={this.state.driverLicensNumber}
+            />
+          </div>
+          <div className="form-group row">
+            <div className="col-md-6">
+              <CheckboxRadioGroup
+                id="checkbox1"
+                name={'child'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.client}
+                selectedOptions={this.state.selected}
+              />
+            </div>
+            <div className="col-md-6">
+              <CheckboxRadioGroup
+                id="checkbox2"
+                name={'client'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.clients}
+                selectedOptions={this.state.selected}
+              />
             </div>
           </div>
-        )}
-      </Cards>
+          <div className="form-group row">
+            <div className="col-md-12">
+              <CheckboxRadioGroup
+                id="checkbox3"
+                name={'Warranty'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.warranty}
+                selectedOptions={this.state.selected}
+              />
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-4">
+              <label htmlFor="CONFIDENTIALITY">CONFIDENTIALITY</label>
+              <CheckboxRadioGroup
+                id="checkbox4"
+                name={'confidentiality'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.confidentiality}
+                selectedOptions={this.state.selected}
+              />
+            </div>
+            <div className="col-md-5">
+              <label htmlFor="CONFIDENTIALITY EFFECTIVE DATE">
+                CONFIDENTIALITY EFFECTIVE DATE
+              </label>
+              <DateTimePicker />
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-12">
+              <CheckboxRadioGroup
+                id="checkbox5"
+                name={'csec'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.csec}
+                selectedOptions={this.state.selected}
+              />
+            </div>
+          </div>
+          {this.state.csecBlock && (
+            <div>
+              <BootstrapTable>
+                <TableHeaderColumn dataField="CSEC Type" isKey dataSort>
+                  CSEC Type
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="Start Date" dataSort>
+                  Start Date
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="End Date" dataSort>
+                  End Date
+                </TableHeaderColumn>
+              </BootstrapTable>
+              <div>
+                <DropDownField
+                  id="dropdown6"
+                  gridClassName="col-md-4 col-sm-6 col-xs-12"
+                  selectedOption={this.state.StateTypesValue}
+                  options={stateTypes}
+                  label="CSEC Data Type"
+                  onChange={this.handleDropdownChange('StateTypesValue')}
+                />
+                <div className="col-md-4 col-sm-6 col-xs-12">
+                  <label htmlFor="START DATE">START DATE</label>
+                  <DateTimePicker />
+                </div>
+                <div className="col-md-4 col-sm-6 col-xs-12">
+                  <label htmlFor="END DATE">END DATE</label>
+                  <DateTimePicker fieldClassName="form-group" />
+                </div>
+              </div>
+            </div>
+          )}
+        </Cards>
+      </div>
     );
   }
 }

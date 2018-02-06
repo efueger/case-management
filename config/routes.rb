@@ -9,8 +9,11 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     resources :clients, only: [ :show ] do
+      member do
+        get :safety_alerts
+      end
     end
-
+    
     resources :child_clients, only: [ :show ] do
     end
 

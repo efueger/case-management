@@ -3,7 +3,7 @@
 ENV_REPO=https://github.com/ca-cwds/case-management-env.git
 
 if [ "$1" == "" ]; then
-  echo "You must provide a file name or glob pattern (.env, .env.test, .env.local.*)"
+  echo "You must provide a file name or glob pattern (.env, .env.test, '.env.local.*')"
   exit 1
 fi
 
