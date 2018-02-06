@@ -4,7 +4,6 @@ require 'rails_helper'
 require 'feature/testing'
 
 module Infrastructure
-
   describe CwdsAuthenticator do
     describe '#call' do
       let(:application) { instance_double('ActionDispatch::Routing::RouteSet') }
