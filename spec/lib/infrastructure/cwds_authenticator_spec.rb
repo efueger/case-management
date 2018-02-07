@@ -35,6 +35,7 @@ module Infrastructure
         context 'when authentication feature is active' do
           it 'checks valid authentication' do
             Feature.run_with_activated(:authentication) do
+              allow(ENV).to receive(:fetch).with('PERRY_API_BASE_URL').and_return('https://perry')
               allow(security_policy).to receive(:valid?)
                 .with(instance_of(Rack::Request)).and_return(false)
               status, _headers = cwds_authenticator.call(environment)
