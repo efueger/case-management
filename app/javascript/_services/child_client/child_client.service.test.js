@@ -15,11 +15,17 @@ describe('ChildClientService', () => {
       getSpy = jest.spyOn(ApiService, 'get');
     });
 
-    it('calls ApiService', () => {
+    it('calls fetch ApiService', () => {
       getSpy.mockReturnValue(Promise.resolve({}));
       expect(getSpy).not.toHaveBeenCalled();
       ChildClientService.fetch();
       expect(getSpy).toHaveBeenCalledWith('/child_clients/AazXkWY06s');
+    });
+
+    it('calls csec from ApiService', () => {
+      getSpy.mockReturnValue(Promise.resolve({}));
+      ChildClientService.csec();
+      expect(getSpy).toHaveBeenCalledWith('/child_clients/AazXkWY06s/csec');
     });
   });
 });

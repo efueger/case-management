@@ -8,7 +8,7 @@ module ChildClients
     let(:childclient_repository) { ChildClientRepository.new(http_service) }
     let(:token) { 'flynns_token' }
 
-    describe '#index' do
+    describe '#show' do
       let(:response) { instance_double('Faraday::Response') }
 
       context 'with no client' do
@@ -31,6 +31,32 @@ module ChildClients
             .and_return(response)
           expect(childclient_repository.show('33', token))
             .to eq ChildClient.new(common_first_name: 'El')
+        end
+      end
+    end
+
+    describe '#csec' do
+      let(:response) { instance_double('Faraday::Response') }
+
+      context 'with no csec' do
+        it 'returns an empty csec data' do
+          allow(response).to receive(:body).and_return({})
+          allow(http_service)
+            .to receive(:get)
+            .with('/child-clients/66/csec', token)
+            .and_return(response)
+          expect(childclient_repository.child_clients_by_csec('66', token)).to eq []
+        end
+      end
+
+      context 'with csec' do
+        it 'returns csec' do
+          allow(response).to receive(:body).and_return([{ id: '12' }])
+          allow(http_service).to receive(:get)
+            .with('/child-clients/66/csec', token)
+            .and_return(response)
+          expect(childclient_repository.child_clients_by_csec('66', token))
+            .to eq [ChildClientCsec.new(id: '12')]
         end
       end
     end

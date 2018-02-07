@@ -1,6 +1,7 @@
 export = ChildClientService;
 declare class ChildClientService {
-  static fetch(): Promise<ChildClientService.Client[]>;
+  static fetch(): Promise<ChildClientService.ChildClient[]>;
+  static csec(): Promise<ChildClientService.ChildClient[]>;
 }
 
 declare namespace ChildClientService {
@@ -25,5 +26,9 @@ declare namespace ChildClientService {
     secondary_language_type?: string;
     litrate_code?: string;
     incapacitated_parent_code?: string;
+    child_client_id?: string;
+    sexual_exploitation_type?: string;
+    start_date?: string;
+    end_date?: string;
   }
 }

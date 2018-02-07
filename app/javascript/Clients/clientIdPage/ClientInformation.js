@@ -30,7 +30,13 @@ const ageUnit = [
   { value: 'Yr', label: 'Year' },
   { value: 'Y', label: 'Years' },
 ];
+
 const stateTypes = [{ value: '0', label: 'CA' }, { value: '1', label: 'NY' }];
+const csecCode = [
+  { value: '6750', label: '6750' },
+  { value: '6680', label: '6680' },
+];
+
 const nameType = [
   { value: '1313', label: 'Primary' },
   { value: '1314', label: 'Secondary' },
@@ -40,13 +46,14 @@ export default class ClientInformation extends React.Component {
     super(props);
     this.state = {
       response: { XHRStatus: 'idle' },
+      csecResponse: { XHRStatus: 'idle' },
       checked: false,
       value: '',
       client: ['Client is a Minor/NMD parent'],
       clients: [' Client is a Safely surrendered baby'],
       warranty: ['Outstanding warranty exists'],
-      confidentiality: [' Confidentiality in effect'],
-      csec: ['This case involves CSEC Data'],
+      confidentiality: ['Confidentiality in effect'],
+      csecInfoBox: ['This case involves CSEC Data'],
       selected: [],
       genderValue: '',
       maritalValue: '',
@@ -64,39 +71,56 @@ export default class ClientInformation extends React.Component {
       alienRegistration: '',
       driverLicensNumber: '',
       csecBlock: false,
+      csecDataType: '',
+      csecStartDate: '',
+      csecEndDate: '',
+      csecCodeValue: '',
       age: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.getAge = this.getAge.bind(this);
     this.handleDobChange = this.handleDobChange.bind(this);
+    this.handleCsecDateChange = this.handleCsecDateChange.bind(this);
   }
 
   componentDidMount() {
     this.setClient();
+    this.setCsecData();
   }
 
   setClient = () => {
-    return ChildClientService.fetch().then(response =>
-      this.setState({
-        response,
-        prefix: response.name_prefix_description,
-        firstName: response.common_first_name,
-        middleName: response.common_middle_name,
-        lastName: response.common_last_name,
-        suffix: response.suffix_title_description,
-        socialSecurityNumber: response.social_security_number,
-        birthDate: response.birth_dt,
-        clientNumber: response.identifier,
-        alienRegistration: response.alien_registration_number,
-        driverLicensNumber: response.driver_licens_number,
-        genderValue: response.gender_code,
-        maritalValue: String(response.material_status_type),
-        ageUnitValue: response.ageUnit,
-        stateTypesValue: String(response.driver_license_state_code_type),
-        nameType: String(response.name_type),
-      })
-    );
+    return ChildClientService.fetch()
+      .then(response =>
+        this.setState({
+          response,
+          prefix: response.name_prefix_description,
+          firstName: response.common_first_name,
+          middleName: response.common_middle_name,
+          lastName: response.common_last_name,
+          suffix: response.suffix_title_description,
+          socialSecurityNumber: response.social_security_number,
+          birthDate: response.birth_dt,
+          clientNumber: response.identifier,
+          alienRegistration: response.alien_registration_number,
+          driverLicensNumber: response.driver_licens_number,
+          genderValue: response.gender_code,
+          maritalValue: String(response.material_status_type),
+          ageUnitValue: response.ageUnit,
+          stateTypesValue: String(response.driver_license_state_code_type),
+          nameType: String(response.name_type),
+        })
+      )
+      .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
+  };
+  setCsecData = () => {
+    return ChildClientService.csec()
+      .then(csecResponse =>
+        this.setState({
+          csecResponse,
+        })
+      )
+      .catch(() => this.setState({ csecResponse: { XHRStatus: 'error' } }));
   };
 
   handleChange(event) {
@@ -160,6 +184,12 @@ export default class ClientInformation extends React.Component {
       birthDate: event.target.value,
       age: ageValue.age,
       ageUnitValue: ageValue.ageUnitSelection,
+    });
+  }
+
+  handleCsecDateChange(event) {
+    this.setState({
+      csecStartDate: event.target.value,
     });
   }
 
@@ -332,6 +362,7 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
+
           <div className="form-group row">
             <div className="col-md-12">
               <CheckboxRadioGroup
@@ -367,24 +398,33 @@ export default class ClientInformation extends React.Component {
             <div className="col-md-12">
               <CheckboxRadioGroup
                 id="checkbox5"
-                name={'csec'}
+                name={'csecInfoBox'}
                 type={'checkbox'}
                 handleOnChange={this.handleChange}
-                options={this.state.csec}
+                options={this.state.csecInfoBox}
                 selectedOptions={this.state.selected}
               />
             </div>
           </div>
           {this.state.csecBlock && (
             <div>
-              <BootstrapTable>
-                <TableHeaderColumn dataField="CSEC Type" isKey dataSort>
+              <BootstrapTable
+                data={this.state.csecResponse}
+                striped={true}
+                hover={true}
+              >
+                <TableHeaderColumn
+                  dataField="sexual_exploitation_type"
+                  isKey
+                  dataSort
+                  width="150"
+                >
                   CSEC Type
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="Start Date" dataSort>
+                <TableHeaderColumn dataField="start_date" dataSort width="150">
                   Start Date
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="End Date" dataSort>
+                <TableHeaderColumn dataField="end_date" dataSort width="150">
                   End Date
                 </TableHeaderColumn>
               </BootstrapTable>
@@ -392,11 +432,12 @@ export default class ClientInformation extends React.Component {
                 <DropDownField
                   id="dropdown6"
                   gridClassName="col-md-4 col-sm-6 col-xs-12"
-                  selectedOption={this.state.StateTypesValue}
-                  options={stateTypes}
+                  selectedOption={this.state.csecCodeValue}
+                  options={csecCode}
                   label="CSEC Data Type"
-                  onChange={this.handleDropdownChange('StateTypesValue')}
+                  onChange={this.handleDropdownChange('csecCodeValue')}
                 />
+
                 <div className="col-md-4 col-sm-6 col-xs-12">
                   <label htmlFor="START DATE">START DATE</label>
                   <DateTimePicker />

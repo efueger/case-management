@@ -6,6 +6,12 @@ class ChildClientService {
       response => response.data
     );
   }
+
+  static csec() {
+    return ApiService.get('/child_clients/AazXkWY06s/csec').then(
+      response => response.data
+    );
+  }
 }
 
 export default ChildClientService;
