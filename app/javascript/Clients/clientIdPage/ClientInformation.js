@@ -9,7 +9,7 @@ import {
   CheckboxRadioGroup,
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import moment from 'moment';
+import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
 
 const gender = [
   { value: 'MALE', label: 'Male' },
@@ -141,42 +141,13 @@ export default class ClientInformation extends React.Component {
       this.setState({ csecBlock: false });
     }
   }
+
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
   }
 
   getAge(birthDate) {
-    let dob = moment(birthDate);
-    let months = moment().diff(dob, 'months');
-    let years = moment().diff(dob, 'years');
-    let days = moment().diff(dob, 'days');
-    let age;
-    let ageUnitSelection;
-    if (years <= 0 && months <= 0 && days < 1) {
-      age = '0';
-    } else if (years === 0 && months === 0 && days === 1) {
-      age = days;
-      ageUnitSelection = 'Dy';
-    } else if (years === 0 && months === 0 && days < 31) {
-      age = days;
-      ageUnitSelection = 'D';
-    } else if (years === 0 && months === 1) {
-      age = months;
-      ageUnitSelection = 'Mn';
-    } else if (years === 0 && months > 1) {
-      age = months;
-      ageUnitSelection = 'M';
-    } else if (years === 1) {
-      age = years;
-      ageUnitSelection = 'Yr';
-    } else if (years > 1) {
-      age = years;
-      ageUnitSelection = 'Y';
-    }
-    if (!age) {
-      age = '';
-    }
-    return { age, ageUnitSelection };
+    return getAgeUtil(birthDate);
   }
   handleDobChange(event) {
     const ageValue = this.getAge(event.target.value);
