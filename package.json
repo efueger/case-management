@@ -20,7 +20,8 @@
     "start": "scripts/start.sh",
     "build": "npm-run-all --serial clean lint test build:webpacker",
     "dc:up": "docker-compose up",
-    "dc:rebuild": "docker-compose stop case-web && docker-compose build case-web && docker-compose up -d case-web"
+    "dc:rebuild": "docker-compose stop case-web && docker-compose build case-web && docker-compose up -d case-web",
+    "env:get": "scripts/fetch-env.sh"
   },
   "dependencies": {
     "@rails/webpacker": "^3.2.0",

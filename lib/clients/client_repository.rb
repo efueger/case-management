@@ -10,5 +10,10 @@ module Clients
       response = @http_service.get("/clients/#{id}", token)
       Client.new(response.body)
     end
+
+    def safety_alerts(id, token)
+      response = @http_service.get("/clients/#{id}/safety-alerts", token)
+      response.body.map { |result| SafetyAlert.new(result) }
+    end
   end
 end

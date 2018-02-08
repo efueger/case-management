@@ -10,5 +10,10 @@ module ChildClients
       response = @http_service.get("/child-clients/#{id}", token)
       ChildClient.new(response.body)
     end
+
+    def child_clients_by_csec(id, token)
+      response = @http_service.get("/child-clients/#{id}/csec", token)
+      response.body.map { |result| ChildClientCsec.new(result) }
+    end
   end
 end

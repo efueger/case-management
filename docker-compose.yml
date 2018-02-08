@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   db2:
-    image: cwds/db2data
+    image: cwds/db2data:latest
     env_file: .env
     hostname: db2
     ports:

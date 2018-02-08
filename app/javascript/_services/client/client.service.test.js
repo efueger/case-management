@@ -26,6 +26,12 @@ describe('ClientService', () => {
       ClientService.fetch();
       expect(getSpy).toHaveBeenCalledWith('/clients/0YIPkZU0S0');
     });
+
+    it('calls safety-alert from ApiService', () => {
+      getSpy.mockReturnValue(Promise.resolve({}));
+      ClientService.fetchSafetyAlerts();
+      expect(getSpy).toHaveBeenCalledWith('/clients/R06FKZ20X5/safety_alerts');
+    });
   });
 
   // NOTE: commented out because linter fails on xOperations.

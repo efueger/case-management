@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'dashboard#index'
 
@@ -7,14 +9,20 @@ Rails.application.routes.draw do
   get 'placement', to: 'placement#index'
   get 'placement/*args', to: 'placement#index'
 
-  namespace :api, defaults: {format: 'json'} do
-    resources :clients, only: [ :show ] do
+  namespace :api, defaults: { format: 'json' } do
+    resources :clients, only: [:show] do
+      member do
+        get :safety_alerts
+      end
+    end
+    
+    resources :child_clients, only: [:show] do
+      member do
+        get :csec
+      end
     end
 
-    resources :child_clients, only: [ :show ] do
-    end
-
-    resources :cases, only: [ :index ] do
+    resources :cases, only: [:index] do
       collection do
         get ':user_id', to: 'cases#cases_by_user'
       end
@@ -26,7 +34,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :referrals, only: [ :index ] do
+    resources :referrals, only: [:index] do
       collection do
         get ':user_id', to: 'referrals#referrals_by_user'
       end
