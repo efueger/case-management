@@ -1,14 +1,10 @@
 import axios from 'axios';
 
-class BaseServiceBuilder {
-  static axios = opts => axios.create(opts);
-}
-
-class BaseService {
+class BaseHttpService {
   static NAMESPACE = '/api';
   static PREFIX = '';
   constructor(
-    client = BaseServiceBuilder.axios({
+    client = axios.create({
       baseURL: `${this.constructor.NAMESPACE}${this.constructor.PREFIX}`,
       timeout: 5000,
     })
@@ -44,4 +40,4 @@ class BaseService {
   }
 }
 
-export default BaseService;
+export default BaseHttpService;

@@ -1,13 +1,13 @@
 import axios from 'axios';
-import BaseService from './base';
+import BaseHttpService from './http-service';
 
-describe('BaseService', () => {
+describe('BaseHttpService', () => {
   it('creates an instance of axios', () => {
     jest.spyOn(axios, 'create').mockReturnValueOnce('INSTANCE');
-    const myService = new BaseService();
+    const myService = new BaseHttpService();
     expect(myService).toBeDefined();
     expect(axios.create).toHaveBeenCalledWith({
-      baseURL: `/api${BaseService.PREFIX}`,
+      baseURL: `/api${BaseHttpService.PREFIX}`,
       timeout: 5000,
     });
   });
@@ -17,7 +17,7 @@ describe('BaseService', () => {
     let mockInstance;
 
     beforeEach(() => {
-      myService = new BaseService();
+      myService = new BaseHttpService();
       mockInstance = {
         request: jest.fn(),
         get: jest.fn(),
@@ -92,9 +92,9 @@ describe('BaseService', () => {
   });
 });
 
-describe('BaseService Extensions', () => {
+describe('BaseHttpService Extensions', () => {
   it('works', () => {
-    class FooService extends BaseService {
+    class FooService extends BaseHttpService {
       static PREFIX = '/foo';
     }
     const myFooService = new FooService();
