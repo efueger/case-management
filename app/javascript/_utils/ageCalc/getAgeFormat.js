@@ -6,7 +6,6 @@ export function getAgeUtil(birthDate) {
   let months = moment().diff(dob, 'months');
   let years = moment().diff(dob, 'years');
   let days = moment().diff(dob, 'days');
-
   if (days >= 1 && days < 31) return getDays(days);
   if (months >= 1 && months < 11) return getMonths(months);
   if (years >= 1) return getYears(years);
