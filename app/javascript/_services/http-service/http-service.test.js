@@ -93,11 +93,28 @@ describe('BaseHttpService', () => {
 });
 
 describe('BaseHttpService Extensions', () => {
-  it('works', () => {
-    class FooService extends BaseHttpService {
-      static PREFIX = '/foo';
-    }
-    const myFooService = new FooService();
-    expect(myFooService.client.defaults.baseURL).toMatch('/api/foo');
+  let SubClass;
+
+  beforeEach(() => {
+    SubClass = (() => {
+      return class MySubClass extends BaseHttpService {
+        static PREFIX = '/foo';
+      };
+    })();
+  });
+
+  describe('client configuration', () => {
+    it('sets the baseURL', () => {
+      const myService = new SubClass();
+      const { baseURL } = myService.client.defaults;
+      expect(baseURL).toMatch(/\/foo$/);
+      expect(baseURL).toMatch(/^\/api/);
+    });
+
+    it('is sets the timeout', () => {
+      const myService = new SubClass();
+      const { timeout } = myService.client.defaults;
+      expect(timeout).toBeDefined();
+    });
   });
 });
