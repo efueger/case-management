@@ -5,15 +5,19 @@ import classNames from 'classnames';
 import ClientService from '../_services/client';
 import { Filters, PlacementMap, PlacementList } from './_components';
 
-// TODO: Consume service after #204 is merged
-// https://github.com/ca-cwds/case-management/pull/204
-const MOCK_FOCUS_CHILD = {
-  identifier: '123',
-  address: {
-    longitude: -121.46,
-    latitude: 38.66,
-  },
+export const fixMisspelling = record => {
+  const { lattitude, ...addressProps } = record.address;
+  return {
+    ...record,
+    address: {
+      ...addressProps,
+      latitude: lattitude,
+    },
+  };
 };
+
+export const isNotBogusAddress = record =>
+  !!record.address && !!record.address.latitude && !!record.address.longitude;
 
 class PlacementContainer extends Component {
   static get propTypes() {
@@ -62,30 +66,50 @@ class PlacementContainer extends Component {
   }
 
   fetchRelatedClients() {
-    ClientService.getRelatedClientsByChildClientId(this.getClientId()).then(
-      records => {
-        this.setState({
-          relatedClients: {
-            ...this.state.relatedClients,
-            records,
-            XHRStatus: 'ready',
-          },
-        });
-      }
-    );
-  }
+    const clients$ = ClientService.getRelatedClientsByChildClientId(
+      this.getClientId()
+    ).then(records => {
+      return records
+        .filter(record => !!record.address)
+        .map(fixMisspelling)
+        .filter(isNotBogusAddress);
+    });
 
-  fetchFocusChild() {
-    Promise.resolve(MOCK_FOCUS_CHILD).then(focusChild => {
+    clients$.then(records => {
+      const relatedClients = records.filter(
+        record => record.identifier !== this.getClientId()
+      );
+      if (!relatedClients.length)
+        console.error(
+          'Garbage response from API! No relatedClients can be mapped!'
+        );
       this.setState({
-        focusChild: { XHRStatus: 'ready', record: focusChild },
+        relatedClients: {
+          ...this.state.relatedClients,
+          records: relatedClients,
+          XHRStatus: 'ready',
+        },
       });
     });
+
+    return clients$;
   }
 
   componentDidMount() {
-    this.fetchFocusChild();
-    this.fetchRelatedClients();
+    const clients$ = this.fetchRelatedClients();
+    clients$
+      .then(clients =>
+        clients.find(client => client.identifier === this.getClientId())
+      )
+      .then(focusChild => {
+        if (!focusChild)
+          console.error(
+            'Garbage response from API! The focusChild does not have required values and can not be mapped!'
+          );
+        this.setState({
+          focusChild: { XHRStatus: 'ready', record: focusChild },
+        });
+      });
   }
 
   renderViewPicker() {
@@ -123,12 +147,15 @@ class PlacementContainer extends Component {
             <Switch>
               <Route
                 path="/client/:clientId/map"
-                render={() => (
-                  <PlacementMap
-                    relatedClients={this.state.relatedClients.records}
-                    focusChild={this.state.focusChild.record}
-                  />
-                )}
+                render={() =>
+                  this.state.relatedClients.XHRStatus === 'ready' &&
+                  this.state.focusChild.XHRStatus === 'ready' && (
+                    <PlacementMap
+                      relatedClients={this.state.relatedClients.records}
+                      focusChild={this.state.focusChild.record}
+                    />
+                  )
+                }
               />
               <Route
                 path="/client/:clientId/list"

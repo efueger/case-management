@@ -83,7 +83,7 @@ class DashboardContainer extends React.Component {
               dataField="client_identifier"
               width="34px"
               dataFormat={cilentId => (
-                <a href={`/placement/client/${cilentId}`}>
+                <a href={`/placement/client/0lAv0Yk03k`}>
                   <i className="glyphicon glyphicon-map-marker" />
                 </a>
               )}

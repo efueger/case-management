@@ -40,24 +40,24 @@ module Placements
           allow(geo_repository)
             .to receive(:validate)
             .with(post_param_street_address_starlord, token)
-            .and_return(Addresses::Address.new(latitude: 1.1, longitude: 2.2))
+            .and_return(Addresses::Address.new(lattitude: 1.1, longitude: 2.2))
           allow(geo_repository)
             .to receive(:validate)
             .with(post_param_street_address_groot, token)
-            .and_return(Addresses::Address.new(latitude: 3.3, longitude: 4.4))
+            .and_return(Addresses::Address.new(lattitude: 3.3, longitude: 4.4))
           expect(address_map_service.get_addresses('starlord', token))
             .to eq [Clients::Client.new(identifier: 'groot',
                                         birth_dt: '1989-06-01',
                                         address: Addresses::Address.new(street_name: 'this st',
                                                                         state_code: 1828,
                                                                         state: 'CA',
-                                                                        latitude: 3.3,
+                                                                        lattitude: 3.3,
                                                                         longitude: 4.4)),
                     Clients::Client.new(identifier: 'starlord',
                                         address: Addresses::Address.new(street_name: 'Sesame st',
                                                                         state_code: 1823,
                                                                         state: 'AK',
-                                                                        latitude: 1.1,
+                                                                        lattitude: 1.1,
                                                                         longitude: 2.2))]
         end
       end
@@ -99,13 +99,13 @@ module Placements
           allow(geo_repository)
             .to receive(:validate)
             .with(post_param_street_address_starlord, token)
-            .and_return(Addresses::Address.new(latitude: 1.1, longitude: 2.2))
+            .and_return(Addresses::Address.new(lattitude: 1.1, longitude: 2.2))
           expect(address_map_service.get_addresses('starlord', token))
             .to eq [Clients::Client.new(identifier: 'starlord',
                                         address: Addresses::Address.new(street_name: 'Sesame st',
                                                                         state_code: 1823,
                                                                         state: 'AK',
-                                                                        latitude: 1.1,
+                                                                        lattitude: 1.1,
                                                                         longitude: 2.2))]
         end
       end

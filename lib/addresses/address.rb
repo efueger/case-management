@@ -18,7 +18,7 @@ module Addresses
     attribute :emergency_phone_extension, Types::String.optional
     attribute :foreign_address_exists, Types::Bool.optional
     attribute :government_entity_code, Types::Int.optional
-    attribute :latitude, Types::Float.optional
+    attribute :lattitude, Types::Float.optional
     attribute :longitude, Types::Float.optional
     attribute :message_phone, Types::String.optional
     attribute :message_phone_extension, Types::String.optional

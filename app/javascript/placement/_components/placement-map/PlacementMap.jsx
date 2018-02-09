@@ -75,12 +75,12 @@ class PlacementMap extends PureComponent {
   }
 
   createFocusChildGraphic() {
-    const { focusChild } = this.props;
+    const { focusChild: { address: { longitude, latitude } } } = this.props;
     const { Point } = this.loadedModules;
     return {
       geometry: new Point({
-        longitude: focusChild.address.longitude,
-        latitude: focusChild.address.latitude,
+        longitude,
+        latitude,
       }),
       attributes: {
         ObjectId: 'FOCUS_CHILD',
@@ -100,7 +100,7 @@ class PlacementMap extends PureComponent {
       }),
       attributes: {
         ObjectID: client.identifier,
-        title: client.title || 'meh',
+        title: client.title || 'Related Client',
         type: 'relatedClient',
       },
     }));
@@ -109,8 +109,8 @@ class PlacementMap extends PureComponent {
   createGraphics() {
     const { relatedClients, focusChild } = this.props;
     const graphics = [];
-    if (focusChild) graphics.push(this.createFocusChildGraphic());
     if (relatedClients) graphics.push(...this.createRelatedClientsGraphics());
+    if (focusChild) graphics.push(this.createFocusChildGraphic());
     return graphics;
   }
 
@@ -124,7 +124,7 @@ class PlacementMap extends PureComponent {
     const myUniqueValueRenderer = new UniqueValueRenderer({
       field: 'type',
       defaultSymbol: { type: 'simple-marker' },
-      defaultLabel: 'Other',
+      defaultLabel: 'PlaceHolder',
       legendOptions: {
         title: 'Address Type',
       },
@@ -187,7 +187,11 @@ class PlacementMap extends PureComponent {
     this.extractModules(loadedModules);
     this.initMap();
     this.view.when(() => {
-      this.view.goTo([-121.46, 38.66]); // TODO: Center on focus child
+      const center = [
+        this.props.focusChild.address.longitude,
+        this.props.focusChild.address.latitude,
+      ];
+      this.view.goTo(center);
       this.drawPointLayer();
       this.createLegend();
     });
