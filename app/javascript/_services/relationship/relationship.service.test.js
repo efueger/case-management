@@ -1,25 +1,20 @@
 import RelationshipService from './relationship.service';
 
-jest.mock('../api');
-const ApiService = require('../api').default;
-
 describe('RelationshipService', () => {
-  it('exists', () => {
-    expect(!!RelationshipService).toBeTruthy();
-  });
-
   describe('#fetch', () => {
-    let getSpy;
+    let client;
+    let service;
 
     beforeEach(() => {
-      getSpy = jest.spyOn(ApiService, 'get');
+      client = { get: jest.fn() };
+      service = new RelationshipService(client);
     });
 
     it('calls ApiService', () => {
-      getSpy.mockReturnValue(Promise.resolve(42));
-      expect(getSpy).not.toHaveBeenCalled();
-      RelationshipService.fetch();
-      expect(getSpy).toHaveBeenCalledWith(jasmine.any(String));
+      client.get.mockReturnValue(Promise.resolve({ data: [] }));
+      service.fetch('123').then(data => {
+        expect(client.get).toHaveBeenCalledWith('/123');
+      });
     });
   });
 });

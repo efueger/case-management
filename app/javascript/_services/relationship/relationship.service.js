@@ -1,10 +1,9 @@
-import ApiService from '../api';
+import HttpService from '../http-service';
 
-class RelationshipService {
-  static fetch(id) {
-    return ApiService.get(`/relationships/${id}?token=null`).then(
-      response => response.data
-    );
+class RelationshipService extends HttpService {
+  static PREFIX = '/relationships';
+  fetch(id) {
+    return this.get(`/${id}`).then(response => response.data);
   }
 }
 

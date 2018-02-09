@@ -1,53 +1,43 @@
 import ReferralService from './referral.service';
 
-jest.mock('../api');
-const ApiService = require('../api').default;
-
-jest.mock('./transforms', () => ({
-  replaceResponseType: jest.fn(d => d),
-  joinReceiveDateTime: jest.fn(d => d),
-}));
-const replaceResponseType = require('./transforms').replaceResponseType;
-const joinReceiveDateTime = require('./transforms').joinReceiveDateTime;
+jest.mock('./transforms', () => {
+  return {
+    replaceResponseType: jest.fn().mockImplementation(d => d),
+    joinReceiveDateTime: jest.fn().mockImplementation(d => d),
+  };
+});
 
 describe('ReferralService', () => {
-  it('exists', () => {
-    expect(!!ReferralService).toBeTruthy();
-  });
-
   describe('#fetch', () => {
-    let getSpy;
+    let client;
+    let service;
 
     beforeEach(() => {
-      getSpy = jest.spyOn(ApiService, 'get');
+      client = { get: jest.fn() };
+      service = new ReferralService(client);
     });
 
-    afterEach(() => {
-      getSpy.mockReset();
-      getSpy.mockRestore();
-    });
-
-    it('calls ApiService', done => {
-      getSpy.mockReturnValue(Promise.resolve(42));
-      expect(getSpy).not.toHaveBeenCalled();
-      ReferralService.fetch()
-        .then(_ => done())
-        .catch(_ => done());
-      expect(getSpy).toHaveBeenCalledWith(jasmine.any(String));
+    it('calls ApiService', () => {
+      client.get.mockReturnValue(Promise.resolve({ data: [] }));
+      service.fetch().then(data => {
+        expect(client.get).toHaveBeenCalledWith('/0Ki');
+      });
+      service.fetch('123').then(data => {
+        expect(client.get).toHaveBeenCalledWith('/123');
+      });
     });
 
     it('applies transformations', done => {
-      const referral = {};
-      getSpy.mockReturnValue(Promise.resolve({ data: [referral] }));
-      expect(replaceResponseType).not.toHaveBeenCalled();
-      expect(joinReceiveDateTime).not.toHaveBeenCalled();
-      ReferralService.fetch()
-        .then(res => {
-          expect(replaceResponseType).toHaveBeenCalledWith(referral);
-          expect(joinReceiveDateTime).toHaveBeenCalledWith(referral);
-          done();
-        })
-        .catch(d => done(d));
+      client.get.mockReturnValue(Promise.resolve({ data: [{ a: 1 }] }));
+      const {
+        replaceResponseType,
+        joinReceiveDateTime,
+      } = require('./transforms');
+      service.fetch().then(() => {
+        expect(replaceResponseType).toHaveBeenCalledWith({ a: 1 });
+        expect(joinReceiveDateTime).toHaveBeenCalledWith({ a: 1 });
+        done();
+      });
     });
   });
 });
