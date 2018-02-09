@@ -29,6 +29,7 @@ module.exports = {
     ],
     'jasmine/new-line-before-expect': 0,
     'jasmine/new-line-between-declarations': 2,
+    'jasmine/no-spec-dupes': [2, 'branch'],
   },
   parser: 'babel-eslint',
   parserOptions: {
