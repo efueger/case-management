@@ -1,16 +1,12 @@
-import ApiService from '../api';
+import HttpService from '../http-service';
 
-class ChildClientService {
-  static fetch() {
-    return ApiService.get('/child_clients/AazXkWY06s').then(
-      response => response.data
-    );
+class ChildClientService extends HttpService {
+  static PREFIX = '/child_clients';
+  fetch(childClientId = 'AazXkWY06s') {
+    return this.get(`/${childClientId}`).then(response => response.data);
   }
-
-  static csec() {
-    return ApiService.get('/child_clients/AazXkWY06s/csec').then(
-      response => response.data
-    );
+  csec(childClientId = 'AazXkWY06s') {
+    return this.get(`/${childClientId}/csec`).then(response => response.data);
   }
 }
 
