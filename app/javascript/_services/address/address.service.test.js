@@ -1,20 +1,6 @@
 import AddressService from './address.service';
 
 describe('AddressService', () => {
-  describe('client configuration', () => {
-    it('sets the baseURL', () => {
-      const myService = new AddressService();
-      const { baseURL } = myService.client.defaults;
-      expect(baseURL).toMatch(/\/addresses$/);
-    });
-
-    it('is sets the timeout', () => {
-      const myService = new AddressService();
-      const { timeout } = myService.client.defaults;
-      expect(timeout).toBeDefined();
-    });
-  });
-
   describe('#fetch', () => {
     it('makes a GET request', () => {
       const clientMock = {
