@@ -1,8 +1,10 @@
-import ApiService from '../api';
+// import ApiService from '../api';
+import HttpService from '../http-service';
 
-class CaseService {
-  static fetch() {
-    return ApiService.get('/cases/0Ki').then(response => response.data);
+class CaseService extends HttpService {
+  static PREFIX = '/cases';
+  fetch(caseId = '0Ki') {
+    return this.get(`${caseId}`);
   }
 }
 

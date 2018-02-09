@@ -1,25 +1,15 @@
 import CaseService from './case.service';
 
-jest.mock('../api');
-const ApiService = require('../api').default;
-
 describe('CaseService', () => {
-  it('exists', () => {
-    expect(!!CaseService).toBeTruthy();
-  });
-
   describe('#fetch', () => {
-    let getSpy;
-
-    beforeEach(() => {
-      getSpy = jest.spyOn(ApiService, 'get');
-    });
-
-    it('calls ApiService', () => {
-      getSpy.mockReturnValue(Promise.resolve(42));
-      expect(getSpy).not.toHaveBeenCalled();
-      CaseService.fetch();
-      expect(getSpy).toHaveBeenCalledWith(jasmine.any(String));
+    it('makes GET requests', () => {
+      const spy = jest.fn();
+      const service = new CaseService({ get: spy });
+      service.fetch();
+      expect(spy).toHaveBeenCalledWith('0Ki');
+      service.fetch('SOME_CLIENT_ID');
+      expect(spy).toHaveBeenCalledWith('SOME_CLIENT_ID');
+      expect(spy).toHaveBeenCalledTimes(2);
     });
   });
 });
