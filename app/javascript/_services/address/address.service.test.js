@@ -1,7 +1,10 @@
 import AddressService from './address.service';
-
-jest.mock('../api');
-const ApiService = require('../api').default;
+// import BaseHttpService from '../http-service';
+import axios from 'axios';
+// import axios from 'axios';
+// jest.mock('axios');
+// jest.mock('../api');
+// const ApiService = require('../api').default;
 
 describe('AddressService', () => {
   it('exists', () => {
@@ -9,17 +12,15 @@ describe('AddressService', () => {
   });
 
   describe('#fetch', () => {
-    let getSpy;
+    it('calls axios', () => {
+      console.log(axios);
 
-    beforeEach(() => {
-      getSpy = jest.spyOn(ApiService, 'get');
-    });
-
-    it('calls ApiService', () => {
-      getSpy.mockReturnValue(Promise.resolve({}));
-      expect(getSpy).not.toHaveBeenCalled();
-      AddressService.fetch();
-      expect(getSpy).toHaveBeenCalledWith(jasmine.any(String));
+      jest
+        .spyOn(axios, 'request')
+        .mockReturnValueOnce(Promise.resolve({ data: [] }));
+      expect(axios.get).not.toHaveBeenCalled();
+      new AddressService().fetch();
+      expect(axios.get).toHaveBeenCalledWith();
     });
   });
 });

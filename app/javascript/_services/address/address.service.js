@@ -1,8 +1,10 @@
-import ApiService from '../api';
+import BaseHttpService from '../http-service';
 
-class AddressService {
-  static fetch(id) {
-    return ApiService.get(`/addresses/${id}`).then(response => response.data);
+class AddressService extends BaseHttpService {
+  static PREFIX = '/addresses';
+  fetch(id) {
+    // console.log(this._client);
+    return this.client.get(`/${id}`).then(response => response.data);
   }
 }
 
