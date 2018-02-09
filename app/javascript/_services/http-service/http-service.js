@@ -6,7 +6,7 @@ class BaseHttpService {
   constructor(
     client = axios.create({
       baseURL: `${this.constructor.NAMESPACE}${this.constructor.PREFIX}`,
-      timeout: 5000,
+      timeout: 15000,
     })
   ) {
     this._client = client;

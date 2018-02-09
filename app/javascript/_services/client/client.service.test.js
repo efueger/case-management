@@ -1,58 +1,30 @@
 import ClientService from './client.service';
 
-jest.mock('../api');
-const ApiService = require('../api').default;
-
 describe('ClientService', () => {
-  it('exists', () => {
-    expect(!!ClientService).toBeTruthy();
-  });
-
   describe('#fetch', () => {
-    let getSpy;
+    let client;
+    let service;
 
     beforeEach(() => {
-      getSpy = jest.spyOn(ApiService, 'get');
-    });
-
-    afterEach(() => {
-      getSpy.mockReset();
-      getSpy.mockClear();
+      client = { get: jest.fn().mockReturnValue(Promise.resolve([])) };
+      service = new ClientService(client);
     });
 
     it('calls ApiService', () => {
-      getSpy.mockReturnValue(Promise.resolve(42));
-      expect(getSpy).not.toHaveBeenCalled();
-      ClientService.fetch();
-      expect(getSpy).toHaveBeenCalledWith('/clients/0YIPkZU0S0');
+      service.fetch();
+      expect(client.get).toHaveBeenCalledWith('/0YIPkZU0S0');
+      service.fetch('12345');
+      expect(client.get).toHaveBeenCalledWith('/12345');
     });
 
-    it('calls safety-alert from ApiService', () => {
-      getSpy.mockReturnValue(Promise.resolve({}));
-      ClientService.fetchSafetyAlerts();
-      expect(getSpy).toHaveBeenCalledWith('/clients/R06FKZ20X5/safety_alerts');
+    describe('#fetchSafetyAlerts', () => {
+      it('applies args to client.get', () => {
+        service.fetchSafetyAlerts();
+        expect(client.get).toHaveBeenCalledWith('/R06FKZ20X5/safety_alerts');
+        service.fetchSafetyAlerts('42');
+        expect(client.get).toHaveBeenCalledWith('/42/safety_alerts');
+        expect(client.get).toHaveBeenCalledTimes(2);
+      });
     });
   });
-
-  // NOTE: commented out because linter fails on xOperations.
-  //       This implementation can be used after #204 is merged
-  // describe('getRelatedClientsByChildClientId()', () => {
-  //   let getSpy;
-
-  //   beforeEach(() => {
-  //     getSpy = jest.spyOn(ApiService, 'get');
-  //   });
-
-  //   afterEach(() => {
-  //     getSpy.mockReset();
-  //     getSpy.mockClear();
-  //   });
-
-  //   it('formats a request to the service', () => {
-  //     getSpy.mockReturnValue(Promise.resolve({ data: [] }));
-  //     expect(getSpy).not.toHaveBeenCalled();
-  //     ClientService.getRelatedClientsByChildClientId('1234');
-  //     expect(getSpy).toHaveBeenCalledWith('/placement/1234/relatedClients');
-  //   });
-  // });
 });

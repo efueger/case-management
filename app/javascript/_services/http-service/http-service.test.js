@@ -8,7 +8,7 @@ describe('BaseHttpService', () => {
     expect(myService).toBeDefined();
     expect(axios.create).toHaveBeenCalledWith({
       baseURL: `/api${BaseHttpService.PREFIX}`,
-      timeout: 5000,
+      timeout: 15000,
     });
   });
 

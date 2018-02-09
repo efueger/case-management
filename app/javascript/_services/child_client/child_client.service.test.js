@@ -18,26 +18,14 @@ describe('ChildClientService', () => {
   });
 
   describe('#csec', () => {
-    it('constructs a GET request', () => {});
+    it('constructs a GET request', () => {
+      const spy = jest.fn().mockReturnValue(Promise.resolve({ data: [] }));
+      const service = new ChildClientService({ get: spy });
+      service.csec();
+      expect(spy).toHaveBeenCalledWith('/AazXkWY06s/csec');
+      service.csec('12345');
+      expect(spy).toHaveBeenCalledWith('/12345/csec');
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
   });
-
-  // describe('#fetch', () => {
-  //   it('forms a GET request', () => {
-  //     const spy = jest.fn({
-  //       get:
-  //     })
-  //   });
-  //   // it('calls fetch ApiService', () => {
-  //   //   getSpy.mockReturnValue(Promise.resolve({}));
-  //   //   expect(getSpy).not.toHaveBeenCalled();
-  //   //   ChildClientService.fetch();
-  //   //   expect(getSpy).toHaveBeenCalledWith('/child_clients/AazXkWY06s');
-  //   // });
-
-  //   // it('calls csec from ApiService', () => {
-  //   //   getSpy.mockReturnValue(Promise.resolve({}));
-  //   //   ChildClientService.csec();
-  //   //   expect(getSpy).toHaveBeenCalledWith('/child_clients/AazXkWY06s/csec');
-  //   // });
-  // });
 });

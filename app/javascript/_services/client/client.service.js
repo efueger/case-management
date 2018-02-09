@@ -1,22 +1,20 @@
-import ApiService from '../api';
+import HttpService from '../http-service';
 
-class ClientService {
-  static fetch() {
-    return ApiService.get('/clients/0YIPkZU0S0').then(
-      response => response.data
-    );
+class ClientService extends HttpService {
+  static PREFIX = '/clients';
+
+  fetch(clientId = '0YIPkZU0S0') {
+    return this.get(`/${clientId}`).then(response => response.data);
   }
 
-  static fetchSafetyAlerts() {
-    return ApiService.get('/clients/R06FKZ20X5/safety_alerts').then(
-      response => response.data
-    );
+  fetchSafetyAlerts(id = 'R06FKZ20X5') {
+    return this.get(`/${id}/safety_alerts`).then(response => response.data);
   }
 
-  static getRelatedClientsByChildClientId(childClientId) {
-    return ApiService.get(`/placements/${childClientId}`).then(
-      response => response.data
-    );
+  getRelatedClientsByChildClientId(childClientId) {
+    return this.get(`/${childClientId}`, {
+      baseURL: `${this.constructor.NAMESPACE}/placements`,
+    }).then(response => response.data);
   }
 }
 
