@@ -1,26 +1,28 @@
 import AddressService from './address.service';
-// import BaseHttpService from '../http-service';
-import axios from 'axios';
-// import axios from 'axios';
-// jest.mock('axios');
-// jest.mock('../api');
-// const ApiService = require('../api').default;
 
 describe('AddressService', () => {
-  it('exists', () => {
-    expect(!!AddressService).toBeTruthy();
+  describe('client configuration', () => {
+    it('sets the baseURL', () => {
+      const myService = new AddressService();
+      const { baseURL } = myService.client.defaults;
+      expect(baseURL).toMatch(/\/addresses$/);
+    });
+
+    it('is sets the timeout', () => {
+      const myService = new AddressService();
+      const { timeout } = myService.client.defaults;
+      expect(timeout).toBeDefined();
+    });
   });
 
   describe('#fetch', () => {
-    it('calls axios', () => {
-      console.log(axios);
-
-      jest
-        .spyOn(axios, 'request')
-        .mockReturnValueOnce(Promise.resolve({ data: [] }));
-      expect(axios.get).not.toHaveBeenCalled();
-      new AddressService().fetch();
-      expect(axios.get).toHaveBeenCalledWith();
+    it('makes a GET request', () => {
+      const clientMock = {
+        get: jest.fn(),
+      };
+      const myService = new AddressService(clientMock);
+      myService.fetch('123');
+      expect(clientMock.get).toHaveBeenCalledWith('/123');
     });
   });
 });
