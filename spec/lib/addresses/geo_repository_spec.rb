@@ -22,7 +22,7 @@ module Addresses
       end
 
       context 'with addresses' do
-        it 'returns addresses with latitude and longitude' do
+        it 'returns addresses with lattitude and longitude' do
           allow(response)
             .to receive(:status)
             .and_return(200)

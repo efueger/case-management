@@ -1,18 +1,45 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import PlacementContainer from './PlacementContainer';
+import ClientService from '../_services/client';
+import PlacementContainer, {
+  fixMisspelling,
+  isNotBogusAddress,
+} from './PlacementContainer';
 
-jest.mock('../_services/client');
-const ClientService = require('../_services/client').default;
+describe('PlacementContainer Helper Functions', () => {
+  describe('fixMisspelling()', () => {
+    it('fixes misspelled `latitude` property', () => {
+      const wrong = {
+        address: {
+          lattitude: 42,
+        },
+      };
+      const { address: { latitude } } = fixMisspelling(wrong);
+      expect(latitude).toBe(42);
+    });
+  });
+
+  describe('isNotBogusAddress()', () => {
+    it('is a predicate for lame addresses', () => {
+      const mkRecord = () => ({
+        address: {
+          latitude: 42,
+          longitude: -42,
+        },
+      });
+      expect(isNotBogusAddress(mkRecord())).toBeTruthy();
+    });
+  });
+});
 
 describe('PlacementContainer', () => {
   let match;
   let history;
 
   const mkWrapper = props =>
-    shallow(<PlacementContainer match={match} history={history} {...props} />);
-
-  const thenCallBack = () => ({ then: cb => cb() });
+    shallow(<PlacementContainer match={match} history={history} {...props} />, {
+      disableLifecycleMethods: true,
+    });
 
   beforeEach(() => {
     match = {
@@ -23,14 +50,6 @@ describe('PlacementContainer', () => {
     history = {
       push: jest.fn().mockImplementation(() => {}),
     };
-    ClientService.getRelatedClientsByChildClientId.mockImplementation(
-      thenCallBack
-    );
-  });
-
-  afterEach(() => {
-    ClientService.getRelatedClientsByChildClientId.mockReset();
-    ClientService.getRelatedClientsByChildClientId.mockClear();
   });
 
   it('renders', () => {
@@ -41,31 +60,41 @@ describe('PlacementContainer', () => {
   describe('#fetchRelatedClients', () => {
     it('delegates to ClientService', () => {
       const instance = mkWrapper().instance();
-      jest.spyOn(instance, 'getClientId').mockReturnValue('foo');
-      ClientService.getRelatedClientsByChildClientId
-        .mockReset()
-        .mockImplementation(thenCallBack);
+      jest.spyOn(instance, 'getClientId').mockReturnValue('42');
+      jest
+        .spyOn(ClientService, 'getRelatedClientsByChildClientId')
+        .mockReturnValueOnce(Promise.resolve([]));
+
       instance.fetchRelatedClients();
       expect(
         ClientService.getRelatedClientsByChildClientId
       ).toHaveBeenCalledTimes(1);
       expect(
         ClientService.getRelatedClientsByChildClientId
-      ).toHaveBeenCalledWith('foo');
+      ).toHaveBeenCalledWith('42');
     });
   });
 
-  describe('#fetchFocusChild', () => {
-    it('mocks focusChild retrieval (until service integration)', () => {
+  describe('#getClientId', () => {
+    it('returns the clientId', () => {
+      const instance = mkWrapper().instance();
+      expect(instance.getClientId()).toEqual('my-client-id');
+    });
+  });
+
+  describe('#componentDidMount', () => {
+    it('updates state with resolved data', () => {
       const wrapper = mkWrapper();
-      expect(wrapper.instance().fetchFocusChild).toEqual(jasmine.any(Function));
-      expect(wrapper.state('focusChild')).toEqual({
-        XHRStatus: 'idle',
-      });
-      wrapper.instance().fetchFocusChild();
+      const instance = wrapper.instance();
+      const focusChild = { identifier: '42' };
+      const relatedClient = { identifier: '43' };
+      const promise = Promise.resolve([focusChild, relatedClient]);
+      jest.spyOn(instance, 'fetchRelatedClients').mockReturnValueOnce(promise);
+      jest.spyOn(instance, 'getClientId').mockReturnValue('42');
+      instance.componentDidMount();
       process.nextTick(() => {
-        const focusChild = wrapper.state('focusChild');
-        expect(focusChild.XHRStatus).toEqual('ready');
+        expect(wrapper.state('focusChild').record).toEqual(focusChild);
+        expect(wrapper.state('focusChild').XHRStatus).toEqual('ready');
       });
     });
   });

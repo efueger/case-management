@@ -8,10 +8,16 @@ module Infrastructure
 
     def get(url, token)
       http_connection.get("#{url}?token=#{token}")
+    rescue StandardError
+      return Faraday::Response.new(status: 404)
     end
 
     def post(url, parameters, token)
-      http_connection.post("#{url}?token=#{token}", parameters)
+      http_connection.post do |request|
+        request.url "#{url}?token=#{token}"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = JSON.generate(parameters)
+      end
     end
 
     private

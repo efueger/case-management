@@ -30,7 +30,7 @@ module Addresses
       it { is_expected.to have_attribute(:zip, Types::Int.optional) }
       it { is_expected.to have_attribute(:zip_suffix, Types::Int.optional) }
       it { is_expected.to have_attribute(:longitude, Types::Float.optional) }
-      it { is_expected.to have_attribute(:latitude, Types::Float.optional) }
+      it { is_expected.to have_attribute(:lattitude, Types::Float.optional) }
     end
   end
 end

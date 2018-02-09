@@ -173,6 +173,14 @@ describe('PlacementMap', () => {
 
     beforeEach(() => {
       wrapper = shallow(<PlacementMap />);
+      wrapper.setProps({
+        focusChild: {
+          address: {
+            longitude: 42,
+            latitude: -42,
+          },
+        },
+      });
       instance = wrapper.instance();
       jest.spyOn(instance, 'extractModules').mockImplementation(noop);
       jest.spyOn(instance, 'initMap').mockImplementation(noop);
