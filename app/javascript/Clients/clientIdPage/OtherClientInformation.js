@@ -2,35 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropDownField, Cards, CheckboxRadioGroup } from 'react-wood-duck';
 import ChildClientService from '../../_services/child_client';
+import {
+  PRIMARY_LANGUAGES,
+  SECONDARY_LANGUAGES,
+  LITERATE,
+  INCAPACITATED_PARENT,
+} from './Constants';
 
-const primaryLanguage = [
-  { value: '0', label: 'English' },
-  { value: '1', label: 'Spanish' },
-  { value: '2', label: 'French' },
-  { value: '3', label: 'Hindi' },
-  { value: '4', label: 'Chinese' },
-];
-const secondaryLanguage = [
-  { value: '0', label: 'English' },
-  { value: '1', label: 'Spanish' },
-  { value: '2', label: 'Chinese' },
-  { value: '3', label: 'Hindi' },
-  { value: '4', label: 'French' },
-];
-
-const literate = [
-  { value: 'YES', label: 'Yes' },
-  { value: 'NO', label: 'No' },
-  { value: 'UNKNOWN', label: 'Unknown' },
-  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
-];
-
-const incapacitatedParent = [
-  { value: 'YES', label: 'Yes' },
-  { value: 'NO', label: 'No' },
-  { value: 'UNKNOWN', label: 'Unknown' },
-  { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
-];
 export default class OtherClientInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +72,7 @@ export default class OtherClientInformation extends React.Component {
               id="dropdown1"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
               selectedOption={this.state.primaryLanguageValue}
-              options={primaryLanguage}
+              options={PRIMARY_LANGUAGES}
               label="Primary Language"
               onChange={this.handleDropdownChange('primaryLanguageValue')}
             />
@@ -102,7 +80,7 @@ export default class OtherClientInformation extends React.Component {
               id="dropdown2"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
               selectedOption={this.state.secondaryLanguageValue}
-              options={secondaryLanguage}
+              options={SECONDARY_LANGUAGES}
               label="Secondary Language"
               onChange={this.handleDropdownChange('secondaryLanguageValue')}
             />
@@ -134,7 +112,7 @@ export default class OtherClientInformation extends React.Component {
               id="dropdown3"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
               selectedOption={this.state.literateValue}
-              options={literate}
+              options={LITERATE}
               label="Litearate"
               onChange={this.handleDropdownChange('literateValue')}
             />
@@ -144,7 +122,7 @@ export default class OtherClientInformation extends React.Component {
               id="dropdown4"
               gridClassName="col-md-6 col-sm-6 col-xs-12"
               selectedOption={this.state.incapacitatedParentValue}
-              options={incapacitatedParent}
+              options={INCAPACITATED_PARENT}
               label="Incapacitated Parent"
               onChange={this.handleDropdownChange('incapacitatedParentValue')}
             />
@@ -157,4 +135,34 @@ export default class OtherClientInformation extends React.Component {
 
 OtherClientInformation.propTypes = {
   anchorId: PropTypes.string,
+  PRIMARY_LANGUAGES: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+  SECONDARY_LANGUAGES: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+  LITERATE: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+  INCAPACITATED_PARENT: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+};
+OtherClientInformation.defaultProps = {
+  PRIMARY_LANGUAGES: PRIMARY_LANGUAGES,
+  SECONDARY_LANGUAGES: SECONDARY_LANGUAGES,
+  LITERATE: LITERATE,
+  INCAPACITATED_PARENT: INCAPACITATED_PARENT,
 };

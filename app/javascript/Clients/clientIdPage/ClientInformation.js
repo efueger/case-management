@@ -10,37 +10,21 @@ import {
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
+import {
+  GENDERS,
+  MARITAL_STATUS,
+  AGE_UNITS,
+  STATE_TYPES,
+  NAME_TYPES,
+  CSEC_TYPES,
+} from './Constants';
 
-const gender = [
-  { value: 'MALE', label: 'Male' },
-  { value: 'FEMALE', label: 'Female' },
-  { value: 'OTHER', label: 'Other' },
-];
-const marital = [
-  { value: '0', label: 'Married' },
-  { value: '1', label: 'Never Married' },
-  { value: '2', label: 'Widowed' },
-  { value: '3', label: 'Divorced' },
-];
-const ageUnit = [
-  { value: 'Dy', label: 'Day' },
-  { value: 'D', label: 'Days' },
-  { value: 'Mn', label: 'Month' },
-  { value: 'M', label: 'Months' },
-  { value: 'Yr', label: 'Year' },
-  { value: 'Y', label: 'Years' },
-];
+const LabelValueShape = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+});
+const LabelValueEnumerableShape = PropTypes.arrayOf(LabelValueShape);
 
-const stateTypes = [{ value: '0', label: 'CA' }, { value: '1', label: 'NY' }];
-const csecCode = [
-  { value: '6750', label: '6750' },
-  { value: '6680', label: '6680' },
-];
-
-const nameType = [
-  { value: '1313', label: 'Primary' },
-  { value: '1314', label: 'Secondary' },
-];
 export default class ClientInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -108,7 +92,7 @@ export default class ClientInformation extends React.Component {
           maritalValue: String(response.material_status_type),
           ageUnitValue: response.ageUnit,
           stateTypesValue: String(response.driver_license_state_code_type),
-          nameType: String(response.name_type),
+          nameTypeValue: String(response.name_type),
         })
       )
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
@@ -214,8 +198,8 @@ export default class ClientInformation extends React.Component {
             <DropDownField
               id="dropdown1"
               gridClassName="col-md-3 col-sm-6 col-xs-12"
-              selectedOption={this.state.nameType}
-              options={nameType}
+              selectedOption={this.state.nameTypeValue}
+              options={NAME_TYPES}
               label="Name Type (required)"
               onChange={this.handleDropdownChange('nameTypeValue')}
             />
@@ -223,7 +207,7 @@ export default class ClientInformation extends React.Component {
               id="dropdown2"
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               selectedOption={this.state.maritalValue}
-              options={marital}
+              options={MARITAL_STATUS}
               label="Marital Status"
               onChange={this.handleDropdownChange('maritalValue')}
             />
@@ -249,7 +233,7 @@ export default class ClientInformation extends React.Component {
                 name="Gender"
                 gridClassName="col-md-3 col-sm-6 col-xs-12"
                 selectedOption={this.state.genderValue}
-                options={gender}
+                options={GENDERS}
                 label="Gender"
                 onChange={this.handleDropdownChange('genderValue')}
               />
@@ -273,7 +257,7 @@ export default class ClientInformation extends React.Component {
               id="dropdown4"
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               selectedOption={this.state.ageUnitValue}
-              options={ageUnit}
+              options={AGE_UNITS}
               label="Age Unit"
               onChange={this.handleDropdownChange('ageUnitValue')}
             />
@@ -299,7 +283,7 @@ export default class ClientInformation extends React.Component {
               id="dropdown5"
               gridClassName="col-md-3 col-sm-6 col-xs-12"
               selectedOption={this.state.stateTypesValue}
-              options={stateTypes}
+              options={STATE_TYPES}
               label="Drivers License State"
               onChange={this.handleDropdownChange('this.state.stateTypesValue')}
             />
@@ -404,7 +388,7 @@ export default class ClientInformation extends React.Component {
                   id="dropdown6"
                   gridClassName="col-md-4 col-sm-6 col-xs-12"
                   selectedOption={this.state.csecCodeValue}
-                  options={csecCode}
+                  options={CSEC_TYPES}
                   label="CSEC Data Type"
                   onChange={this.handleDropdownChange('csecCodeValue')}
                 />
@@ -427,4 +411,18 @@ export default class ClientInformation extends React.Component {
 }
 ClientInformation.propTypes = {
   anchorId: PropTypes.string,
+  GENDERS: LabelValueEnumerableShape,
+  MARITAL_STATUS: LabelValueEnumerableShape,
+  AGE_UNITS: LabelValueEnumerableShape,
+  STATE_TYPES: LabelValueEnumerableShape,
+  NAME_TYPES: LabelValueEnumerableShape,
+  CSEC_TYPES: LabelValueEnumerableShape,
+};
+ClientInformation.defaultProps = {
+  GENDERS,
+  MARITAL_STATUS,
+  AGE_UNITS,
+  STATE_TYPES,
+  NAME_TYPES,
+  CSEC_TYPES,
 };

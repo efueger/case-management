@@ -1,18 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   DropDownField,
   DateTimePicker,
   CheckboxRadioGroup,
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
-const county = [
-  { value: 'Los Angeles County', label: 'Los Angeles County' },
-  { value: 'Sacramento County', label: 'Sacramento County' },
-  { value: 'El Dorado County', label: 'El Dorado County' },
-  { value: 'Yuba County', label: 'Yuba County' },
-  { value: 'Merced County', label: 'Merced County' },
-];
+import { ICWA_COUNTIES } from '../Constants';
 
 export default class ICWA extends React.Component {
   constructor(props) {
@@ -53,7 +47,7 @@ export default class ICWA extends React.Component {
           selectedOptions={this.state.selected}
         />
         <BootstrapTable>
-          <TableHeaderColumn dataField="County" isKey dataSort>
+          <TableHeaderColumn dataField="county" isKey dataSort>
             County
           </TableHeaderColumn>
           <TableHeaderColumn dataField="Date" dataSort>
@@ -65,7 +59,7 @@ export default class ICWA extends React.Component {
             id="dropdown1"
             gridClassName="col-md-6 col-sm-6 col-xs-12"
             selectedOption={this.state.county}
-            options={county}
+            options={ICWA_COUNTIES}
             label="Primary Language"
             onChange={this.handleDropdownChange('county')}
           />
@@ -78,3 +72,14 @@ export default class ICWA extends React.Component {
     );
   }
 }
+ICWA.propTypes = {
+  ICWA_COUNTIES: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+};
+ICWA.defaultProps = {
+  ICWA_COUNTIES: ICWA_COUNTIES,
+};
