@@ -12,10 +12,11 @@ describe('Client ID Page', () => {
 
   describe('#handleSelect', () => {
     it('stops propagation', () => {
-      const event = { stopPropagation: () => {} };
-      jest.spyOn(event, 'stopPropagation');
-      const wrapper = mount(<ClientIdPage />).instance();
-      wrapper.handleSelect('_href', event);
+      const instance = shallow(<ClientIdPage />, {
+        disableLifecycleMethods: true,
+      }).instance();
+      const event = { stopPropagation: jest.fn() };
+      instance.handleSelect(false, event);
       expect(event.stopPropagation).toHaveBeenCalledWith();
     });
   });

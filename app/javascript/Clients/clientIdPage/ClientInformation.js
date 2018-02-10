@@ -90,7 +90,8 @@ export default class ClientInformation extends React.Component {
   }
 
   setClient = () => {
-    return ChildClientService.fetch()
+    return new ChildClientService()
+      .fetch()
       .then(response =>
         this.setState({
           response,
@@ -114,7 +115,8 @@ export default class ClientInformation extends React.Component {
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
   };
   setCsecData = () => {
-    return ChildClientService.csec()
+    return new ChildClientService()
+      .csec()
       .then(csecResponse =>
         this.setState({
           csecResponse,
