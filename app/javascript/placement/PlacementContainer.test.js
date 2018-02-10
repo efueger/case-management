@@ -6,6 +6,8 @@ import PlacementContainer, {
   isNotBogusAddress,
 } from './PlacementContainer';
 
+jest.mock('../_services/client');
+
 describe('PlacementContainer Helper Functions', () => {
   describe('fixMisspelling()', () => {
     it('fixes misspelled `latitude` property', () => {
@@ -61,17 +63,19 @@ describe('PlacementContainer', () => {
     it('delegates to ClientService', () => {
       const instance = mkWrapper().instance();
       jest.spyOn(instance, 'getClientId').mockReturnValue('42');
-      jest
-        .spyOn(ClientService, 'getRelatedClientsByChildClientId')
-        .mockReturnValueOnce(Promise.resolve([]));
+      const mockGetRelatedClientsByChildClientId = jest.fn(() =>
+        Promise.resolve([])
+      );
+      ClientService.mockImplementation(() => {
+        return {
+          getRelatedClientsByChildClientId: mockGetRelatedClientsByChildClientId,
+        };
+      });
 
       instance.fetchRelatedClients();
-      expect(
-        ClientService.getRelatedClientsByChildClientId
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        ClientService.getRelatedClientsByChildClientId
-      ).toHaveBeenCalledWith('42');
+      expect(mockGetRelatedClientsByChildClientId).toHaveBeenCalledTimes(1);
+      expect(mockGetRelatedClientsByChildClientId).toHaveBeenCalledWith('42');
+      ClientService.mockClear();
     });
   });
 

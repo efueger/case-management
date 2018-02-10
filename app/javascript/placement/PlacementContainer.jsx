@@ -66,14 +66,14 @@ class PlacementContainer extends Component {
   }
 
   fetchRelatedClients() {
-    const clients$ = ClientService.getRelatedClientsByChildClientId(
-      this.getClientId()
-    ).then(records => {
-      return records
-        .filter(record => !!record.address)
-        .map(fixMisspelling)
-        .filter(isNotBogusAddress);
-    });
+    const clients$ = new ClientService()
+      .getRelatedClientsByChildClientId(this.getClientId())
+      .then(records => {
+        return records
+          .filter(record => !!record.address)
+          .map(fixMisspelling)
+          .filter(isNotBogusAddress);
+      });
 
     clients$.then(records => {
       const relatedClients = records.filter(
