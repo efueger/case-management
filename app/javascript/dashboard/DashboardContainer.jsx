@@ -22,7 +22,8 @@ class DashboardContainer extends React.Component {
 
   fetchReferrals = () => {
     this.setState({ referrals: { XHRStatus: 'waiting' } });
-    return ReferralService.fetch()
+    return new ReferralService()
+      .fetch()
       .then(referrals =>
         this.setState({
           referrals: {
@@ -36,7 +37,8 @@ class DashboardContainer extends React.Component {
 
   fetchCases = () => {
     this.setState({ cases: { XHRStatus: 'waiting' } });
-    return CaseService.fetch()
+    return new CaseService()
+      .fetch()
       .then(cases =>
         this.setState({
           cases: {

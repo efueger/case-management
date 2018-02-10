@@ -1,91 +1,113 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import DashboardContainer from './DashboardContainer';
+import { DataGridCard } from '../_components';
+import CaseService from '../_services/case';
+import ReferralService from '../_services/referral';
 
 jest.mock('../_services/case');
-const CaseService = require('../_services/case').default;
-
 jest.mock('../_services/referral');
-const ReferralService = require('../_services/referral').default;
 
 describe('<DashboardContainer />', () => {
-  it('exists', () => {
-    expect(!!DashboardContainer).toBe(true);
-  });
-
   it('renders', () => {
-    CaseService.fetch.mockReturnValue(Promise.resolve([]));
-    ReferralService.fetch.mockReturnValue(Promise.resolve([]));
-    expect(() => shallow(<DashboardContainer />)).not.toThrow();
+    expect(() =>
+      shallow(<DashboardContainer />, { disableLifecycleMethods: true })
+    ).not.toThrow();
   });
 
   describe('#fetchCases', () => {
-    let fetchCasesSpy;
-
-    beforeEach(() => {
-      fetchCasesSpy = jest.spyOn(CaseService, 'fetch');
-      fetchCasesSpy.mockReset();
+    it('retrieves cases by staff person', () => {
+      const mockFetchCases = jest.fn(() => Promise.resolve([]));
+      CaseService.mockImplementationOnce(() => {
+        return {
+          fetch: mockFetchCases,
+        };
+      });
+      const wrapper = shallow(<DashboardContainer />, {
+        disableLifecycleMethods: true,
+      });
+      const instance = wrapper.instance();
+      instance.fetchCases();
+      expect(wrapper.state('cases')).toEqual({
+        XHRStatus: 'waiting',
+      });
+      process.nextTick(() => {
+        expect(mockFetchCases).toHaveBeenCalledWith();
+        expect(wrapper.state('cases')).toEqual({
+          XHRStatus: 'ready',
+          records: [],
+        });
+      });
+      CaseService.mockClear();
     });
+  });
 
-    afterEach(() => {
-      fetchCasesSpy.mockReset();
-      fetchCasesSpy.mockRestore();
-    });
-
-    it('calls the CaseService', () => {
-      CaseService.fetch.mockReturnValue(Promise.resolve([]));
-      expect(fetchCasesSpy).not.toHaveBeenCalled();
-      const wrapper = shallow(<DashboardContainer />).instance();
-      expect(fetchCasesSpy).toHaveBeenCalledTimes(1);
-      wrapper.fetchCases();
-      expect(fetchCasesSpy).toHaveBeenCalledWith();
-      expect(fetchCasesSpy).toHaveBeenCalledTimes(2);
+  describe('#fetchReferrals()', () => {
+    it('retrieves referrals by staff person', () => {
+      const mockFetchReferrals = jest.fn(() => Promise.resolve([]));
+      ReferralService.mockImplementationOnce(() => {
+        return { fetch: mockFetchReferrals };
+      });
+      const wrapper = shallow(<DashboardContainer />, {
+        disableLifecycleMethods: true,
+      });
+      const instance = wrapper.instance();
+      instance.fetchReferrals();
+      expect(wrapper.state('referrals')).toEqual({
+        XHRStatus: 'waiting',
+      });
+      process.nextTick(() => {
+        expect(mockFetchReferrals).toHaveBeenCalledWith();
+        expect(wrapper.state('referrals')).toEqual({
+          XHRStatus: 'ready',
+          records: [],
+        });
+      });
+      ReferralService.mockClear();
     });
   });
 
   describe('list view props', () => {
     it('constructs the cardHeaderText', () => {
-      CaseService.fetch.mockReturnValue(Promise.resolve([]));
-      ReferralService.fetch.mockReturnValue(Promise.resolve([]));
-      const wrapper = shallow(<DashboardContainer />);
-      expect(
-        wrapper.find('DataGridCard').map($el => $el.prop('cardHeaderText'))
-      ).toEqual(['Cases', 'Referrals']);
-      wrapper.setState({
-        cases: { XHRStatus: 'idle' },
-        referrals: { XHRStatus: 'idle' },
+      const wrapper = shallow(<DashboardContainer />, {
+        disableLifecycleMethods: true,
       });
+      expect(
+        wrapper.find(DataGridCard).map($el => $el.prop('cardHeaderText'))
+      ).toEqual(['Cases', 'Referrals']);
       wrapper.setState({
         cases: { XHRStatus: 'ready', records: [{}, {}] },
         referrals: { XHRStatus: 'ready', records: [{}, {}] },
       });
       expect(
-        wrapper.find('DataGridCard').map($el => $el.prop('cardHeaderText'))
+        wrapper
+          .find(DataGridCard)
+          .map($wrapper => $wrapper.prop('cardHeaderText'))
       ).toEqual(['Cases (2)', 'Referrals (2)']);
     });
   });
 
-  describe('#fetchReferrals()', () => {
-    it('does something', () => {
-      CaseService.fetch.mockReturnValue(Promise.resolve([]));
-      const instance = shallow(<DashboardContainer />).instance();
-      expect(instance.fetchReferrals).toBeDefined();
-    });
-  });
+  describe('#componentDidMount', () => {
+    let instance;
 
-  describe('api requests', () => {
-    it('tracks case api requests', () => {
-      CaseService.fetch.mockReturnValue(Promise.reject(Error('error')));
-      const wrapper = shallow(<DashboardContainer />);
-      const instance = wrapper.instance();
-      instance.fetchCases();
+    beforeEach(() => {
+      instance = shallow(<DashboardContainer />, {
+        disableLifecycleMethods: true,
+      }).instance();
+      jest.spyOn(instance, 'fetchCases').mockImplementation(() => {});
+      jest.spyOn(instance, 'fetchReferrals').mockReturnValue(() => {});
     });
 
-    it('tracks referrals api requests', () => {
-      ReferralService.fetch.mockReturnValue(Promise.reject(Error('error')));
-      const wrapper = shallow(<DashboardContainer />);
-      const instance = wrapper.instance();
-      instance.fetchReferrals();
+    it('calls fetchCases', () => {
+      expect(instance.fetchCases).not.toHaveBeenCalled();
+      instance.componentDidMount();
+      expect(instance.fetchCases).toHaveBeenCalledWith();
+    });
+
+    it('calls fetchReferrals', () => {
+      expect(instance.fetchReferrals).not.toHaveBeenCalled();
+      instance.componentDidMount();
+      expect(instance.fetchReferrals).toHaveBeenCalledWith();
     });
   });
 });
