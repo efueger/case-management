@@ -47,6 +47,7 @@ group :test do
   gem 'rspec'
   gem 'rspec-dry-struct'
   gem 'rspec-rails'
+  gem 'chromedriver-helper'
 end
 
 group :development, :test do
