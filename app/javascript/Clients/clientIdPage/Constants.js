@@ -12,11 +12,8 @@ export const MARITAL_STATUS = [
   { value: '3', label: 'Divorced' },
 ];
 export const AGE_UNITS = [
-  { value: 'Dy', label: 'Day' },
   { value: 'D', label: 'Days' },
-  { value: 'Mn', label: 'Month' },
   { value: 'M', label: 'Months' },
-  { value: 'Yr', label: 'Year' },
   { value: 'Y', label: 'Years' },
 ];
 export const STATE_TYPES = [
@@ -49,15 +46,15 @@ export const SECONDARY_LANGUAGES = [
   { value: '4', label: 'French' },
 ];
 export const LITERATE = [
-  { value: 'YES', label: 'Yes' },
-  { value: 'NO', label: 'No' },
-  { value: 'UNKNOWN', label: 'Unknown' },
+  { value: 'Y', label: 'Yes' },
+  { value: 'N', label: 'No' },
+  { value: 'U', label: 'Unknown' },
   { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
 ];
 export const INCAPACITATED_PARENT = [
-  { value: 'YES', label: 'Yes' },
-  { value: 'NO', label: 'No' },
-  { value: 'UNKNOWN', label: 'Unknown' },
+  { value: 'Y', label: 'Yes' },
+  { value: 'N', label: 'No' },
+  { value: 'U', label: 'Unknown' },
   { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
 ];
 
