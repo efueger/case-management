@@ -15,6 +15,7 @@ module Referrals
 
       context 'with no referrals' do
         it 'returns an empty collection' do
+          allow(response).to receive(:status).and_return(404)
           allow(response).to receive(:body).and_return([])
           allow(http_service)
             .to receive(:get)
@@ -26,6 +27,7 @@ module Referrals
 
       context 'with referrals' do
         it 'returns referrals' do
+          allow(response).to receive(:status).and_return(200)
           allow(response).to receive(:body).and_return([{ identifier: '12' }])
           allow(http_service)
             .to receive(:get)

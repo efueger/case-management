@@ -41,6 +41,7 @@ services:
       - SECRET_KEY_BASE
       - CASE_API_BASE_URL
       - PERRY_API_BASE_URL
+      - GEO_API_BASE_URL
     command: ['foreman', 'start', '-f', 'Procfile.dev.docker']
     depends_on:
       - redis
