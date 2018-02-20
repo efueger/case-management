@@ -30,14 +30,14 @@ export default class ClientInformation extends React.Component {
     super(props);
     this.state = {
       response: { XHRStatus: 'idle' },
-      csecResponse: { XHRStatus: 'idle' },
+      csecResponse: [],
       checked: false,
       value: '',
       client: ['Client is a Minor/NMD parent'],
       clients: [' Client is a Safely surrendered baby'],
       warranty: ['Outstanding warranty exists'],
       confidentiality: ['Confidentiality in effect'],
-      csecInfoBox: ['This case involves CSEC Data'],
+      csecInfoBox: ['This case has CSEC Data'],
       selected: [],
       genderValue: '',
       maritalValue: '',
@@ -54,10 +54,11 @@ export default class ClientInformation extends React.Component {
       clientNumber: '',
       alienRegistration: '',
       driverLicensNumber: '',
-      csecBlock: false,
+      hasCsecData: false,
       csecDataType: '',
       csecStartDate: '',
       csecEndDate: '',
+      // csecCode: '',
       csecCodeValue: '',
       age: '',
     };
@@ -66,14 +67,15 @@ export default class ClientInformation extends React.Component {
     this.getAge = this.getAge.bind(this);
     this.handleDobChange = this.handleDobChange.bind(this);
     this.handleCsecDateChange = this.handleCsecDateChange.bind(this);
+    this.handleCsecChange = this.handleCsecChange.bind(this);
   }
 
   componentDidMount() {
-    this.setClient();
+    this.setClientData();
     this.setCsecData();
   }
 
-  setClient = () => {
+  setClientData = () => {
     return ChildClientService.fetch()
       .then(response =>
         this.setState({
@@ -99,11 +101,17 @@ export default class ClientInformation extends React.Component {
   };
   setCsecData = () => {
     return ChildClientService.csec()
-      .then(csecResponse =>
+      .then(csecResponse => {
+        if (csecResponse.length > 0) {
+          this.setState({
+            csecResponse: csecResponse,
+            hasCsecData: true,
+          });
+        }
         this.setState({
           csecResponse,
-        })
-      )
+        });
+      })
       .catch(() => this.setState({ csecResponse: { XHRStatus: 'error' } }));
   };
 
@@ -116,14 +124,6 @@ export default class ClientInformation extends React.Component {
       newSelectionArray = [...this.state.selected, newSelection];
     }
     this.setState({ selected: newSelectionArray });
-    if (
-      event.target.value === 'This case involves CSEC Data' &&
-      event.target.checked
-    ) {
-      this.setState({ csecBlock: true });
-    } else {
-      this.setState({ csecBlock: false });
-    }
   }
 
   handleDropdownChange(name) {
@@ -148,6 +148,14 @@ export default class ClientInformation extends React.Component {
     });
   }
 
+  handleCsecChange(event) {
+    if (this.state.csecResponse.length > 0) {
+      this.setState({
+        hasCsecData: true,
+        csecInfoBox: ['This case has CSEC Data'],
+      });
+    }
+  }
   render() {
     return (
       <div>
@@ -317,7 +325,6 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
-
           <div className="form-group row">
             <div className="col-md-12">
               <CheckboxRadioGroup
@@ -349,19 +356,35 @@ export default class ClientInformation extends React.Component {
               <DateTimePicker />
             </div>
           </div>
-          <div className="form-group row">
-            <div className="col-md-12">
-              <CheckboxRadioGroup
-                id="checkbox5"
-                name={'csecInfoBox'}
-                type={'checkbox'}
-                handleOnChange={this.handleChange}
-                options={this.state.csecInfoBox}
-                selectedOptions={this.state.selected}
-              />
+          {this.state.hasCsecData && (
+            <div className="form-group row">
+              <div className="col-md-12">
+                <CheckboxRadioGroup
+                  id="checkbox5"
+                  name={'csecInfoBox'}
+                  type={'checkbox'}
+                  handleOnChange={this.handleCsecChange}
+                  options={this.state.csecInfoBox}
+                  selectedOptions={this.state.csecInfoBox}
+                />
+              </div>
             </div>
-          </div>
-          {this.state.csecBlock && (
+          )}
+          {!this.state.hasCsecData && (
+            <div className="form-group row">
+              <div className="col-md-12">
+                <CheckboxRadioGroup
+                  id="checkbox5"
+                  name={'csecInfoBox'}
+                  type={'checkbox'}
+                  handleOnChange={this.handleCsecChange}
+                  options={this.state.csecInfoBox}
+                  selectedOptions={this.state.selected}
+                />
+              </div>
+            </div>
+          )}
+          {this.state.hasCsecData && (
             <div>
               <BootstrapTable
                 data={this.state.csecResponse}
@@ -383,27 +406,26 @@ export default class ClientInformation extends React.Component {
                   End Date
                 </TableHeaderColumn>
               </BootstrapTable>
-              <div>
-                <DropDownField
-                  id="dropdown6"
-                  gridClassName="col-md-4 col-sm-6 col-xs-12"
-                  selectedOption={this.state.csecCodeValue}
-                  options={CSEC_TYPES}
-                  label="CSEC Data Type"
-                  onChange={this.handleDropdownChange('csecCodeValue')}
-                />
-
-                <div className="col-md-4 col-sm-6 col-xs-12">
-                  <label htmlFor="START DATE">START DATE</label>
-                  <DateTimePicker />
-                </div>
-                <div className="col-md-4 col-sm-6 col-xs-12">
-                  <label htmlFor="END DATE">END DATE</label>
-                  <DateTimePicker fieldClassName="form-group" />
-                </div>
-              </div>
             </div>
           )}
+          <div>
+            <DropDownField
+              id="dropdown6"
+              gridClassName="col-md-4 col-sm-6 col-xs-12"
+              selectedOption={this.state.csecCodeValue}
+              label="CSEC Data Type"
+              onChange={this.handleDropdownChange('csecCodeValue')}
+            />
+
+            <div className="col-md-4 col-sm-6 col-xs-12">
+              <label htmlFor="START DATE">START DATE</label>
+              <DateTimePicker />
+            </div>
+            <div className="col-md-4 col-sm-6 col-xs-12">
+              <label htmlFor="END DATE">END DATE</label>
+              <DateTimePicker fieldClassName="form-group" />
+            </div>
+          </div>
         </Cards>
       </div>
     );

@@ -13,6 +13,7 @@ module ChildClients
 
     def child_clients_by_csec(id, token)
       response = @http_service.get("/child-clients/#{id}/csec", token)
+      return [] if response.status == 404
       response.body.map { |result| ChildClientCsec.new(result) }
     end
   end

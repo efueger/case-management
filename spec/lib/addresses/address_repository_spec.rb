@@ -20,7 +20,7 @@ module Addresses
             .and_return(404)
           allow(http_service)
             .to receive(:get)
-            .with('/child-clients/80/addresses', token)
+            .with('/clients/80/addresses', token)
             .and_return(response)
           expect(addresses_repository.addresses_by_client_id('80', token))
             .to eq []
@@ -37,7 +37,7 @@ module Addresses
             .and_return([{ address: { id: '805' } }, { address: { id: '808' } }])
           allow(http_service)
             .to receive(:get)
-            .with('/child-clients/80/addresses', token)
+            .with('/clients/80/addresses', token)
             .and_return(response)
           expect(addresses_repository.addresses_by_client_id('80', token))
             .to eq [Address.new(id: '805'), Address.new(id: '808')]

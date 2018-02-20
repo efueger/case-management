@@ -82,8 +82,8 @@ class DashboardContainer extends React.Component {
             <TableHeaderColumn
               dataField="client_identifier"
               width="34px"
-              dataFormat={cilentId => (
-                <a href={`/placement/client/0lAv0Yk03k`}>
+              dataFormat={clientId => (
+                <a href={`/placement/client/${clientId}`}>
                   <i className="glyphicon glyphicon-map-marker" />
                 </a>
               )}

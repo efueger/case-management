@@ -8,6 +8,7 @@ module Referrals
 
     def referrals_by_user_id(user_id, token)
       response = @http_service.get("/staff/#{user_id}/referrals", token)
+      return [] if response.status == 404
       response.body.map { |result| Referral.new(result) }
     end
   end

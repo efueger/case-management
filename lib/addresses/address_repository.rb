@@ -7,7 +7,7 @@ module Addresses
     end
 
     def addresses_by_client_id(id, token)
-      response = @http_service.get("/child-clients/#{id}/addresses", token)
+      response = @http_service.get("/clients/#{id}/addresses", token)
       return [] if response.status == 404
       response.body.map { |result| Address.new(result[:address]) }
     end
