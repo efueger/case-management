@@ -22,6 +22,7 @@ declare namespace ChildClientService {
     ageUnit?: string;
     name_type?: string;
     driver_license_state_code_type?: string;
+    hispanic_origin_code?: string;
     primary_language_type?: string;
     secondary_language_type?: string;
     litrate_code?: string;

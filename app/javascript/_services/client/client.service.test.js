@@ -24,7 +24,7 @@ describe('ClientService', () => {
       getSpy.mockReturnValue(Promise.resolve(42));
       expect(getSpy).not.toHaveBeenCalled();
       ClientService.fetch();
-      expect(getSpy).toHaveBeenCalledWith('/clients/0YIPkZU0S0');
+      expect(getSpy).toHaveBeenCalledWith('/clients/R06FKZ20X5');
     });
 
     it('calls safety-alert from ApiService', () => {

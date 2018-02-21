@@ -1,5 +1,3 @@
-// ClientInformation Constants //
-
 export const GENDERS = [
   { value: 'M', label: 'Male' },
   { value: 'F', label: 'Female' },
@@ -29,8 +27,6 @@ export const CSEC_TYPES = [
   { value: '6680', label: '6680' },
 ];
 
-// OtherClientInformation Contants //
-
 export const PRIMARY_LANGUAGES = [
   { value: '0', label: 'English' },
   { value: '1', label: 'Spanish' },
@@ -58,8 +54,6 @@ export const INCAPACITATED_PARENT = [
   { value: 'NOT_APPLICABLE', label: 'Not Applicable' },
 ];
 
-// ICWA Constants //
-
 export const ICWA_COUNTIES = [
   { value: 'Los Angeles County', label: 'Los Angeles County' },
   { value: 'Sacramento County', label: 'Sacramento County' },
@@ -67,8 +61,6 @@ export const ICWA_COUNTIES = [
   { value: 'Yuba County', label: 'Yuba County' },
   { value: 'Merced County', label: 'Merced County' },
 ];
-
-// SafetyAlertInformation Constants //
 
 export const REASONS = [
   { value: 'Carrying Guns in Home', label: 'Carrying Guns in Home' },

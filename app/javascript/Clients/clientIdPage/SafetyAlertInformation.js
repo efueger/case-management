@@ -106,37 +106,45 @@ export default class SafetyAlertInformation extends React.Component {
             <label htmlFor="Safety Alert Activation">
               Safety Alert Activation
             </label>
-            <div className="col-md-4 col-sm-6 col-xs-12">
-              <label htmlFor="Activation Date">Activation Date</label>
-              <DateTimePicker />
+
+            <div className="row">
+              <div>
+                <div className="col-md-4 col-sm-6 col-xs-12">
+                  <label htmlFor="Activation Date">Activation Date</label>
+                  <DateTimePicker />
+                </div>
+                <DropDownField
+                  id="dropdown1"
+                  gridClassName="col-md-4 col-sm-6 col-xs-12"
+                  selectedOption={this.state.activation_county}
+                  options={COUNTY_LIST}
+                  label="County"
+                  onChange={this.onChange('activationInCounty')}
+                />
+              </div>
+              <div>
+                <DropDownField
+                  id="dropdown1"
+                  gridClassName="col-md-4 col-sm-6 col-xs-12"
+                  selectedOption={this.state.activation_reason}
+                  options={REASONS}
+                  label="Reason"
+                  onChange={this.onChange('reasons')}
+                />
+              </div>
+
+              <TextArea
+                gridClassName="col-md-12 col-sm-12 col-xs-12"
+                labelClassName="form-control"
+                label="Explanation"
+                rows={5}
+                resize={false}
+                value={this.state.explanation}
+                name={'Explanation'}
+                handleOnChange={this.handleExplanationChange}
+                placeholder={''}
+              />
             </div>
-            <DropDownField
-              id="dropdown1"
-              gridClassName="col-md-4 col-sm-6 col-xs-12"
-              selectedOption={this.state.activationCounty}
-              options={COUNTY_LIST}
-              label="County"
-              onChange={this.onChange('activationCounty')}
-            />
-            <DropDownField
-              id="dropdown1"
-              gridClassName="col-md-4 col-sm-6 col-xs-12"
-              selectedOption={this.state.activationReason}
-              options={REASONS}
-              label="Reason"
-              onChange={this.onChange('activationReason')}
-            />
-            <TextArea
-              gridClassName="col-md-12 col-sm-12 col-xs-12"
-              labelClassName="form-control"
-              label="Explanation"
-              rows={5}
-              resize={false}
-              value={this.state.explanation}
-              name={'Explanation'}
-              handleOnChange={this.handleExplanationChange}
-              placeholder={''}
-            />
             <div className="row">
               <label
                 htmlFor="Safety Alert Deactivation"

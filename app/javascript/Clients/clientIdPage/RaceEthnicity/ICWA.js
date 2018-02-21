@@ -12,6 +12,7 @@ export default class ICWA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      response: { XHRStatus: 'idle' },
       checked: false,
       icwaElegible: ['Yes', 'No', 'Not Asked', 'Pending'],
       selected: [],
@@ -19,7 +20,6 @@ export default class ICWA extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
-
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
   }
