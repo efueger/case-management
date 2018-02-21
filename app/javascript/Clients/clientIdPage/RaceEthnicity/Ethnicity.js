@@ -30,7 +30,7 @@ export default class Ethnicity extends React.Component {
       .then(response => {
         this.setState({
           response,
-          latinoOrigin: 'Y',
+          latinoOrigin: response.hispanic_origin_code,
         });
         this.valueToString();
       })
