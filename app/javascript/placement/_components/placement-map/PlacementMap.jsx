@@ -36,11 +36,6 @@ class PlacementMap extends PureComponent {
       alias: 'title',
       type: 'string',
     },
-    {
-      name: 'type',
-      alias: 'type',
-      type: 'string',
-    },
   ];
 
   constructor(props) {
@@ -124,10 +119,7 @@ class PlacementMap extends PureComponent {
     const myUniqueValueRenderer = new UniqueValueRenderer({
       field: 'type',
       defaultSymbol: { type: 'simple-marker' },
-      defaultLabel: 'PlaceHolder',
-      legendOptions: {
-        title: 'Address Type',
-      },
+      defaultLabel: 'Other',
       uniqueValueInfos: [
         {
           value: 'focusChild',
@@ -175,7 +167,7 @@ class PlacementMap extends PureComponent {
       layerInfos: [
         {
           layer: featureLayer,
-          title: 'Address Layer',
+          title: 'Key',
         },
       ],
     });

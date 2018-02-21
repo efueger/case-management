@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import classNames from 'classnames';
 import ClientService from '../_services/client';
-import { Filters, PlacementMap, PlacementList } from './_components';
+import { PlacementMap, PlacementList } from './_components';
+import DropDownField from 'react-wood-duck/dist/DropDownField';
 
 export const fixMisspelling = record => {
   const { lattitude, ...addressProps } = record.address;
@@ -50,6 +50,7 @@ class PlacementContainer extends Component {
           displayName: 'List',
           component: PlacementList,
           isVisible: false,
+          className: 'active',
         },
         {
           name: 'map',
@@ -115,15 +116,12 @@ class PlacementContainer extends Component {
   renderViewPicker() {
     const { history } = this.props;
     return (
-      <div className="btn-group" role="group" aria-label="...">
+      <div className="btn-group  " role="group" aria-label="...">
         {this.state.views.map(view => (
           <button
             key={view.name}
             type="button"
-            className={classNames({
-              'btn btn-default': true,
-              active: false,
-            })}
+            className={'  btn-primary active'}
             onClick={() => {
               history.push(view.name);
             }}
@@ -138,12 +136,18 @@ class PlacementContainer extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row text-right">{this.renderViewPicker()}</div>
-        <div className="row">
-          <div className="col-md-3">
-            <Filters />
+        <div>
+          <div className="row">
+            <div className="col-md-3">
+              <DropDownField label="Find Placement For" />
+            </div>
+            <div className="col-md-9 text-right">
+              <div>{this.renderViewPicker()}</div>
+            </div>
           </div>
-          <div className="col-md-9">
+        </div>
+        <div className="row">
+          <div className="col-md-12">
             <Switch>
               <Route
                 path="/client/:clientId/map"
