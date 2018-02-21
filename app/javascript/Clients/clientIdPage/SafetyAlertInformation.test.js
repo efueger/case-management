@@ -36,6 +36,17 @@ describe('#setClients', () => {
         expect(getSafetyAlertSpy).toHaveBeenCalledWith();
         expect(getSafetyAlertSpy).toHaveBeenCalledTimes(2);
       });
+
+      it('tracks case api requests', () => {
+        ClientService.fetchSafetyAlerts.mockReturnValue(
+          Promise.reject(Error('error'))
+        );
+        const wrapper = shallow(<SafetyAlertInformation />);
+        const instance = wrapper.instance();
+        return instance.fetchSafetyAlerts().then(safetyAlerts => {
+          expect(instance.state.safetyAlerts.XHRStatus).toBe('error');
+        });
+      });
     });
   });
 });
@@ -71,12 +82,13 @@ describe('Safety Alert Information', () => {
     expect(instance.state.explanation).toBe('Not Safe environment');
   });
 
-  it('test the condition if equals the addAlert state changes', () => {
+  it('toggles the addAlert flag', () => {
     const wrapper = safetyAlert.instance();
-    wrapper.onClick({
-      target: { clicked: true },
-    });
+    wrapper.onClick();
     expect(wrapper.state.addAlert).toEqual(true);
+    wrapper.onClick();
+    wrapper.setState({ addAlert: false });
+    expect(wrapper.state.addAlert).toEqual(false);
   });
 
   it('Verify the components after onclick', () => {
@@ -84,8 +96,6 @@ describe('Safety Alert Information', () => {
     expect(safetyAlert.find('DropDownField').length).toEqual(3);
     expect(safetyAlert.find('TextArea').length).toEqual(2);
     expect(safetyAlert.find('DateTimePicker').length).toEqual(2);
-    expect(safetyAlert.find('BootstrapTable').length).toEqual(1);
-    expect(safetyAlert.find('TableHeaderColumn').length).toEqual(5);
   });
 
   it('should manage the Deactive change', () => {
@@ -94,5 +104,32 @@ describe('Safety Alert Information', () => {
       target: { value: 'Carry Guns in Home' },
     });
     expect(instance.state.deactive).toBe('Carry Guns in Home');
+  });
+
+  describe('#alertInfo', () => {
+    it('function defined', () => {
+      const instance = safetyAlert.instance();
+      expect(instance.alertInfo()).toBeDefined();
+    });
+
+    it('Displays msg if safetyAlerts records are empty', () => {
+      const wrapper = safetyAlert.instance();
+      wrapper.setState({
+        safetyAlerts: { XHRStatus: 'ready' },
+      });
+      expect(wrapper.alertInfo()).toEqual(
+        'Currently No SafetyAlerts. Click AddAlert button to add New Alerts'
+      );
+    });
+
+    it('displays DataGridCard with Table if safetyAlerts has some records', () => {
+      const wrapper = shallow(<SafetyAlertInformation />);
+      wrapper.setState({
+        safetyAlerts: { XHRStatus: 'ready', records: [{}, {}, {}] },
+      });
+      expect(
+        wrapper.find('DataGridCard').map($el => $el.prop('cardHeaderText'))
+      ).toEqual(['SafetyAlerts (3)']);
+    });
   });
 });

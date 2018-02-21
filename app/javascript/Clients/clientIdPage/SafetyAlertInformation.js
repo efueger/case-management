@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClientService from '../../_services/client';
-
 import {
   Cards,
   DropDownField,
@@ -9,6 +8,7 @@ import {
   TextArea,
   Button,
 } from 'react-wood-duck';
+import { DataGridCard } from '../../_components';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { REASONS, COUNTY_LIST } from './Constants';
 
@@ -30,6 +30,7 @@ export default class SafetyAlertInformation extends React.Component {
     this.handleExplanationChange = this.handleExplanationChange.bind(this);
     this.onChangeDeactive = this.onChangeDeactive.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.alertInfo = this.alertInfo.bind(this);
   }
 
   componentDidMount() {
@@ -38,14 +39,16 @@ export default class SafetyAlertInformation extends React.Component {
 
   fetchSafetyAlerts = () => {
     this.setState({ safetyAlerts: { XHRStatus: 'waiting' } });
-    return ClientService.fetchSafetyAlerts().then(safetyAlerts =>
-      this.setState({
-        safetyAlerts: {
-          XHRStatus: 'ready',
-          records: safetyAlerts,
-        },
+    return ClientService.fetchSafetyAlerts()
+      .then(safetyAlerts => {
+        this.setState({
+          safetyAlerts: {
+            XHRStatus: 'ready',
+            records: safetyAlerts,
+          },
+        });
       })
-    );
+      .catch(() => this.setState({ safetyAlerts: { XHRStatus: 'error' } }));
   };
 
   onChange(name) {
@@ -60,9 +63,42 @@ export default class SafetyAlertInformation extends React.Component {
   }
 
   onClick() {
-    this.setState({ addAlert: true });
+    this.state.addAlert === false
+      ? this.setState({ addAlert: true })
+      : this.setState({ addAlert: false });
   }
 
+  alertInfo = () => {
+    if (!this.state.safetyAlerts.records) {
+      return 'Currently No SafetyAlerts. Click AddAlert button to add New Alerts';
+    } else {
+      return (
+        <DataGridCard
+          cardHeaderText={getCardHeaderText(
+            this.state.safetyAlerts,
+            'SafetyAlerts'
+          )}
+          status={this.state.safetyAlerts.XHRStatus}
+          render={() => (
+            <BootstrapTable data={this.state.safetyAlerts.records}>
+              <TableHeaderColumn dataField="activation_date" dataSort>
+                Activation Date
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="client_id" isKey hidden dataSort>
+                Client ID
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="activation_reason_code" dataSort>
+                Reason
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="deactivation_date" dataSort>
+                Deactivation Date
+              </TableHeaderColumn>
+            </BootstrapTable>
+          )}
+        />
+      );
+    }
+  };
   render() {
     return (
       <Cards
@@ -78,29 +114,7 @@ export default class SafetyAlertInformation extends React.Component {
             onClick={this.onClick}
           />
         </div>
-        <BootstrapTable data={this.state.safetyAlerts.records}>
-          <TableHeaderColumn dataField="activation_date" isKey dataSort>
-            Activation Date
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="client_id" dataSort>
-            Client ID
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="activation_government_entity_code"
-            dataSort
-          >
-            County
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="activation_explanation_text_id"
-            dataSort
-          >
-            Text
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="activation_reason_code" dataSort>
-            Reason
-          </TableHeaderColumn>
-        </BootstrapTable>
+        {this.alertInfo()}
         {this.state.addAlert && (
           <div>
             <label htmlFor="Safety Alert Activation">
@@ -182,6 +196,12 @@ export default class SafetyAlertInformation extends React.Component {
     );
   }
 }
+function getCardHeaderText({ XHRStatus, records }, text) {
+  return XHRStatus === 'ready' && records && records.length
+    ? `${text} (${records.length})`
+    : text;
+}
+
 SafetyAlertInformation.propTypes = {
   anchorId: PropTypes.string,
   REASONS: PropTypes.arrayOf(
@@ -197,6 +217,7 @@ SafetyAlertInformation.propTypes = {
     })
   ),
 };
+
 SafetyAlertInformation.defaultProps = {
   REASONS: REASONS,
   COUNTY_LIST: COUNTY_LIST,
