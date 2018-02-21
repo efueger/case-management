@@ -7,6 +7,9 @@ import {
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { ICWA_COUNTIES } from '../Constants';
+import ChildClientService from '../../../_services/child_client';
+
+const icwaElegible = ['Yes', 'No', 'Not Asked', 'Pending'];
 
 export default class ICWA extends React.Component {
   constructor(props) {
@@ -14,15 +17,62 @@ export default class ICWA extends React.Component {
     this.state = {
       response: { XHRStatus: 'idle' },
       checked: false,
-      icwaElegible: ['Yes', 'No', 'Not Asked', 'Pending'],
       selected: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
+
+  componentDidMount() {
+    this.fetchICWAData();
+  }
+
+  fetchICWAData = () => {
+    return ChildClientService.fetch()
+      .then(response => {
+        this.setState({
+          response,
+          selected: response.icwa_eligibility_code,
+        });
+        this.valueToString();
+      })
+      .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
+  };
+
+  valueToString(event) {
+    let codeToString = this.state.selected;
+    switch (codeToString) {
+      case 'Y': {
+        this.setState({
+          selected: icwaElegible[0],
+        });
+        break;
+      }
+      case 'N': {
+        this.setState({
+          selected: icwaElegible[1],
+        });
+        break;
+      }
+      case 'U': {
+        this.setState({
+          selected: icwaElegible[2],
+        });
+        break;
+      }
+      default: {
+        this.setState({
+          selected: icwaElegible[3],
+        });
+        break;
+      }
+    }
+  }
+
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
   }
+
   handleChange(event) {
     const newSelection = event.target.value;
     let newSelectionArray;
@@ -43,7 +93,7 @@ export default class ICWA extends React.Component {
           name={'child'}
           type={'radio'}
           handleOnChange={this.handleChange}
-          options={this.state.icwaElegible}
+          options={icwaElegible}
           selectedOptions={this.state.selected}
         />
         <BootstrapTable>
