@@ -2,7 +2,7 @@ version: '3.2'
 services:
   db2:
     image: cwds/db2data:latest
-    env_file: .env
+    # env_file: .env
     hostname: db2
     ports:
       - ${DB_CMS_DB2_PORT}:${DB_CMS_DB2_PORT}
@@ -22,7 +22,7 @@ services:
     restart: on-failure
     ports:
       - ${CASE_API_PORT}:${CASE_API_PORT}
-    env_file: .env
+    # env_file: .env
     environment:
       SHIRO_CONFIG_PATH: ${SHIRO_NOSEC_CONFIG_PATH}
       KEY_STORE_FILE: ${KEY_STORE_FILE}
