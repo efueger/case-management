@@ -51,9 +51,9 @@ node('cm-slave') {
                 sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
             }
         }
-        stage('Acceptance Tests') {
-            sh "docker-compose up"
-        }
+        /*stage('Acceptance Tests') {*/
+        /*    sh "docker-compose up"*/
+        /*}*/
         stage('Publish Image') {
             withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
                 app.push()
