@@ -43,11 +43,11 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 #
 group :test do
+  gem 'chromedriver-helper'
   gem 'rails-controller-testing'
   gem 'rspec'
   gem 'rspec-dry-struct'
   gem 'rspec-rails'
-  gem 'chromedriver-helper'
 end
 
 group :development, :test do

@@ -2,7 +2,7 @@
 
 require 'acceptance_helper'
 
-feature'Landing Page' do
+feature 'Landing Page' do
   scenario 'has some cases and referrals' do
     visit '/?token=example'
     page_has_cases
