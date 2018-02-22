@@ -36,6 +36,8 @@ node {
       }
       stage('Acceptance Test') {
         // test 2
+        sh "docker --version"
+        sh "docker-compose --version"
         sh "docker-compose up"
       }
     } catch(Exception e) {
