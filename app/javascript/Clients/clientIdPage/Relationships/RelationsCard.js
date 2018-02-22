@@ -1,6 +1,7 @@
 import React from 'react';
 import { Cards } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import PropTypes from 'prop-types';
 var relationshipData = [
   {
     name: 'Jason',
@@ -44,8 +45,9 @@ export default class RelationsCard extends React.Component {
     return (
       <Cards
         cardHeaderText="Relationships View"
+        id={this.props.anchorId}
         cardHeaderButton={false}
-        cardActionButtons={true}
+        cardActionButtons={false}
       >
         <div className="FocusChild">
           <h4>
@@ -72,7 +74,9 @@ export default class RelationsCard extends React.Component {
           <TableHeaderColumn dataField="relationship">
             Relationship
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="age">Age</TableHeaderColumn>
+          <TableHeaderColumn dataField="age" width="10%">
+            Age
+          </TableHeaderColumn>
           <TableHeaderColumn dataField="city">City</TableHeaderColumn>
           <TableHeaderColumn dataField="address">Address</TableHeaderColumn>
           <TableHeaderColumn dataField="phone">Phone</TableHeaderColumn>
@@ -82,3 +86,6 @@ export default class RelationsCard extends React.Component {
     );
   }
 }
+RelationsCard.propTypes = {
+  anchorId: PropTypes.string,
+};

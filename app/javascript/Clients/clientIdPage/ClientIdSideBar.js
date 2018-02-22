@@ -30,6 +30,12 @@ export default class ClientIdSidebar extends React.Component {
           href="#raceEthnicity"
           clickHandler={this.props.handleSelect}
         />
+        <NavLink
+          key={5}
+          text="Relationships View"
+          href="#relationshipsView"
+          clickHandler={this.props.handleSelect}
+        />
       </NavLinks>
     );
     return <SideBar>{navLinks}</SideBar>;

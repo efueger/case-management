@@ -34,7 +34,7 @@ export default class ClientIdPage extends React.Component {
               <OtherClientInformation anchorId="otherCLientInformation" />
               <SafetyAlertInformation anchorId="safetyAlertInformation" />
               <RaceEthnicityForm anchorId="raceEthnicity" />
-              <RelationsCard />
+              <RelationsCard anchorId="relationshipsView" />
             </div>
           </div>
         </div>
