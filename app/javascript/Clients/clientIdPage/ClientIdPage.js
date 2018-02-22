@@ -5,7 +5,7 @@ import OtherClientInformation from './OtherClientInformation';
 import SafetyAlertInformation from './SafetyAlertInformation';
 import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
-import RelationsCard from './RelationsCard';
+import RelationsCard from './Relationships/RelationsCard';
 
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
 
