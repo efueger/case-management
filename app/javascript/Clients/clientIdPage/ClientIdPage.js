@@ -5,7 +5,7 @@ import OtherClientInformation from './OtherClientInformation';
 import SafetyAlertInformation from './SafetyAlertInformation';
 import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
-import Relations from './Relations';
+import RelationsCard from './RelationsCard';
 
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
 
@@ -34,7 +34,7 @@ export default class ClientIdPage extends React.Component {
               <OtherClientInformation anchorId="otherCLientInformation" />
               <SafetyAlertInformation anchorId="safetyAlertInformation" />
               <RaceEthnicityForm anchorId="raceEthnicity" />
-              <Relations />
+              <RelationsCard />
             </div>
           </div>
         </div>
