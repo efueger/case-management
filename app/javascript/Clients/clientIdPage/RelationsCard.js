@@ -45,14 +45,22 @@ export default class RelationsCard extends React.Component {
       <Cards
         cardHeaderText="Relationships View"
         cardHeaderButton={false}
-        cardActionButtons={false}
+        cardActionButtons={true}
       >
         <div className="FocusChild">
           <h4>
             <b> Focus Child </b>
           </h4>
         </div>
-        <div className="ChildName">Allie Hendrixson</div>
+        <div className="row">
+          <div className="col-md-2 ">
+            <div
+              className="img-circle"
+              style={{ paddingTop: '100%', backgroundColor: 'pink' }}
+            />
+          </div>
+          <div className="ChildName col-md-6">Allie Hendrixson</div>
+        </div>
         <BootstrapTable
           data={relationshipData}
           searchPlaceholder="Quick Filter"
