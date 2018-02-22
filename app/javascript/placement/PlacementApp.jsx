@@ -16,7 +16,7 @@ const PlacementApp = ({ basename }) => (
   <Router basename={basename}>
     <div>
       <GlobalHeader logoCallback={() => (window.location.href = '/')} />
-      <PageHeader pageTitle="Placement Tool" button={null} />
+      <PageHeader pageTitle="Find Placement Tool" button={null} />
       <Route path="/client/:clientId" component={PlacementContainer} />
       <Route
         path="/"
