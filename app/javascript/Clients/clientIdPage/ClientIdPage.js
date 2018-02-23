@@ -8,13 +8,26 @@ import ClientService from '../../_services/client';
 import RelationsCard from './Relationships/RelationsCard';
 
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
-
+/* eslint-disable camelcase */
+export const formatTable = client => {
+  return {
+    name: `${client.common_first_name} ${client.common_last_name}`,
+    address: `${client.street_name} ${client.street_number}`,
+    city: client.city,
+    phone: client.primary_phone,
+  };
+};
+/* eslint-enable camelcase */
 export default class ClientIdPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       relatedClients: {
+        XHRStatus: 'idle',
+        records: undefined,
+      },
+      formatTable: {
         XHRStatus: 'idle',
         records: undefined,
       },
@@ -27,7 +40,7 @@ export default class ClientIdPage extends React.Component {
 
   fetchRelatedClients() {
     const clientId = 'AazXkWY06s';
-    ClientService.getRelatedClientsByChildClientId(clientId)
+    const clients$ = ClientService.getRelatedClientsByChildClientId(clientId)
       .then(records => {
         return records.filter(record => !!record.address);
       })
@@ -35,16 +48,21 @@ export default class ClientIdPage extends React.Component {
         const relatedClients = records.filter(
           record => record.identifier !== clientId
         );
-        if (!relatedClients.length)
-          this.setState({
-            relatedClients: {
-              ...this.state.relatedClients,
-              records: relatedClients,
-              XHRStatus: 'ready',
-            },
-          });
+        this.setState({
+          relatedClients: {
+            records: relatedClients,
+            XHRStatus: 'ready',
+          },
+        });
+        this.setState({
+          formatTable: {
+            XHRStatus: 'ready',
+            records: relatedClients.map(formatTable),
+          },
+        });
       })
       .catch(() => this.setState({ relatedClients: { XHRStatus: 'error' } }));
+    return clients$;
   }
 
   handleSelect(href, event) {
@@ -68,7 +86,7 @@ export default class ClientIdPage extends React.Component {
               <RaceEthnicityForm anchorId="raceEthnicity" />
               <RelationsCard
                 anchorId="relationshipsView"
-                relatedClients={this.state.relatedClients.records}
+                relatedClients={this.state.formatTable.records}
               />
             </div>
           </div>

@@ -1,7 +1,20 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import ClientIdPage from './ClientIdPage.js';
+import ClientIdPage, { formatTable } from './ClientIdPage.js';
 import ClientService from '../../_services/client';
+
+describe('ClientIdPage Helper Functions', () => {
+  describe('formatTable()', () => {
+    it('formats the  object to be pass on react-bootstrap table', () => {
+      const data = {
+        common_first_name: 'hello',
+        common_last_name: 'world',
+      };
+      const { name } = formatTable(data);
+      expect(name).toBe('hello world');
+    });
+  });
+});
 
 describe('Client ID Page', () => {
   const pageTitle = 'Child Name';

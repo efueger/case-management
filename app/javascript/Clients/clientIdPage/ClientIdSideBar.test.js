@@ -13,7 +13,7 @@ describe('Client Information', () => {
   });
 
   it('renders NavLink', () => {
-    expect(Sidebar.find('NavLink').length).toEqual(4);
+    expect(Sidebar.find('NavLink').length).toEqual(5);
   });
 
   it('has a <SideBar />', () => {
