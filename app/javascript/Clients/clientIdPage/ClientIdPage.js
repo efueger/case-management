@@ -5,6 +5,7 @@ import OtherClientInformation from './OtherClientInformation';
 import SafetyAlertInformation from './SafetyAlertInformation';
 import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
+import ClientService from '../../_services/client';
 import RelationsCard from './Relationships/RelationsCard';
 
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
@@ -13,6 +14,35 @@ export default class ClientIdPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchRelatedClients();
+  }
+
+  fetchRelatedClients() {
+    const clientId = 'AazXkWY06s';
+    const clients$ = ClientService.getRelatedClientsByChildClientId(
+      clientId
+    ).then(records => {
+      return records.filter(record => !!record.address);
+    });
+
+    clients$.then(records => {
+      const relatedClients = records.filter(
+        record => record.identifier !== clientId
+      );
+      if (!relatedClients.length)
+        this.setState({
+          relatedClients: {
+            ...this.state.relatedClients,
+            records: relatedClients,
+            XHRStatus: 'ready',
+          },
+        });
+    });
+
+    return clients$;
   }
 
   handleSelect(href, event) {

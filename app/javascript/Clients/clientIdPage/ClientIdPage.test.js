@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ClientIdPage from './ClientIdPage.js';
+import ClientService from '../../_services/client';
 
 describe('Client ID Page', () => {
   const pageTitle = 'Child Name';
@@ -71,5 +72,31 @@ describe('Client ID Page', () => {
         .at(4)
         .props().className
     ).toBe('col-sm-9');
+  });
+
+  describe('#fetchRelatedClients', () => {
+    let fetchRelatedClientsSpy;
+
+    beforeEach(() => {
+      fetchRelatedClientsSpy = jest.spyOn(
+        ClientService,
+        'getRelatedClientsByChildClientId'
+      );
+      fetchRelatedClientsSpy.mockReset();
+    });
+
+    afterEach(() => {
+      fetchRelatedClientsSpy.mockReset();
+      fetchRelatedClientsSpy.mockRestore();
+    });
+
+    it('calls the ClientService', () => {
+      ClientService.getRelatedClientsByChildClientId.mockReturnValueOnce(
+        Promise.resolve([])
+      );
+      expect(fetchRelatedClientsSpy).not.toHaveBeenCalled();
+      shallow(<ClientIdPage />).instance();
+      expect(fetchRelatedClientsSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });
