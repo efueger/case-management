@@ -38,6 +38,7 @@ node {
         // test 2
         sh "docker --version"
         sh "docker-compose --version"
+        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
         sh "docker-compose up"
       }
     } catch(Exception e) {
