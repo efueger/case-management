@@ -89,7 +89,7 @@ export default class ClientInformation extends React.Component {
           birthDate: response.birth_dt,
           clientNumber: response.identifier,
           alienRegistration: response.alien_registration_number,
-          driverLicensNumber: response.driver_licens_number,
+          //driverLicensNumber: String(response.driver_licens_number),
           genderValue: response.gender_code,
           maritalValue: String(response.material_status_type),
           ageUnitValue: response.ageUnit,

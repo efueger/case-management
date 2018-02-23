@@ -16,5 +16,11 @@ module ChildClients
       return [] if response.status == 404
       response.body.map { |result| ChildClientCsec.new(result) }
     end
+
+    def indian_ancestory(id, token)
+      response = @http_service.get("/child-clients/#{id}/indian-ancestry-notifications", token)
+      # return [] if response.status == 404
+      response.body.map { |result| IndianAncestory.new(result) }
+    end
   end
 end

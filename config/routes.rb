@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       member do
         get :csec
       end
+      
+      member do 
+      get :indian_ancestory
+      end
     end
 
     resources :cases, only: [:index] do

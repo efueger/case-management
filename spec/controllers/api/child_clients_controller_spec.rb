@@ -51,5 +51,30 @@ module Api
         expect(response.body).to eq client.to_json
       end
     end
+
+    describe '#indian_ancestory' do
+      let(:child_client_repository) { instance_double('ChildClient::ClientRepository') }
+      let(:client) { ChildClients::ChildClient.new(identifier: 5) }
+
+      it 'has a route' do
+        expect(get: 'api/child_clients/33/indian_ancestory').to route_to(
+          format: 'json',
+          controller: 'api/child_clients',
+          action: 'indian_ancestory',
+          id: '33'
+        )
+      end
+
+      it 'returns a indian_ancestory data' do
+        allow(ChildClients::ChildClientRepository).to receive(:new)
+          .with(no_args).and_return(child_client_repository)
+        allow(child_client_repository).to receive(:indian_ancestory)
+          .with('5', 'token')
+          .and_return(client)
+        request.session[:token] = 'token'
+        get :indian_ancestory, params: { id: 5 }
+        expect(response.body).to eq client.to_json
+      end
+    end
   end
 end

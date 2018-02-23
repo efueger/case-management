@@ -64,5 +64,35 @@ module ChildClients
         end
       end
     end
+
+    describe '#indian_ancestory' do
+      describe '#indian_ancestory' do
+        let(:response) { instance_double('Faraday::Response') }
+
+        context 'with no indian_ancestory_notifications' do
+          it 'returns an empty data' do
+            allow(response).to receive(:body).and_return({})
+            allow(response).to receive(:status).and_return(404)
+            allow(http_service)
+              .to receive(:get)
+              .with('/child-clients/66/indian-ancestry-notifications', token)
+              .and_return(response)
+            expect(childclient_repository.indian_ancestory('66', token)).to eq []
+          end
+        end
+
+        context 'with indian_ancestory' do
+          it 'returns indian_ancestory_notifications' do
+            allow(response).to receive(:status).and_return(200)
+            allow(response).to receive(:body).and_return([{ id: '12' }])
+            allow(http_service).to receive(:get)
+              .with('/child-clients/66/indian-ancestry-notifications', token)
+              .and_return(response)
+            expect(childclient_repository.indian_ancestory('66', token))
+              .to eq [IndianAncestory.new(id: '12')]
+          end
+        end
+      end
+    end
   end
 end

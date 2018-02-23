@@ -15,9 +15,11 @@ export default class ICWA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      indianAncestory: { XHRStatus: 'idle' },
       response: { XHRStatus: 'idle' },
       checked: false,
       selected: [],
+      county: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
@@ -85,6 +87,7 @@ export default class ICWA extends React.Component {
   }
 
   render() {
+    console.log(this.state.indianAncestory);
     return (
       <div>
         <label htmlFor="ICWA Eligible">ICWA Eligible</label>
@@ -110,7 +113,7 @@ export default class ICWA extends React.Component {
             gridClassName="col-md-6 col-sm-6 col-xs-12"
             selectedOption={this.state.county}
             options={ICWA_COUNTIES}
-            label="Primary Language"
+            label="County"
             onChange={this.handleDropdownChange('county')}
           />
           <div className="col-md-6 col-sm-6 col-xs-12">
