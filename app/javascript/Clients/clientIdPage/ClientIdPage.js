@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ClientInformation from './ClientInformation';
 import OtherClientInformation from './OtherClientInformation';
 import SafetyAlertInformation from './SafetyAlertInformation';
@@ -14,6 +13,12 @@ export default class ClientIdPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
+    this.state = {
+      relatedClients: {
+        XHRStatus: 'idle',
+        records: undefined,
+      },
+    };
   }
 
   componentDidMount() {
@@ -22,27 +27,24 @@ export default class ClientIdPage extends React.Component {
 
   fetchRelatedClients() {
     const clientId = 'AazXkWY06s';
-    const clients$ = ClientService.getRelatedClientsByChildClientId(
-      clientId
-    ).then(records => {
-      return records.filter(record => !!record.address);
-    });
-
-    clients$.then(records => {
-      const relatedClients = records.filter(
-        record => record.identifier !== clientId
-      );
-      if (!relatedClients.length)
-        this.setState({
-          relatedClients: {
-            ...this.state.relatedClients,
-            records: relatedClients,
-            XHRStatus: 'ready',
-          },
-        });
-    });
-
-    return clients$;
+    ClientService.getRelatedClientsByChildClientId(clientId)
+      .then(records => {
+        return records.filter(record => !!record.address);
+      })
+      .then(records => {
+        const relatedClients = records.filter(
+          record => record.identifier !== clientId
+        );
+        if (!relatedClients.length)
+          this.setState({
+            relatedClients: {
+              ...this.state.relatedClients,
+              records: relatedClients,
+              XHRStatus: 'ready',
+            },
+          });
+      })
+      .catch(() => this.setState({ relatedClients: { XHRStatus: 'error' } }));
   }
 
   handleSelect(href, event) {
@@ -64,7 +66,10 @@ export default class ClientIdPage extends React.Component {
               <OtherClientInformation anchorId="otherCLientInformation" />
               <SafetyAlertInformation anchorId="safetyAlertInformation" />
               <RaceEthnicityForm anchorId="raceEthnicity" />
-              <RelationsCard anchorId="relationshipsView" />
+              <RelationsCard
+                anchorId="relationshipsView"
+                relatedClients={this.state.relatedClients.records}
+              />
             </div>
           </div>
         </div>
@@ -72,5 +77,3 @@ export default class ClientIdPage extends React.Component {
     );
   }
 }
-ClientIdPage.propTypes = { children: PropTypes.any };
-ClientIdPage.defaultProps = {};
