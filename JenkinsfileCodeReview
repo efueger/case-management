@@ -35,14 +35,9 @@ node('cm-slave') {
         }
       }
       stage('Acceptance Test') {
-        // test 6
-        //sh "sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose"
-        //sh "sudo chmod +x /usr/local/bin/docker-compose"
-        sh "docker --version"
-        sh "docker-compose --version"
         sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
         sh "docker-compose up -d"
-        sh "sleep 180"
+        sh "sleep 60"
         sh "docker-compose exec -T case-test bundle exec rspec spec/acceptance"
       }
     } catch(Exception e) {
