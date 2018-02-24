@@ -4,9 +4,9 @@ require 'spec_helper'
 require 'rspec/dry/struct'
 
 module ChildClients
-  describe IndianAncestory do
+  describe ChildClientIndianAncestry do
     describe 'attributes' do
-      subject { IndianAncestory }
+      subject { ChildClientIndianAncestry }
       it { is_expected.to have_attribute(:id, Types::String.optional) }
       it { is_expected.to have_attribute(:child_client_id, Types::String.optional) }
       it { is_expected.to have_attribute(:county_code, Types::String.optional) }

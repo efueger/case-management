@@ -13,10 +13,10 @@ module Api
       render json: child_clients
     end
 
-    def indian_ancestory
-      indian_ancestory = ChildClients::ChildClientRepository.new
-      notifications = indian_ancestory.indian_ancestory(params[:id], session[:token])
-      render json: notifications
+    def indian_ancestry_notifications
+      client_indian_ancestry_repo = ChildClients::ChildClientRepository.new
+      client_indian = client_indian_ancestry_repo.child_clients_by_indian_ancestry_notifications(params[:id], session[:token])
+      render json: client_indian
     end
   end
 end

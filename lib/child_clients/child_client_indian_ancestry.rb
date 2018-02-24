@@ -6,7 +6,7 @@ module Types
 end
 
 module ChildClients
-  class IndianAncestory < Dry::Struct
+  class ChildClientIndianAncestry < Dry::Struct
     constructor_type :schema
     attribute :id, Types::String.optional
     attribute :child_client_id, Types::String.optional

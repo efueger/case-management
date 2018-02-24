@@ -2,20 +2,20 @@ import ApiService from '../api';
 
 class ChildClientService {
   static fetch() {
-    return ApiService.get('/child_clients/CtMFii209X').then(
+    return ApiService.get('/child_clients/Ek694Ij0Wl').then(
       response => response.data
     );
   }
 
   static csec() {
-    return ApiService.get('/child_clients/AazXkWY06s/csec').then(
+    return ApiService.get('/child_clients/Ek694Ij0Wl/csec').then(
       response => response.data
     );
   }
 
   static indianAncestory() {
     return ApiService.get(
-      '/child-clients/Ek694Ij0Wl/indian-ancestry-notifications'
+      '/child_clients/Ek694Ij0Wl/indian_ancestry_notifications'
     ).then(response => response.data);
   }
 }

@@ -77,7 +77,7 @@ module ChildClients
               .to receive(:get)
               .with('/child-clients/66/indian-ancestry-notifications', token)
               .and_return(response)
-            expect(childclient_repository.indian_ancestory('66', token)).to eq []
+            expect(childclient_repository.child_clients_by_indian_ancestry_notifications('66', token)).to eq []
           end
         end
 
@@ -88,8 +88,8 @@ module ChildClients
             allow(http_service).to receive(:get)
               .with('/child-clients/66/indian-ancestry-notifications', token)
               .and_return(response)
-            expect(childclient_repository.indian_ancestory('66', token))
-              .to eq [IndianAncestory.new(id: '12')]
+            expect(childclient_repository.child_clients_by_indian_ancestry_notifications('66', token))
+              .to eq [ChildClientIndianAncestry.new(id: '12')]
           end
         end
       end

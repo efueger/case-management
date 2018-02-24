@@ -19,10 +19,7 @@ Rails.application.routes.draw do
     resources :child_clients, only: [:show] do
       member do
         get :csec
-      end
-      
-      member do 
-      get :indian_ancestory
+        get :indian_ancestry_notifications
       end
     end
 

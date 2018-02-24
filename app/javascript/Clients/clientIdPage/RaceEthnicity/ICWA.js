@@ -27,6 +27,7 @@ export default class ICWA extends React.Component {
 
   componentDidMount() {
     this.fetchICWAData();
+    this.fetchIndianAncestoryData();
   }
 
   fetchICWAData = () => {
@@ -39,6 +40,20 @@ export default class ICWA extends React.Component {
         this.valueToString();
       })
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
+  };
+
+  fetchIndianAncestoryData = () => {
+    this.setState({ indianAncestory: { XHRStatus: 'waiting' } });
+    return ChildClientService.indianAncestory()
+      .then(indianAncestory => {
+        this.setState({
+          indianAncestory: {
+            XHRStatus: 'ready',
+            records: indianAncestory,
+          },
+        });
+      })
+      .catch(() => this.setState({ indianAncestory: { XHRStatus: 'error' } }));
   };
 
   valueToString(event) {
@@ -87,7 +102,7 @@ export default class ICWA extends React.Component {
   }
 
   render() {
-    console.log(this.state.indianAncestory);
+    console.log(this.state.indianAncestory.records);
     return (
       <div>
         <label htmlFor="ICWA Eligible">ICWA Eligible</label>
@@ -99,12 +114,18 @@ export default class ICWA extends React.Component {
           options={icwaElegible}
           selectedOptions={this.state.selected}
         />
-        <BootstrapTable>
+        <BootstrapTable data={this.state.indianAncestory.records}>
           <TableHeaderColumn dataField="county" isKey dataSort>
+            ID
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField="Date" dataSort>
+            child_client ID
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField="Date" dataSort>
             County
           </TableHeaderColumn>
           <TableHeaderColumn dataField="Date" dataSort>
-            Date
+            Notification Date
           </TableHeaderColumn>
         </BootstrapTable>
         <div>

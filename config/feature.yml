@@ -7,3 +7,4 @@ test:
 production:
   features:
     authentication: true
+    
