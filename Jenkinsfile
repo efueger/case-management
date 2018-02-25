@@ -51,6 +51,12 @@ node('cm-slave') {
                 sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
             }
         }
+        stage('Acceptance Test') {
+            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+            sh "docker-compose up -d"
+            sh "sleep 120"
+            sh "docker-compose exec -T case-test bundle exec rspec spec/acceptance"
+        }
         stage('Publish Image') {
             withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
                 app.push()
@@ -72,6 +78,7 @@ node('cm-slave') {
        currentBuild.result = "FAILURE"
        throw e
     } finally {
+        sh "docker-compose down"
         notify(currentBuild.result)
         cleanWs()
     }
