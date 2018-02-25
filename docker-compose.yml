@@ -52,10 +52,10 @@ services:
     build:
       context: .
       dockerfile: docker/test/Dockerfile
-    # volumes:
-    #   - type: bind
-    #     source: ./app
-    #     target: /app/app
+    volumes:
+      - type: bind
+        source: ./app
+        target: /app/app
     # ports:
     #   - "3000:3000"
     #   - "3035:3035"
