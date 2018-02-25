@@ -54,8 +54,8 @@ services:
       dockerfile: docker/test/Dockerfile
     volumes:
       - type: bind
-        source: ./app
-        target: /app/app
+        source: ./spec
+        target: /app/spec
     # ports:
     #   - "3000:3000"
     #   - "3035:3035"
