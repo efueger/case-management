@@ -2,7 +2,6 @@ version: '3.2'
 services:
   db2:
     image: cwds/db2data:latest
-    # env_file: .env
     hostname: db2
     ports:
       - ${DB_CMS_DB2_PORT}:${DB_CMS_DB2_PORT}
@@ -22,7 +21,6 @@ services:
     restart: on-failure
     ports:
       - ${CASE_API_PORT}:${CASE_API_PORT}
-    # env_file: .env
     environment:
       SHIRO_CONFIG_PATH: ${SHIRO_NOSEC_CONFIG_PATH}
       KEY_STORE_FILE: ${KEY_STORE_FILE}
@@ -56,15 +54,11 @@ services:
       - type: bind
         source: ./spec
         target: /app/spec
-    # ports:
-    #   - "3000:3000"
-    #   - "3035:3035"
     environment:
       - SECRET_KEY_BASE
       - CASE_API_BASE_URL
       - PERRY_API_BASE_URL
       - CASE_WEB_BASE_URL
-    #command: ['bundle', 'exec', 'rspec', 'spec/acceptance']
     depends_on:
       - case-web
       - case-api
