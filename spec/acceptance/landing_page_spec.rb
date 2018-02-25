@@ -12,10 +12,10 @@ feature 'Landing Page' do
   private
 
   def page_has_cases
-    expect(page).to have_content('Emergency Response')
+    expect(page).to have_content('Primary')
   end
 
   def page_has_referrals
-    expect(page).to have_content('Immediate')
+    expect(page).to have_content('Referrals')
   end
 end
