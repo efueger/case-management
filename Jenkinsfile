@@ -52,7 +52,6 @@ node('cm-slave') {
             }
         }
         stage('Acceptance Test') {
-            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
             sh "docker-compose up -d"
             sh "sleep 120"
             sh "docker-compose exec -T case-test bundle exec rspec spec/acceptance"
