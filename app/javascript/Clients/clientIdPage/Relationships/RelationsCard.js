@@ -7,6 +7,9 @@ const propTypes = {
   anchorId: PropTypes.string,
   relatedClients: PropTypes.array,
 };
+const selectRow = {
+  mode: 'checkbox', // multi select
+};
 
 const RelationsCard = ({ anchorId, relatedClients }) => {
   return (
@@ -28,24 +31,37 @@ const RelationsCard = ({ anchorId, relatedClients }) => {
             style={{ paddingTop: '100%', backgroundColor: 'pink' }}
           />
         </div>
-        <div className="ChildName col-md-6">Allie Hendrixson</div>
+        <div className="ChildName col-md-6">
+          <b> Allie Hendrixson </b>
+        </div>
       </div>
       <BootstrapTable
         data={relatedClients}
         searchPlaceholder="Quick Filter"
         search={true}
+        selectRow={selectRow}
       >
-        <TableHeaderColumn dataField="name" isKey={true}>
+        <TableHeaderColumn dataField="name" isKey={true} width="150px">
           Name
         </TableHeaderColumn>
-        <TableHeaderColumn dataField="relationship">
+        <TableHeaderColumn dataField="relationship" width="150px">
           Relationship
         </TableHeaderColumn>
-        <TableHeaderColumn dataField="age">Age</TableHeaderColumn>
-        <TableHeaderColumn dataField="city">City</TableHeaderColumn>
-        <TableHeaderColumn dataField="address">Address</TableHeaderColumn>
-        <TableHeaderColumn dataField="phone">Phone</TableHeaderColumn>
-        <TableHeaderColumn dataField="actions">Actions</TableHeaderColumn>
+        <TableHeaderColumn dataField="age" width="150px">
+          Age
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField="city" width="150px">
+          City
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField="address" width="150px">
+          Address
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField="phone" width="150px">
+          Phone
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField="actions" width="150px">
+          Actions
+        </TableHeaderColumn>
       </BootstrapTable>
     </Cards>
   );
