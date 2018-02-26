@@ -4,10 +4,12 @@ import {
   DropDownField,
   DateTimePicker,
   CheckboxRadioGroup,
+  Button,
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { ICWA_COUNTIES } from '../Constants';
 import ChildClientService from '../../../_services/child_client';
+import { DataGridCard } from '../../../_components';
 
 const icwaElegible = ['Yes', 'No', 'Not Asked', 'Pending'];
 
@@ -20,9 +22,12 @@ export default class ICWA extends React.Component {
       checked: false,
       selected: [],
       county: '',
+      addNotifications: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.notificationsInfo = this.notificationsInfo.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +91,44 @@ export default class ICWA extends React.Component {
     }
   }
 
+  onClick() {
+    this.state.addNotifications === false
+      ? this.setState({ addNotifications: true })
+      : this.setState({ addNotifications: false });
+  }
+
+  notificationsInfo = () => {
+    if (!this.state.indianAncestory.records) {
+      return 'Currently No Notifications. Click addNotifications button to add New Notifications';
+    } else {
+      return (
+        <DataGridCard
+          cardHeaderText={getCardHeaderText(
+            this.state.addNotifications,
+            'Indian Ancestry Notifications'
+          )}
+          status={this.state.indianAncestory.XHRStatus}
+          render={() => (
+            <BootstrapTable data={this.state.indianAncestory.records}>
+              <TableHeaderColumn dataField="id" isKey hidden dataSort>
+                ID
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="child_client_id" dataSort>
+                child_client ID
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="county_code" dataSort>
+                County
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="notification_date" dataSort>
+                Notification Date
+              </TableHeaderColumn>
+            </BootstrapTable>
+          )}
+        />
+      );
+    }
+  };
+
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
   }
@@ -102,7 +145,7 @@ export default class ICWA extends React.Component {
   }
 
   render() {
-    console.log(this.state.indianAncestory.records);
+    // console.log(this.state.indianAncestory.records);
     return (
       <div>
         <label htmlFor="ICWA Eligible">ICWA Eligible</label>
@@ -114,38 +157,43 @@ export default class ICWA extends React.Component {
           options={icwaElegible}
           selectedOptions={this.state.selected}
         />
-        <BootstrapTable data={this.state.indianAncestory.records}>
-          <TableHeaderColumn dataField="county" isKey dataSort>
-            ID
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="Date" dataSort>
-            child_client ID
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="Date" dataSort>
-            County
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="Date" dataSort>
-            Notification Date
-          </TableHeaderColumn>
-        </BootstrapTable>
         <div>
-          <DropDownField
-            id="dropdown1"
-            gridClassName="col-md-6 col-sm-6 col-xs-12"
-            selectedOption={this.state.county}
-            options={ICWA_COUNTIES}
-            label="County"
-            onChange={this.handleDropdownChange('county')}
-          />
-          <div className="col-md-6 col-sm-6 col-xs-12">
-            <label htmlFor="Date Informed">Date Informed</label>
-            <DateTimePicker />
+          <div className="row">
+            <Button
+              btnClassName="default pull-right"
+              btnName="Add Notifications"
+              onClick={this.onClick}
+            />
           </div>
+          {this.notificationsInfo()}
+          {this.state.indianAncestory && (
+            <div>
+              <DropDownField
+                id="dropdown1"
+                gridClassName="col-md-6 col-sm-6 col-xs-12"
+                selectedOption={this.state.county}
+                options={ICWA_COUNTIES}
+                label="County"
+                onChange={this.handleDropdownChange('county')}
+              />
+              <div className="col-md-6 col-sm-6 col-xs-12">
+                <label htmlFor="Date Informed">Date Informed</label>
+                <DateTimePicker />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
+
+function getCardHeaderText({ XHRStatus, records }, text) {
+  return XHRStatus === 'ready' && records && records.length
+    ? `${text} (${records.length})`
+    : text;
+}
+
 ICWA.propTypes = {
   ICWA_COUNTIES: PropTypes.arrayOf(
     PropTypes.shape({

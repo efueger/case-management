@@ -19,7 +19,7 @@ describe('ChildClientService', () => {
       getSpy.mockReturnValue(Promise.resolve({}));
       expect(getSpy).not.toHaveBeenCalled();
       ChildClientService.fetch();
-      expect(getSpy).toHaveBeenCalledWith('/child_clients/CtMFii209X');
+      expect(getSpy).toHaveBeenCalledWith('/child_clients/Ek694Ij0Wl');
     });
 
     it('calls csec from ApiService', () => {
@@ -32,7 +32,7 @@ describe('ChildClientService', () => {
       getSpy.mockReturnValue(Promise.resolve({}));
       ChildClientService.indianAncestory();
       expect(getSpy).toHaveBeenCalledWith(
-        '/child_clients/Ek694Ij0Wl/indian-ancestry-notifications'
+        '/child_clients/Ek694Ij0Wl/indian_ancestry_notifications'
       );
     });
   });

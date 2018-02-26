@@ -15,7 +15,6 @@ module Infrastructure
     end
 
     private
-    
     def redirect_to_login(url)
       [301, { 'Location' => login_url(url) }, []]
     end

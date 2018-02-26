@@ -8,7 +8,7 @@ class ChildClientService {
   }
 
   static csec() {
-    return ApiService.get('/child_clients/Ek694Ij0Wl/csec').then(
+    return ApiService.get('/child_clients/AazXkWY06s/csec').then(
       response => response.data
     );
   }

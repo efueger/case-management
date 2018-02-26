@@ -1,10 +1,9 @@
 development:
   features:
-    authentication: true
+    authentication: false
 test:
   features:
     authentication: true
 production:
   features:
     authentication: true
-    
