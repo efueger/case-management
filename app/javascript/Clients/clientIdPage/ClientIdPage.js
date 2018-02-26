@@ -12,9 +12,9 @@ import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
 export const formatTable = client => {
   return {
     name: `${client.common_first_name} ${client.common_last_name}`,
-    address: `${client.street_name} ${client.street_number}`,
-    city: client.city,
-    phone: client.primary_phone,
+    address: `${client.address.street_name} ${client.address.street_number}`,
+    city: client.address.city,
+    phone: client.address.primary_phone,
   };
 };
 /* eslint-enable camelcase */
@@ -40,7 +40,7 @@ export default class ClientIdPage extends React.Component {
 
   fetchRelatedClients() {
     const clientId = 'AazXkWY06s';
-    const clients$ = ClientService.getRelatedClientsByChildClientId(clientId)
+    ClientService.getRelatedClientsByChildClientId(clientId)
       .then(records => {
         return records.filter(record => !!record.address);
       })
@@ -53,8 +53,6 @@ export default class ClientIdPage extends React.Component {
             records: relatedClients,
             XHRStatus: 'ready',
           },
-        });
-        this.setState({
           formatTable: {
             XHRStatus: 'ready',
             records: relatedClients.map(formatTable),
@@ -62,7 +60,6 @@ export default class ClientIdPage extends React.Component {
         });
       })
       .catch(() => this.setState({ relatedClients: { XHRStatus: 'error' } }));
-    return clients$;
   }
 
   handleSelect(href, event) {
