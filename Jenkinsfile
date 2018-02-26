@@ -45,7 +45,8 @@ node('cm-slave') {
             }
             stage('Publish Coverage Reports') {
                 sh "docker cp ${container.id}:/app/coverage ./coverage"
-                sh "GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$')"
+                last_commit = sh "git rev-parse HEAD"
+                sh "GIT_COMMIT=${last_commit}"
                 sh "./cc-test-reporter format-coverage -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
                 sh "./cc-test-reporter format-coverage -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
                 sh "./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2"
