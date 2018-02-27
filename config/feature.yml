@@ -1,6 +1,6 @@
 development:
   features:
-    authentication: false
+    authentication: true
 test:
   features:
     authentication: true
