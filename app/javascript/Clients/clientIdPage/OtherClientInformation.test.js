@@ -30,6 +30,15 @@ describe('#childclient', () => {
     expect(setClientSpy).toHaveBeenCalledWith();
     expect(setClientSpy).toHaveBeenCalledTimes(2);
   });
+
+  it('should handle error in #setClient', () => {
+    ChildClientService.fetch.mockReturnValue(Promise.reject(Error('error')));
+    const wrapper = shallow(<OtherClientInformation />);
+    const instance = wrapper.instance();
+    return instance.setClient().then(response => {
+      expect(instance.state.response.XHRStatus).toBe('error');
+    });
+  });
 });
 
 describe('Other Client Information', () => {

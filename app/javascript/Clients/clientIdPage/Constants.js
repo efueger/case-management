@@ -1,9 +1,3 @@
-export const GENDERS = [
-  { value: 'M', label: 'Male' },
-  { value: 'F', label: 'Female' },
-  { value: 'OTHER', label: 'Other' },
-];
-
 export const PREFIX = [
   { value: 'Mr.', label: 'Mr.' },
   { value: 'Mrs.', label: 'Mrs.' },
@@ -24,6 +18,12 @@ export const SUFFIX = [
   { value: 'M.D.', label: 'M.D.' },
   { value: 'Ph.D.', label: 'Ph.D.' },
   { value: 'D.D.S.', label: 'D.D.S.' },
+];
+
+export const GENDERS = [
+  { value: 'M', label: 'Male' },
+  { value: 'F', label: 'Female' },
+  { value: 'OTHER', label: 'Other' },
 ];
 
 export const MARITAL_STATUS = [

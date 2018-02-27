@@ -7,25 +7,19 @@ import {
   Cards,
   DateTimePicker,
   CheckboxRadioGroup,
-  Button,
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
-import { DataGridCard } from '../../_components';
 import OtherClientInformation from './OtherClientInformation.js';
-
 import {
   GENDERS,
-  MARITAL_STATUS,
   AGE_UNITS,
-  STATE_TYPES,
   NAME_TYPES,
   CSEC_TYPES,
   PREFIX,
   SUFFIX,
   PRIMARY_LANGUAGES,
   SECONDARY_LANGUAGES,
-  ICWA_COUNTIES,
 } from './Constants';
 
 const LabelValueShape = PropTypes.shape({
@@ -51,7 +45,6 @@ export default class ClientInformation extends React.Component {
       confidentiality: ['Confidentiality in effect'],
       selected: [],
       genderValue: '',
-
       ageUnitValue: '',
       nameTypeValue: '',
       prefixValue: '',
@@ -62,24 +55,30 @@ export default class ClientInformation extends React.Component {
       socialSecurityNumber: '',
       birthDate: '',
       clientNumber: '',
-
       age: '',
       primaryLanguageValue: '',
       secondaryLanguageValue: '',
+      csecInfoBox: ['This case has CSEC Data'],
+      StateTypesValue: '',
+      prefix: '',
+      suffix: '',
+      hasCsecData: false,
+      csecDataType: '',
+      csecStartDate: '',
+      csecEndDate: '',
+      csecCodeValue: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.getAge = this.getAge.bind(this);
     this.handleDobChange = this.handleDobChange.bind(this);
     this.handleCsecDateChange = this.handleCsecDateChange.bind(this);
-    this.handleCsec = this.handleCsec.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.handleCsecChange = this.handleCsecChange.bind(this);
   }
 
   componentDidMount() {
     this.setClientData();
     this.setCsecData();
-    // this.fetchIndianAncestoryData();
   }
 
   setClientData = () => {
@@ -95,31 +94,15 @@ export default class ClientInformation extends React.Component {
           socialSecurityNumber: response.social_security_number,
           birthDate: response.birth_dt,
           clientNumber: response.identifier,
-          alienRegistration: response.alien_registration_number,
-          driverLicensNumber: response.driver_licens_number,
           genderValue: response.gender_code,
-          maritalValue: String(response.material_status_type),
           ageUnitValue: response.ageUnit,
-          stateTypesValue: String(response.driver_license_state_code_type),
           nameTypeValue: String(response.name_type),
+          primaryLanguageValue: String(response.primary_language_type),
+          secondaryLanguageValue: String(response.secondary_language_type),
         })
       )
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
   };
-
-  // fetchIndianAncestoryData = () => {
-  //   this.setState({ indianAncestory: { XHRStatus: 'waiting' } });
-  //   return ChildClientService.indianAncestory()
-  //     .then(indianAncestory => {
-  //       this.setState({
-  //         indianAncestory: {
-  //           XHRStatus: 'ready',
-  //           records: indianAncestory,
-  //         },
-  //       });
-  //     })
-  //     .catch(() => this.setState({ indianAncestory: { XHRStatus: 'error' } }));
-  // };
 
   setCsecData = () => {
     return ChildClientService.csec()
@@ -137,78 +120,6 @@ export default class ClientInformation extends React.Component {
       .catch(() => this.setState({ csecResponse: { XHRStatus: 'error' } }));
   };
 
-  notificationsInfo = () => {
-    if (!this.state.indianAncestory.records) {
-      return 'Currently No Notifications. Click addNotifications to add New Notifications';
-    } else {
-      return (
-        <DataGridCard
-          cardHeaderText={getCardHeaderText(
-            this.state.addNotifications,
-            'Indian Ancestry Notifications'
-          )}
-          status={this.state.indianAncestory.XHRStatus}
-          render={() => (
-            <BootstrapTable data={this.state.indianAncestory.records}>
-              <TableHeaderColumn dataField="id" isKey hidden dataSort>
-                ID
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="child_client_id" dataSort>
-                child_client ID
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="county_code" dataSort>
-                County
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="notification_date" dataSort>
-                Notification Date
-              </TableHeaderColumn>
-            </BootstrapTable>
-          )}
-        />
-      );
-    }
-  };
-
-  addCsec = () => {
-    if (!this.state.csecResponse) {
-      return 'Currently No Notifications. Click addNotifications to add New Notifications';
-    } else {
-      return (
-        <DataGridCard
-          cardHeaderText={getCardHeaderText(
-            this.state.addCsec,
-            'CSEC Information'
-          )}
-          status={this.state.addCsec}
-          render={() => (
-            <div>
-              <BootstrapTable
-                data={this.state.csecResponse}
-                striped={true}
-                hover={true}
-              >
-                <TableHeaderColumn
-                  dataField="sexual_exploitation_type"
-                  isKey
-                  dataSort
-                  width="150"
-                >
-                  CSEC Type
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="start_date" dataSort width="150">
-                  Start Date
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="end_date" dataSort width="150">
-                  End Date
-                </TableHeaderColumn>
-              </BootstrapTable>
-            </div>
-          )}
-        />
-      );
-    }
-  };
-
   handleChange(event) {
     const newSelection = event.target.value;
     let newSelectionArray;
@@ -222,18 +133,6 @@ export default class ClientInformation extends React.Component {
 
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
-  }
-
-  onClick() {
-    this.state.addNotifications === false
-      ? this.setState({ addNotifications: true })
-      : this.setState({ addNotifications: false });
-  }
-
-  handleCsec() {
-    this.state.addCsec === false
-      ? this.setState({ addCsec: true })
-      : this.setState({ addCsec: false });
   }
 
   getAge(birthDate) {
@@ -384,39 +283,8 @@ export default class ClientInformation extends React.Component {
               onChange={this.handleDropdownChange('secondaryLanguageValue')}
             />
           </div>
-          <div className="col-md-4 col-sm-6 col-xs-12">
-            <label htmlFor="SOGIE Data">SOGIE</label>
-            <label htmlFor="Race& Ethnicity">Race & Ethnicity</label>
-          </div>
-          <div>
-            <div className="row">
-              <Button
-                btnClassName="default pull-right"
-                btnName="+Add Notifications"
-                onClick={this.onClick}
-              />
-            </div>
-            {this.notificationsInfo()}
-            {this.state.addNotifications && (
-              <div>
-                <DropDownField
-                  id="dropdown1"
-                  gridClassName="col-md-6 col-sm-6 col-xs-12"
-                  selectedOption={this.state.county}
-                  options={ICWA_COUNTIES}
-                  label="County"
-                  onChange={this.handleDropdownChange('county')}
-                />
-                <div className="col-md-6 col-sm-6 col-xs-12">
-                  <label htmlFor="Date Informed">Date Informed</label>
-                  <DateTimePicker />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="form-group row">
-            <div className="col-md-12">
-              <label htmlFor="CONFIDENTIALITY">CONFIDENTIALITY</label>
+          <div className="form-group">
+            <div className="col-md-6">
               <CheckboxRadioGroup
                 id="checkbox4"
                 name={'confidentiality'}
@@ -426,42 +294,14 @@ export default class ClientInformation extends React.Component {
                 selectedOptions={this.state.selected}
               />
             </div>
-            <div className="col-md-5">
+            {/* <div className="col-md-5">
               <label htmlFor="CONFIDENTIALITY EFFECTIVE DATE">
                 CONFIDENTIALITY EFFECTIVE DATE
               </label>
               <DateTimePicker />
-            </div>
+            </div> */}
           </div>
-          <div className="row">
-            <Button
-              btnClassName="default pull-right"
-              btnName="+Add CSEC Info"
-              onClick={this.handleCsec}
-            />
-            {this.addCsec()}
-            {this.state.addCsec && (
-              <div>
-                <DropDownField
-                  id="dropdown6"
-                  gridClassName="col-md-4 col-sm-6 col-xs-12"
-                  selectedOption={this.state.csecCodeValue}
-                  label="CSEC Data Type"
-                  onChange={this.handleDropdownChange('csecCodeValue')}
-                />
-
-                <div className="col-md-4 col-sm-6 col-xs-12">
-                  <label htmlFor="START DATE">START DATE</label>
-                  <DateTimePicker />
-                </div>
-                <div className="col-md-4 col-sm-6 col-xs-12">
-                  <label htmlFor="END DATE">END DATE</label>
-                  <DateTimePicker fieldClassName="form-group" />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="form-group row">
+          <div className="form-group">
             <div className="col-md-6">
               <CheckboxRadioGroup
                 id="checkbox1"
@@ -483,8 +323,8 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
-          <div className="form-group row">
-            <div className="col-md-12">
+          <div className="form-group">
+            <div className="col-md-6">
               <CheckboxRadioGroup
                 id="checkbox3"
                 name={'Warranty'}
@@ -495,34 +335,101 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
-          <h3>Other Client Information</h3>
+          {this.state.hasCsecData && (
+            <div className="form-group row">
+              <div className="col-md-12">
+                <CheckboxRadioGroup
+                  id="checkbox5"
+                  name={'csecInfoBox'}
+                  type={'checkbox'}
+                  handleOnChange={this.handleCsecChange}
+                  options={this.state.csecInfoBox}
+                  selectedOptions={this.state.csecInfoBox}
+                />
+              </div>
+            </div>
+          )}
+          {!this.state.hasCsecData && (
+            <div className="form-group row">
+              <div className="col-md-12">
+                <CheckboxRadioGroup
+                  id="checkbox5"
+                  name={'csecInfoBox'}
+                  type={'checkbox'}
+                  handleOnChange={this.handleCsecChange}
+                  options={this.state.csecInfoBox}
+                  selectedOptions={this.state.selected}
+                />
+              </div>
+            </div>
+          )}
+          {this.state.hasCsecData && (
+            <div>
+              <BootstrapTable
+                data={this.state.csecResponse}
+                striped={true}
+                hover={true}
+              >
+                <TableHeaderColumn
+                  dataField="sexual_exploitation_type"
+                  isKey
+                  dataSort
+                  width="150"
+                >
+                  CSEC Type
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="start_date" dataSort width="150">
+                  Start Date
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="end_date" dataSort width="150">
+                  End Date
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </div>
+          )}
+          <div>
+            <DropDownField
+              id="dropdown6"
+              gridClassName="col-md-4 col-sm-6 col-xs-12"
+              selectedOption={this.state.csecCodeValue}
+              label="CSEC Data Type"
+              onChange={this.handleDropdownChange('csecCodeValue')}
+            />
+            <div className="col-md-4 col-sm-6 col-xs-12">
+              <label htmlFor="START DATE">START DATE</label>
+              <DateTimePicker />
+            </div>
+            <div className="col-md-4 col-sm-6 col-xs-12">
+              <label htmlFor="END DATE">END DATE</label>
+              <DateTimePicker fieldClassName="form-group" />
+            </div>
+          </div>
+          <div className="col-md-12">
+            <label>
+              <u htmlFor="Other Information">Other Information</u>
+            </label>
+          </div>
           <OtherClientInformation />
         </Cards>
       </div>
     );
   }
 }
-function getCardHeaderText(indianAncestory, text) {
-  return indianAncestory.XHRStatus === 'ready' &&
-    indianAncestory.records &&
-    indianAncestory.length
-    ? `${text} (${indianAncestory.length})`
-    : text;
-}
+
 ClientInformation.propTypes = {
   anchorId: PropTypes.string,
   GENDERS: LabelValueEnumerableShape,
-  MARITAL_STATUS: LabelValueEnumerableShape,
   AGE_UNITS: LabelValueEnumerableShape,
-  STATE_TYPES: LabelValueEnumerableShape,
   NAME_TYPES: LabelValueEnumerableShape,
   CSEC_TYPES: LabelValueEnumerableShape,
+  PRIMARY_LANGUAGES: LabelValueEnumerableShape,
+  SECONDARY_LANGUAGES: LabelValueEnumerableShape,
 };
 ClientInformation.defaultProps = {
+  PRIMARY_LANGUAGES: PRIMARY_LANGUAGES,
+  SECONDARY_LANGUAGES: SECONDARY_LANGUAGES,
   GENDERS,
-  MARITAL_STATUS,
   AGE_UNITS,
-  STATE_TYPES,
   NAME_TYPES,
   CSEC_TYPES,
 };

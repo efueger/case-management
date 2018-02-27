@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  DropDownField,
-  CheckboxRadioGroup,
-  InputComponent,
-} from 'react-wood-duck';
+import { DropDownField, InputComponent } from 'react-wood-duck';
 import ChildClientService from '../../_services/child_client';
 import {
-  PRIMARY_LANGUAGES,
-  SECONDARY_LANGUAGES,
   LITERATE,
   INCAPACITATED_PARENT,
   MARITAL_STATUS,
   STATE_TYPES,
 } from './Constants';
+
+const LabelValueShape = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+});
+const LabelValueEnumerableShape = PropTypes.arrayOf(LabelValueShape);
 
 export default class OtherClientInformation extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class OtherClientInformation extends React.Component {
       value: '',
       literateValue: '',
       incapacitatedParentValue: '',
-      maritalValue: '',
+      maritalValue: 'ma',
       stateTypesValue: '',
       alienRegistration: '',
       driverLicensNumber: '',
@@ -40,9 +40,11 @@ export default class OtherClientInformation extends React.Component {
     return ChildClientService.fetch()
       .then(response =>
         this.setState({
-          primaryLanguageValue: String(response.primary_language_type),
-          secondaryLanguageValue: String(response.secondary_language_type),
+          response,
+          maritalValue: String(response.marital_status_type),
           literateValue: String(response.litrate_code),
+          alienRegistration: response.alien_registration_number,
+          stateTypesValue: String(response.driver_license_state_code_type),
           incapacitatedParentValue: String(response.incapacitated_parent_code),
         })
       )
@@ -54,6 +56,7 @@ export default class OtherClientInformation extends React.Component {
   }
 
   render() {
+    // console.log(this.state.response);
     return (
       <div>
         <div>
@@ -112,34 +115,14 @@ export default class OtherClientInformation extends React.Component {
 
 OtherClientInformation.propTypes = {
   anchorId: PropTypes.string,
-  PRIMARY_LANGUAGES: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  SECONDARY_LANGUAGES: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  LITERATE: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  INCAPACITATED_PARENT: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
+  MARITAL_STATUS: LabelValueEnumerableShape,
+  STATE_TYPES: LabelValueEnumerableShape,
+  LITERATE: LabelValueEnumerableShape,
+  INCAPACITATED_PARENT: LabelValueEnumerableShape,
 };
 OtherClientInformation.defaultProps = {
-  PRIMARY_LANGUAGES: PRIMARY_LANGUAGES,
-  SECONDARY_LANGUAGES: SECONDARY_LANGUAGES,
   LITERATE: LITERATE,
+  MARITAL_STATUS,
+  STATE_TYPES,
   INCAPACITATED_PARENT: INCAPACITATED_PARENT,
 };

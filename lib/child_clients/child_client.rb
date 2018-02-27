@@ -21,7 +21,7 @@ module ChildClients
     attribute :alien_registration_number, Types::String.optional
     attribute :driver_licens_number, Types::String.optional
     attribute :gender_code, Types::String.optional
-    attribute :material_status_type, Types::String.optional
+    attribute :marital_status_type, Types::String.optional
     attribute :name_type, Types::String.optional
     attribute :driver_license_state_code_type, Types::String.optional
     attribute :primary_language_type, Types::String.optional

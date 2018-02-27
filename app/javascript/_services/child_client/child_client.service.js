@@ -12,12 +12,6 @@ class ChildClientService {
       response => response.data
     );
   }
-
-  static indianAncestory() {
-    return ApiService.get(
-      '/child_clients/Ek694Ij0Wl/indian_ancestry_notifications'
-    ).then(response => response.data);
-  }
 }
 
 export default ChildClientService;
