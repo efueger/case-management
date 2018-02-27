@@ -4,8 +4,11 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  anchorId: PropTypes.string,
+  anchorId: PropTypes.string.isRequired,
   relatedClients: PropTypes.array,
+};
+const defaultProps = {
+  relatedClients: [],
 };
 const selectRow = {
   mode: 'checkbox', // multi select
@@ -66,6 +69,8 @@ const RelationsCard = ({ anchorId, relatedClients }) => {
     </Cards>
   );
 };
+
 RelationsCard.propTypes = propTypes;
+RelationsCard.defaultProps = defaultProps;
 
 export default RelationsCard;

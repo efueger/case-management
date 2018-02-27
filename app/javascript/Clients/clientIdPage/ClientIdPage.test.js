@@ -9,9 +9,28 @@ describe('ClientIdPage Helper Functions', () => {
       const data = {
         common_first_name: 'hello',
         common_last_name: 'world',
+        address: {
+          street_name: 'foo',
+          street_number: 'bar',
+        },
       };
-      const { name } = formatTable(data);
+      const { name, address } = formatTable(data);
       expect(name).toBe('hello world');
+      expect(address).toBe('foo bar');
+    });
+
+    it('formats the object in the table to data with client birth date and age', () => {
+      const data = {
+        common_first_name: 'hello',
+        common_last_name: 'world',
+        address: {
+          street_name: 'foo',
+          street_number: 'bar',
+        },
+        birth_dt: '1986-11-06',
+      };
+      const { age } = formatTable(data);
+      expect(age).toBe('31 | 1986-11-06');
     });
   });
 });

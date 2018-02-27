@@ -6,19 +6,27 @@ import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
 import ClientService from '../../_services/client';
 import RelationsCard from './Relationships/RelationsCard';
+import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
 
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
 /* eslint-disable camelcase */
 export const formatTable = client => {
+  const {
+    street_name = '',
+    street_number = '',
+    city = '',
+    primary_phone = '',
+  } = client.address;
   return {
     name: `${client.common_first_name} ${client.common_last_name}`,
-    address: `${client.address.street_name} ${client.address.street_number}`,
-    city: client.address.city,
-    phone: client.address.primary_phone,
+    address: `${street_name} ${street_number}`,
+    city: city,
+    phone: primary_phone,
+    age: `${getAgeUtil(client.birth_dt).age} | ${client.birth_dt}`,
   };
 };
 /* eslint-enable camelcase */
-export default class ClientIdPage extends React.Component {
+class ClientIdPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelect = this.handleSelect.bind(this);
@@ -92,3 +100,5 @@ export default class ClientIdPage extends React.Component {
     );
   }
 }
+
+export default ClientIdPage;
