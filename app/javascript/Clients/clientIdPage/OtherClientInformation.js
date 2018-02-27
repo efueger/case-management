@@ -56,7 +56,6 @@ export default class OtherClientInformation extends React.Component {
   }
 
   render() {
-    // console.log(this.state.response);
     return (
       <div>
         <div>
@@ -90,7 +89,6 @@ export default class OtherClientInformation extends React.Component {
             label="Drivers License # "
             type="number"
             value={this.state.driverLicensNumber}
-            // onChange={this}
           />
           <DropDownField
             id="dropdown4"
