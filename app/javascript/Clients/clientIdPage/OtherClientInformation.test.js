@@ -39,27 +39,8 @@ describe('Other Client Information', () => {
   });
 
   it('renders a Cards, DropDownFields and CheckboxRadioGroup', () => {
-    expect(otherClient.find('Cards').length).toBeGreaterThan(0);
     expect(otherClient.find('DropDownField').length).toEqual(4);
-    expect(otherClient.find('CheckboxRadioGroup').length).toEqual(2);
-  });
-
-  describe('#handleChange() Functions', () => {
-    it('should manage the handleSpoken selection', () => {
-      const instance = otherClient.instance();
-      instance.handleSpokenChange({ target: { value: 'Yes' } });
-      expect(instance.state.selected).toContain('Yes');
-      instance.handleSpokenChange({ target: { value: 'No' } });
-      expect(instance.state.selected).not.toContain(['No']);
-    });
-
-    it('should manage the Spoken In selection', () => {
-      const instance = otherClient.instance();
-      instance.handleSpokenInChange({ target: { value: 'No' } });
-      expect(instance.state.spokenInSelection).toContain('No');
-      instance.handleSpokenInChange({ target: { value: 'Yes' } });
-      expect(instance.state.spokenInSelection).not.toContain(['Yes']);
-    });
+    expect(otherClient.find('InputComponent').length).toEqual(2);
   });
 
   describe('#HandleDropDownChange Function', () => {

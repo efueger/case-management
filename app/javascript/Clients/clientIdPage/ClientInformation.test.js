@@ -37,29 +37,29 @@ describe('ClientInformation', () => {
     });
   });
 
-  describe('#setCsecData', () => {
-    describe('when csec response is []', () => {
-      it('sets hasCsecData to false', () => {
-        const wrapper = shallow(<ClientInformation />).instance();
-        ChildClientService.csec.mockReturnValue(Promise.resolve([]));
-        return wrapper.setCsecData().then(csecResponse => {
-          expect(wrapper.state.hasCsecData).toBe(false);
-          expect(wrapper.state.csecResponse.length).toEqual(0);
-        });
-      });
-    });
+  // describe('#setCsecData', () => {
+  //   describe('when csec response is []', () => {
+  //     it('sets hasCsecData to false', () => {
+  //       const wrapper = shallow(<ClientInformation />).instance();
+  //       ChildClientService.csec.mockReturnValue(Promise.resolve([]));
+  //       return wrapper.setCsecData().then(csecResponse => {
+  //         expect(wrapper.state.hasCsecData).toBe(false);
+  //         expect(wrapper.state.csecResponse.length).toEqual(0);
+  //       });
+  //     });
+  //   });
 
-    describe('when csec response is [{}]', () => {
-      it('sets hasCsecData to true', () => {
-        const wrapper = shallow(<ClientInformation />).instance();
-        ChildClientService.csec.mockReturnValue(Promise.resolve([{}]));
-        return wrapper.setCsecData().then(csecResponse => {
-          expect(wrapper.state.hasCsecData).toBe(true);
-          expect(wrapper.state.csecResponse.length).toEqual(1);
-        });
-      });
-    });
-  });
+  //   describe('when csec response is [{}]', () => {
+  //     it('sets hasCsecData to true', () => {
+  //       const wrapper = shallow(<ClientInformation />).instance();
+  //       ChildClientService.csec.mockReturnValue(Promise.resolve([{}]));
+  //       return wrapper.setCsecData().then(csecResponse => {
+  //         expect(wrapper.state.hasCsecData).toBe(true);
+  //         expect(wrapper.state.csecResponse.length).toEqual(1);
+  //       });
+  //     });
+  //   });
+  // });
 
   describe('Client Information', () => {
     let clientPage;
@@ -73,17 +73,17 @@ describe('ClientInformation', () => {
     });
 
     it('renders InputComponent components', () => {
-      expect(clientPage.find('InputComponent').length).toBe(12);
+      expect(clientPage.find('InputComponent').length).toBe(7);
     });
 
-    it('toggles the display of the csec block ', () => {
-      const instance = clientPage.instance();
-      clientPage.setState({ hasCsecData: true });
-      expect(instance.state.csecInfoBox).toContain('This case has CSEC Data');
-      expect(clientPage.find('DropDownField').length).toBe(6);
-      expect(clientPage.find('BootstrapTable').length).toBe(1);
-      expect(clientPage.find('TableHeaderColumn').length).toBe(3);
-    });
+    // it('toggles the display of the csec block ', () => {
+    //   const instance = clientPage.instance();
+    //   clientPage.setState({ hasCsecData: true });
+    //   expect(instance.state.csecInfoBox).toContain('This case has CSEC Data');
+    //   expect(clientPage.find('DropDownField').length).toBe(6);
+    //   expect(clientPage.find('BootstrapTable').length).toBe(1);
+    //   expect(clientPage.find('TableHeaderColumn').length).toBe(3);
+    // });
 
     describe('#handleDobChange()', () => {
       it('should calculate the Age based on user input date of birth ', () => {
@@ -120,32 +120,32 @@ describe('ClientInformation', () => {
       });
     });
 
-    describe('#handleCsecDateChange() function', () => {
-      it('should an event handler that sets csec start date', () => {
-        let clientPage = shallow(<ClientInformation />);
-        const instance = clientPage.instance();
-        let userValue = moment('02 10 2001', 'MM DD YYYY');
-        instance.handleCsecDateChange({ target: { value: userValue } });
-        expect(instance.state.csecStartDate).toEqual(userValue);
-      });
-    });
+    // describe('#handleCsecDateChange() function', () => {
+    //   it('should an event handler that sets csec start date', () => {
+    //     let clientPage = shallow(<ClientInformation />);
+    //     const instance = clientPage.instance();
+    //     let userValue = moment('02 10 2001', 'MM DD YYYY');
+    //     instance.handleCsecDateChange({ target: { value: userValue } });
+    //     expect(instance.state.csecStartDate).toEqual(userValue);
+    //   });
+    // });
 
-    describe('#handleCsecChange()', () => {
-      it('should manage the csecResponse with out data', () => {
-        const instance = clientPage.instance();
-        clientPage.setState({ csecResponse: [] });
-        instance.handleCsecChange();
-        expect(instance.state.hasCsecData).toBe(false);
-        expect(instance.state.csecResponse.length).toEqual(0);
-      });
+    // describe('#handleCsecChange()', () => {
+    //   it('should manage the csecResponse with out data', () => {
+    //     const instance = clientPage.instance();
+    //     clientPage.setState({ csecResponse: [] });
+    //     instance.handleCsecChange();
+    //     expect(instance.state.hasCsecData).toBe(false);
+    //     expect(instance.state.csecResponse.length).toEqual(0);
+    //   });
 
-      it('should manage the csecResponse with data', () => {
-        const instance = clientPage.instance();
-        clientPage.setState({ csecResponse: [{}] });
-        instance.handleCsecChange();
-        expect(instance.state.hasCsecData).toBe(true);
-        expect(instance.state.csecResponse.length).toEqual(1);
-      });
-    });
+    //   it('should manage the csecResponse with data', () => {
+    //     const instance = clientPage.instance();
+    //     clientPage.setState({ csecResponse: [{}] });
+    //     instance.handleCsecChange();
+    //     expect(instance.state.hasCsecData).toBe(true);
+    //     expect(instance.state.csecResponse.length).toEqual(1);
+    //   });
+    // });
   });
 });

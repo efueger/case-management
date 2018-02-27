@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClientInformation from './ClientInformation';
-import OtherClientInformation from './OtherClientInformation';
 import SafetyAlertInformation from './SafetyAlertInformation';
 import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
@@ -29,7 +28,6 @@ export default class ClientIdPage extends React.Component {
             </div>
             <div className="col-sm-9">
               <ClientInformation anchorId="clientInformation" />
-              <OtherClientInformation anchorId="otherCLientInformation" />
               <SafetyAlertInformation anchorId="safetyAlertInformation" />
               <RaceEthnicityForm anchorId="raceEthnicity" />
             </div>
