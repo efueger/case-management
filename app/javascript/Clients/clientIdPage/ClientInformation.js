@@ -33,9 +33,6 @@ export default class ClientInformation extends React.Component {
     super(props);
     this.state = {
       response: { XHRStatus: 'idle' },
-      indianAncestory: { XHRStatus: 'idle' },
-      addNotifications: false,
-      addCsec: false,
       csecResponse: [],
       checked: false,
       value: '',
@@ -170,6 +167,12 @@ export default class ClientInformation extends React.Component {
           cardHeaderButton={false}
           cardActionButtons={true}
         >
+          <div className="col-md-12">
+            <label htmlFor="Client ID :  # 1928-2726-2626-2622453">
+              Client ID: # 1928-2726-2626-2622453
+            </label>
+          </div>
+
           <div>
             <DropDownField
               gridClassName="col-md-1 col-sm-6 col-xs-12"
