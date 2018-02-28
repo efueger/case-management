@@ -1,28 +1,29 @@
 import React from 'react';
-import ClientInformation from './ClientInformation';
-import OtherClientInformation from './OtherClientInformation';
-import SafetyAlertInformation from './SafetyAlertInformation';
-import { GlobalHeader, PageHeader } from 'react-wood-duck';
 import ClientIdSideBar from './ClientIdSideBar';
+import ClientInformation from './ClientInformation';
 import ClientService from '../../_services/client';
-import RelationsCard from './Relationships/RelationsCard';
-import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
-
+import OtherClientInformation from './OtherClientInformation';
 import RaceEthnicityForm from './RaceEthnicity/RaceEthnicityForm';
+import RelationsCard from './Relationships/RelationsCard';
+import SafetyAlertInformation from './SafetyAlertInformation';
+import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
+import { GlobalHeader, PageHeader } from 'react-wood-duck';
+
 /* eslint-disable camelcase */
 export const formatTable = client => {
   const {
-    street_name = '',
-    street_number = '',
     city = '',
     primary_phone = '',
-  } = client.address;
+    street_name = '',
+    street_number = '',
+  } =
+    client.address || {};
   return {
-    name: `${client.common_first_name} ${client.common_last_name}`,
     address: `${street_name} ${street_number}`,
-    city: city,
-    phone: primary_phone,
     age: `${getAgeUtil(client.birth_dt).age} | ${client.birth_dt}`,
+    city: city,
+    name: `${client.common_first_name} ${client.common_last_name}`,
+    phone: primary_phone,
   };
 };
 /* eslint-enable camelcase */
@@ -32,12 +33,12 @@ class ClientIdPage extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       relatedClients: {
-        XHRStatus: 'idle',
         records: undefined,
+        XHRStatus: 'idle',
       },
       formatTable: {
-        XHRStatus: 'idle',
         records: undefined,
+        XHRStatus: 'idle',
       },
     };
   }
