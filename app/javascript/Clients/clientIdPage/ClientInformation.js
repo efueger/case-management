@@ -178,7 +178,7 @@ export default class ClientInformation extends React.Component {
               gridClassName="col-md-1 col-sm-6 col-xs-12"
               options={PREFIX}
               label="Prefix"
-              selectedOption={this.state.nameTypeValue}
+              selectedOption={this.state.prefixValue}
               onChange={this.handleDropdownChange('prefixValue')}
             />
             <InputComponent
@@ -206,7 +206,7 @@ export default class ClientInformation extends React.Component {
               gridClassName="col-md-2 col-sm-6 col-xs-12"
               options={SUFFIX}
               label="Suffix"
-              selectedOption={this.state.nameTypeValue}
+              selectedOption={this.state.suffixValue}
               onChange={this.handleDropdownChange('suffixValue')}
             />
           </div>
