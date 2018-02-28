@@ -50,10 +50,10 @@ node('cm-slave') {
                 sh "GIT_BRANCH=master"
                 commited_at = sh(returnStdout: true, script: "git log -1 --pretty=format:'%ct'")
                 sh "GIT_COMMITED_AT=${commited_at}"
-                sh "./cc-test-reporter format-coverage -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
-                sh "./cc-test-reporter format-coverage -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
+                sh "./cc-test-reporter format-coverage --debug -p /app -t simplecov -o coverage/codeclimate.ruby.json coverage/ruby/.resultset.json"
+                sh "./cc-test-reporter format-coverage --debug -p /app -t lcov -o coverage/codeclimate.javascript.json coverage/javascript/lcov.info"
                 sh "./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2"
-                sh "./cc-test-reporter upload-coverage -r ${CC_TEST_REPORTER_ID}"
+                sh "./cc-test-reporter upload-coverage --debug -r ${CC_TEST_REPORTER_ID}"
             }
         }
         stage('Publish Image') {
