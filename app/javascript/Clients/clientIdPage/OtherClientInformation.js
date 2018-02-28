@@ -1,13 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropDownField, Cards, CheckboxRadioGroup } from 'react-wood-duck';
+import { DropDownField, InputComponent } from 'react-wood-duck';
 import ChildClientService from '../../_services/child_client';
 import {
-  PRIMARY_LANGUAGES,
-  SECONDARY_LANGUAGES,
   LITERATE,
   INCAPACITATED_PARENT,
+  MARITAL_STATUS,
+  STATE_TYPES,
 } from './Constants';
+
+const LabelValueShape = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+});
+const LabelValueEnumerableShape = PropTypes.arrayOf(LabelValueShape);
 
 export default class OtherClientInformation extends React.Component {
   constructor(props) {
@@ -16,18 +22,14 @@ export default class OtherClientInformation extends React.Component {
       response: { XHRStatus: 'idle' },
       checked: false,
       value: '',
-      primaryLanguageValue: '',
-      secondaryLanguageValue: '',
-      spokenIn: ['Yes', 'No'],
-      spokenInHome: ['Yes', 'No'],
       literateValue: '',
       incapacitatedParentValue: '',
-      selected: [],
-      spokenInSelection: [],
+      maritalValue: 'ma',
+      stateTypesValue: '',
+      alienRegistration: '',
+      driverLicensNumber: '',
     };
-    this.handleSpokenChange = this.handleSpokenChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.handleSpokenInChange = this.handleSpokenInChange.bind(this);
   }
 
   componentDidMount() {
@@ -38,21 +40,16 @@ export default class OtherClientInformation extends React.Component {
     return ChildClientService.fetch()
       .then(response =>
         this.setState({
-          primaryLanguageValue: String(response.primary_language_type),
-          secondaryLanguageValue: String(response.secondary_language_type),
+          response,
+          maritalValue: String(response.marital_status_type),
           literateValue: String(response.litrate_code),
+          alienRegistration: response.alien_registration_number,
+          stateTypesValue: String(response.driver_license_state_code_type),
           incapacitatedParentValue: String(response.incapacitated_parent_code),
         })
       )
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
   };
-
-  handleSpokenChange(event) {
-    this.setState({ selected: [event.target.value] });
-  }
-  handleSpokenInChange(event) {
-    this.setState({ spokenInSelection: [event.target.value] });
-  }
 
   handleDropdownChange(name) {
     return ({ value }) => this.setState({ [name]: value });
@@ -60,109 +57,70 @@ export default class OtherClientInformation extends React.Component {
 
   render() {
     return (
-      <Cards
-        cardHeaderText="Other Client Information"
-        id={this.props.anchorId}
-        cardHeaderButton={false}
-        cardActionButtons={true}
-      >
+      <div>
         <div>
-          <div>
-            <DropDownField
-              id="dropdown1"
-              gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.primaryLanguageValue}
-              options={PRIMARY_LANGUAGES}
-              label="Primary Language"
-              onChange={this.handleDropdownChange('primaryLanguageValue')}
-            />
-            <DropDownField
-              id="dropdown2"
-              gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.secondaryLanguageValue}
-              options={SECONDARY_LANGUAGES}
-              label="Secondary Language"
-              onChange={this.handleDropdownChange('secondaryLanguageValue')}
-            />
-          </div>
-          <div className="col-md-6 ">
-            <label htmlFor="Spoken in Home">Spoken in Home</label>
-            <CheckboxRadioGroup
-              id="radio1"
-              name={'spokenIn'}
-              type={'radio'}
-              options={this.state.spokenIn}
-              handleOnChange={this.handleSpokenChange}
-              selectedOptions={this.state.selected}
-            />
-          </div>
-          <div className="col-md-6 ">
-            <label htmlFor="Spoken in Home">Spoken in Home</label>
-            <CheckboxRadioGroup
-              id="radio2"
-              name={'spokenInHome'}
-              type={'radio'}
-              options={this.state.spokenInHome}
-              handleOnChange={this.handleSpokenInChange}
-              selectedOptions={this.state.spokenInSelection}
-            />
-          </div>
-          <div>
-            <DropDownField
-              id="dropdown3"
-              gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.literateValue}
-              options={LITERATE}
-              label="Litearate"
-              onChange={this.handleDropdownChange('literateValue')}
-            />
-          </div>
-          <div>
-            <DropDownField
-              id="dropdown4"
-              gridClassName="col-md-6 col-sm-6 col-xs-12"
-              selectedOption={this.state.incapacitatedParentValue}
-              options={INCAPACITATED_PARENT}
-              label="Incapacitated Parent"
-              onChange={this.handleDropdownChange('incapacitatedParentValue')}
-            />
-          </div>
+          <DropDownField
+            id="dropdown2"
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            selectedOption={this.state.maritalValue}
+            options={MARITAL_STATUS}
+            label="Marital Status"
+            onChange={this.handleDropdownChange('maritalValue')}
+          />
+          <DropDownField
+            id="dropdown3"
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            selectedOption={this.state.literateValue}
+            options={LITERATE}
+            label="Litearate"
+            onChange={this.handleDropdownChange('literateValue')}
+          />
+          <DropDownField
+            id="dropdown5"
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            selectedOption={this.state.stateTypesValue}
+            options={STATE_TYPES}
+            label="Drivers License State"
+            onChange={this.handleDropdownChange('stateTypesValue')}
+          />
+          <InputComponent
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            fieldClassName="form-group"
+            label="Drivers License # "
+            type="number"
+            value={this.state.driverLicensNumber}
+          />
+          <DropDownField
+            id="dropdown4"
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            selectedOption={this.state.incapacitatedParentValue}
+            options={INCAPACITATED_PARENT}
+            label="Incapacitated Parent"
+            onChange={this.handleDropdownChange('incapacitatedParentValue')}
+          />
+          <InputComponent
+            gridClassName="col-md-6 col-sm-6 col-xs-12"
+            fieldClassName="form-group"
+            label="Alien Registration#"
+            type="number"
+            value={this.state.alienRegistration}
+          />
         </div>
-      </Cards>
+      </div>
     );
   }
 }
 
 OtherClientInformation.propTypes = {
   anchorId: PropTypes.string,
-  PRIMARY_LANGUAGES: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  SECONDARY_LANGUAGES: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  LITERATE: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  INCAPACITATED_PARENT: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
+  MARITAL_STATUS: LabelValueEnumerableShape,
+  STATE_TYPES: LabelValueEnumerableShape,
+  LITERATE: LabelValueEnumerableShape,
+  INCAPACITATED_PARENT: LabelValueEnumerableShape,
 };
 OtherClientInformation.defaultProps = {
-  PRIMARY_LANGUAGES: PRIMARY_LANGUAGES,
-  SECONDARY_LANGUAGES: SECONDARY_LANGUAGES,
   LITERATE: LITERATE,
+  MARITAL_STATUS,
+  STATE_TYPES,
   INCAPACITATED_PARENT: INCAPACITATED_PARENT,
 };

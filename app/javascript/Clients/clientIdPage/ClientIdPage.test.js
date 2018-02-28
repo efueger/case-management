@@ -32,10 +32,6 @@ describe('Client ID Page', () => {
     expect(clientPage.find('ClientInformation').length).toBe(1);
   });
 
-  it('Has OtherClientInformation', () => {
-    expect(clientPage.find('OtherClientInformation').length).toBe(1);
-  });
-
   it('Has Safety Alert Information', () => {
     expect(clientPage.find('SafetyAlertInformation').length).toBe(1);
   });
