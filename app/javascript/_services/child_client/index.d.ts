@@ -30,5 +30,6 @@ declare namespace ChildClientService {
     sexual_exploitation_type?: string;
     start_date?: string;
     end_date?: string;
+    primary_ethnicity_type:? string;
   }
 }

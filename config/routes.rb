@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :system_codes, only: [:show] do
+    end
+
     resources :cases, only: [:index] do
       collection do
         get ':user_id', to: 'cases#cases_by_user'

@@ -29,5 +29,6 @@ module ChildClients
     attribute :secondary_language_type, Types::String.optional
     attribute :litrate_code, Types::String.optional
     attribute :incapacitated_parent_code, Types::String.optional
+    attribute :primary_ethnicity_type, Types::String.optional
   end
 end

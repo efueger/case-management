@@ -19,7 +19,7 @@ export const RACE_DETAILS = {
     'Other Asian',
     'Vietnamese',
   ],
-  'American Indian or Alaska Native': ['American Indian', 'Alaska Native'],
+  'American Indian or Alaskan Native': ['American Indian', 'Alaskan Native'],
   'Native Hawaiian or Other Pacific Islander': [
     'Guamanian',
     'Hawaiian',
