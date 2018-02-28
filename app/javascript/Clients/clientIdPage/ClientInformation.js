@@ -10,13 +10,16 @@ import {
 } from 'react-wood-duck';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { getAgeUtil } from '../../_utils/ageCalc/getAgeFormat';
+import OtherClientInformation from './OtherClientInformation.js';
 import {
   GENDERS,
-  MARITAL_STATUS,
   AGE_UNITS,
-  STATE_TYPES,
   NAME_TYPES,
   CSEC_TYPES,
+  PREFIX,
+  SUFFIX,
+  PRIMARY_LANGUAGES,
+  SECONDARY_LANGUAGES,
 } from './Constants';
 
 const LabelValueShape = PropTypes.shape({
@@ -37,30 +40,30 @@ export default class ClientInformation extends React.Component {
       clients: [' Client is a Safely surrendered baby'],
       warranty: ['Outstanding warranty exists'],
       confidentiality: ['Confidentiality in effect'],
-      csecInfoBox: ['This case has CSEC Data'],
       selected: [],
       genderValue: '',
-      maritalValue: '',
       ageUnitValue: '',
-      StateTypesValue: '',
       nameTypeValue: '',
-      prefix: '',
+      prefixValue: '',
       firstName: '',
       middleName: '',
       lastName: '',
-      suffix: '',
+      suffixValue: '',
       socialSecurityNumber: '',
       birthDate: '',
       clientNumber: '',
-      alienRegistration: '',
-      driverLicensNumber: '',
+      age: '',
+      primaryLanguageValue: '',
+      secondaryLanguageValue: '',
+      csecInfoBox: ['This case has CSEC Data'],
+      StateTypesValue: '',
+      prefix: '',
+      suffix: '',
       hasCsecData: false,
       csecDataType: '',
       csecStartDate: '',
       csecEndDate: '',
-      // csecCode: '',
       csecCodeValue: '',
-      age: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
@@ -88,17 +91,16 @@ export default class ClientInformation extends React.Component {
           socialSecurityNumber: response.social_security_number,
           birthDate: response.birth_dt,
           clientNumber: response.identifier,
-          alienRegistration: response.alien_registration_number,
-          driverLicensNumber: response.driver_licens_number,
           genderValue: response.gender_code,
-          maritalValue: String(response.material_status_type),
           ageUnitValue: response.ageUnit,
-          stateTypesValue: String(response.driver_license_state_code_type),
           nameTypeValue: String(response.name_type),
+          primaryLanguageValue: String(response.primary_language_type),
+          secondaryLanguageValue: String(response.secondary_language_type),
         })
       )
       .catch(() => this.setState({ response: { XHRStatus: 'error' } }));
   };
+
   setCsecData = () => {
     return ChildClientService.csec()
       .then(csecResponse => {
@@ -156,6 +158,7 @@ export default class ClientInformation extends React.Component {
       });
     }
   }
+
   render() {
     return (
       <div>
@@ -165,13 +168,18 @@ export default class ClientInformation extends React.Component {
           cardHeaderButton={false}
           cardActionButtons={true}
         >
+          <div className="col-md-12">
+            <label htmlFor="Client ID :  # 1928-2726-2626-2622453">
+              Client ID: # 1928-2726-2626-2622453
+            </label>
+          </div>
           <div>
-            <InputComponent
+            <DropDownField
               gridClassName="col-md-1 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
+              options={PREFIX}
               label="Prefix"
-              type="string"
-              value={this.state.prefix}
+              selectedOption={this.state.prefixValue}
+              onChange={this.handleDropdownChange('prefixValue')}
             />
             <InputComponent
               gridClassName="col-md-3 col-sm-6 col-xs-12"
@@ -194,47 +202,39 @@ export default class ClientInformation extends React.Component {
               type="string"
               value={this.state.lastName}
             />
-            <InputComponent
+            <DropDownField
               gridClassName="col-md-2 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
+              options={SUFFIX}
               label="Suffix"
-              type="string"
-              value={this.state.suffix}
+              selectedOption={this.state.suffixValue}
+              onChange={this.handleDropdownChange('suffixValue')}
             />
           </div>
           <div>
             <DropDownField
               id="dropdown1"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              gridClassName="col-md-4 col-sm-6 col-xs-12"
               selectedOption={this.state.nameTypeValue}
               options={NAME_TYPES}
               label="Name Type (required)"
               onChange={this.handleDropdownChange('nameTypeValue')}
             />
-            <DropDownField
-              id="dropdown2"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              selectedOption={this.state.maritalValue}
-              options={MARITAL_STATUS}
-              label="Marital Status"
-              onChange={this.handleDropdownChange('maritalValue')}
+            <InputComponent
+              label="Client Index Number"
+              gridClassName="col-md-4 col-sm-3 col-xs-3"
+              fieldClassName="form-group"
+              type="number"
+              value={this.state.clientIndexNumber}
             />
             <InputComponent
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
+              gridClassName="col-md-4 col-sm-6 col-xs-12"
               fieldClassName="form-group"
               label="SSN"
               type="number"
               value={this.state.socialSecurityNumber}
             />
-            <InputComponent
-              label="Client Index Number"
-              gridClassName="col-md-3 col-sm-3 col-xs-3"
-              fieldClassName="form-group"
-              type="number"
-              value={this.state.clientIndexNumber}
-            />
           </div>
-          <div className="row">
+          <div>
             <div>
               <DropDownField
                 id="dropdown3"
@@ -242,68 +242,69 @@ export default class ClientInformation extends React.Component {
                 gridClassName="col-md-3 col-sm-6 col-xs-12"
                 selectedOption={this.state.genderValue}
                 options={GENDERS}
-                label="Gender"
+                label="Sex at birth(required)"
                 onChange={this.handleDropdownChange('genderValue')}
               />
-            </div>
-            <InputComponent
-              label="Date Of Birth"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
-              type="date"
-              value={this.state.birthDate}
-              onChange={this.handleDobChange}
-            />
-            <InputComponent
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
-              label="Age"
-              type="string"
-              value={this.state.age}
-            />
-            <DropDownField
-              id="dropdown4"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              selectedOption={this.state.ageUnitValue}
-              options={AGE_UNITS}
-              label="Age Unit"
-              onChange={this.handleDropdownChange('ageUnitValue')}
-            />
-          </div>
-          <div className="row">
-            <div>
               <InputComponent
+                label="Date Of Birth"
                 gridClassName="col-md-3 col-sm-6 col-xs-12"
                 fieldClassName="form-group"
-                label="Client Number"
+                type="date"
+                value={this.state.birthDate}
+                onChange={this.handleDobChange}
+              />
+              <InputComponent
+                gridClassName="col-md-2 col-sm-6 col-xs-12"
+                fieldClassName="form-group"
+                label="Age"
                 type="string"
-                value={this.state.clientNumber}
+                value={this.state.age}
+              />
+              <DropDownField
+                id="dropdown4"
+                gridClassName="col-md-3 col-sm-6 col-xs-12"
+                selectedOption={this.state.ageUnitValue}
+                options={AGE_UNITS}
+                label="Age Unit"
+                onChange={this.handleDropdownChange('ageUnitValue')}
               />
             </div>
-            <InputComponent
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
-              label="Alien Registration#"
-              type="number"
-              value={this.state.alienRegistration}
-            />
-            <DropDownField
-              id="dropdown5"
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              selectedOption={this.state.stateTypesValue}
-              options={STATE_TYPES}
-              label="Drivers License State"
-              onChange={this.handleDropdownChange('this.state.stateTypesValue')}
-            />
-            <InputComponent
-              gridClassName="col-md-3 col-sm-6 col-xs-12"
-              fieldClassName="form-group"
-              label="Drivers License # "
-              type="number"
-              value={this.state.driverLicensNumber}
-            />
           </div>
-          <div className="form-group row">
+          <div className="row col-md-12 col-sm-6 col-xs-12">
+            <div>
+              <DropDownField
+                id="dropdown1"
+                gridClassName="col-md-6 col-sm-6 col-xs-12"
+                selectedOption={this.state.primaryLanguageValue}
+                options={PRIMARY_LANGUAGES}
+                label="Primary Language"
+                onChange={this.handleDropdownChange('primaryLanguageValue')}
+              />
+            </div>
+            <div>
+              <DropDownField
+                id="dropdown2"
+                gridClassName="col-md-6 col-sm-6 col-xs-12"
+                selectedOption={this.state.secondaryLanguageValue}
+                options={SECONDARY_LANGUAGES}
+                label="Secondary Language"
+                onChange={this.handleDropdownChange('secondaryLanguageValue')}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="col-md-6">
+              <CheckboxRadioGroup
+                id="checkbox4"
+                name={'confidentiality'}
+                type={'checkbox'}
+                handleOnChange={this.handleChange}
+                options={this.state.confidentiality}
+                selectedOptions={this.state.selected}
+              />
+            </div>
+          </div>
+          <div className="form-group">
             <div className="col-md-6">
               <CheckboxRadioGroup
                 id="checkbox1"
@@ -325,8 +326,8 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
-          <div className="form-group row">
-            <div className="col-md-12">
+          <div className="form-group">
+            <div className="col-md-6">
               <CheckboxRadioGroup
                 id="checkbox3"
                 name={'Warranty'}
@@ -337,27 +338,8 @@ export default class ClientInformation extends React.Component {
               />
             </div>
           </div>
-          <div className="form-group row">
-            <div className="col-md-4">
-              <label htmlFor="CONFIDENTIALITY">CONFIDENTIALITY</label>
-              <CheckboxRadioGroup
-                id="checkbox4"
-                name={'confidentiality'}
-                type={'checkbox'}
-                handleOnChange={this.handleChange}
-                options={this.state.confidentiality}
-                selectedOptions={this.state.selected}
-              />
-            </div>
-            <div className="col-md-5">
-              <label htmlFor="CONFIDENTIALITY EFFECTIVE DATE">
-                CONFIDENTIALITY EFFECTIVE DATE
-              </label>
-              <DateTimePicker />
-            </div>
-          </div>
           {this.state.hasCsecData && (
-            <div className="form-group row">
+            <div className="form-group">
               <div className="col-md-12">
                 <CheckboxRadioGroup
                   id="checkbox5"
@@ -367,6 +349,33 @@ export default class ClientInformation extends React.Component {
                   options={this.state.csecInfoBox}
                   selectedOptions={this.state.csecInfoBox}
                 />
+              </div>
+              <div>
+                <BootstrapTable
+                  data={this.state.csecResponse}
+                  striped={true}
+                  hover={true}
+                  bordered={false}
+                >
+                  <TableHeaderColumn
+                    dataField="sexual_exploitation_type"
+                    isKey
+                    dataSort
+                    width="150"
+                  >
+                    CSEC Type
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="start_date"
+                    dataSort
+                    width="150"
+                  >
+                    Start Date
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="end_date" dataSort width="150">
+                    End Date
+                  </TableHeaderColumn>
+                </BootstrapTable>
               </div>
             </div>
           )}
@@ -384,30 +393,6 @@ export default class ClientInformation extends React.Component {
               </div>
             </div>
           )}
-          {this.state.hasCsecData && (
-            <div>
-              <BootstrapTable
-                data={this.state.csecResponse}
-                striped={true}
-                hover={true}
-              >
-                <TableHeaderColumn
-                  dataField="sexual_exploitation_type"
-                  isKey
-                  dataSort
-                  width="150"
-                >
-                  CSEC Type
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="start_date" dataSort width="150">
-                  Start Date
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="end_date" dataSort width="150">
-                  End Date
-                </TableHeaderColumn>
-              </BootstrapTable>
-            </div>
-          )}
           <div>
             <DropDownField
               id="dropdown6"
@@ -416,7 +401,6 @@ export default class ClientInformation extends React.Component {
               label="CSEC Data Type"
               onChange={this.handleDropdownChange('csecCodeValue')}
             />
-
             <div className="col-md-4 col-sm-6 col-xs-12">
               <label htmlFor="START DATE">START DATE</label>
               <DateTimePicker />
@@ -426,25 +410,32 @@ export default class ClientInformation extends React.Component {
               <DateTimePicker fieldClassName="form-group" />
             </div>
           </div>
+          <div className="col-md-12">
+            <label>
+              <u htmlFor="Other Information">Other Information</u>
+            </label>
+          </div>
+          <OtherClientInformation />
         </Cards>
       </div>
     );
   }
 }
+
 ClientInformation.propTypes = {
   anchorId: PropTypes.string,
   GENDERS: LabelValueEnumerableShape,
-  MARITAL_STATUS: LabelValueEnumerableShape,
   AGE_UNITS: LabelValueEnumerableShape,
-  STATE_TYPES: LabelValueEnumerableShape,
   NAME_TYPES: LabelValueEnumerableShape,
   CSEC_TYPES: LabelValueEnumerableShape,
+  PRIMARY_LANGUAGES: LabelValueEnumerableShape,
+  SECONDARY_LANGUAGES: LabelValueEnumerableShape,
 };
 ClientInformation.defaultProps = {
+  PRIMARY_LANGUAGES: PRIMARY_LANGUAGES,
+  SECONDARY_LANGUAGES: SECONDARY_LANGUAGES,
   GENDERS,
-  MARITAL_STATUS,
   AGE_UNITS,
-  STATE_TYPES,
   NAME_TYPES,
   CSEC_TYPES,
 };

@@ -1,8 +1,31 @@
+export const PREFIX = [
+  { value: 'Mr.', label: 'Mr.' },
+  { value: 'Mrs.', label: 'Mrs.' },
+  { value: 'Miss', label: 'Miss' },
+  { value: 'Ms.', label: 'Ms.' },
+  { value: 'Dr.', label: 'Dr.' },
+  { value: 'Rev.', label: 'Rev.' },
+];
+
+export const SUFFIX = [
+  { value: 'Esq.', label: 'Esq.' },
+  { value: 'Sr.', label: 'Sr.' },
+  { value: 'Jr.', label: 'Jr.' },
+  { value: 'I.', label: 'I.' },
+  { value: 'II.', label: 'II.' },
+  { value: 'III.', label: 'III.' },
+  { value: 'IV.', label: 'IV.' },
+  { value: 'M.D.', label: 'M.D.' },
+  { value: 'Ph.D.', label: 'Ph.D.' },
+  { value: 'D.D.S.', label: 'D.D.S.' },
+];
+
 export const GENDERS = [
   { value: 'M', label: 'Male' },
   { value: 'F', label: 'Female' },
   { value: 'OTHER', label: 'Other' },
 ];
+
 export const MARITAL_STATUS = [
   { value: '0', label: 'Married' },
   { value: '1', label: 'Never Married' },
@@ -19,8 +42,11 @@ export const STATE_TYPES = [
   { value: '1', label: 'NY' },
 ];
 export const NAME_TYPES = [
-  { value: '1313', label: 'Primary' },
-  { value: '1314', label: 'Secondary' },
+  { value: 'Legal', label: 'Legal' },
+  { value: 'Aka', label: 'AKa' },
+  { value: 'Doe', label: 'Doe' },
+  { value: 'Maiden', label: 'Maiden' },
+  { value: 'Unknown', label: 'Unknown' },
 ];
 export const CSEC_TYPES = [
   { value: '6750', label: '6750' },

@@ -19,7 +19,7 @@ module ChildClients
       it { is_expected.to have_attribute(:driver_licens_number, Types::String.optional) }
       it { is_expected.to have_attribute(:driver_license_state_code_type, Types::String.optional) }
       it { is_expected.to have_attribute(:gender_code, Types::String.optional) }
-      it { is_expected.to have_attribute(:material_status_type, Types::String.optional) }
+      it { is_expected.to have_attribute(:marital_status_type, Types::String.optional) }
       it { is_expected.to have_attribute(:name_type, Types::String.optional) }
       it { is_expected.to have_attribute(:driver_license_state_code_type, Types::String.optional) }
       it { is_expected.to have_attribute(:primary_language_type, Types::String.optional) }

@@ -35,6 +35,24 @@ describe('ClientInformation', () => {
       expect(fetchSpy).toHaveBeenCalledWith();
       expect(fetchSpy).toHaveBeenCalledTimes(2);
     });
+
+    it('should handle error #setClientData', () => {
+      ChildClientService.fetch.mockReturnValue(Promise.reject(Error('error')));
+      const wrapper = shallow(<ClientInformation />);
+      const instance = wrapper.instance();
+      return instance.setClientData().then(response => {
+        expect(instance.state.response.XHRStatus).toBe('error');
+      });
+    });
+
+    it('should handle error in #setCsecData', () => {
+      ChildClientService.csec.mockReturnValue(Promise.reject(Error('error')));
+      const wrapper = shallow(<ClientInformation />);
+      const instance = wrapper.instance();
+      return instance.setCsecData().then(response => {
+        expect(instance.state.csecResponse.XHRStatus).toBe('error');
+      });
+    });
   });
 
   describe('#setCsecData', () => {
@@ -72,15 +90,16 @@ describe('ClientInformation', () => {
       expect(clientPage.find('Cards').length).toBe(1);
     });
 
-    it('renders InputComponent components', () => {
-      expect(clientPage.find('InputComponent').length).toBe(12);
+    it('renders components', () => {
+      expect(clientPage.find('InputComponent').length).toBe(7);
+      expect(clientPage.find('DropDownField').length).toBe(8);
     });
 
     it('toggles the display of the csec block ', () => {
       const instance = clientPage.instance();
       clientPage.setState({ hasCsecData: true });
       expect(instance.state.csecInfoBox).toContain('This case has CSEC Data');
-      expect(clientPage.find('DropDownField').length).toBe(6);
+
       expect(clientPage.find('BootstrapTable').length).toBe(1);
       expect(clientPage.find('TableHeaderColumn').length).toBe(3);
     });
