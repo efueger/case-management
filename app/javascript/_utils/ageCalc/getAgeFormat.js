@@ -1,17 +1,16 @@
 import moment from 'moment';
 var age = '';
 var ageUnitSelection = '';
-export function getAgeUtil(birthDate) {
+export function getAgeUtil(birthDate, now = moment()) {
   let dob = moment(birthDate);
-  let months = moment().diff(dob, 'months');
-  let years = moment().diff(dob, 'years');
-  let days = moment().diff(dob, 'days');
-  if (days >= 1 && days < 31) return getDays(days);
-  if (months >= 1 && months < 11) return getMonths(months);
+  let months = now.diff(dob, 'months');
+  let years = now.diff(dob, 'years');
+  let days = now.diff(dob, 'days');
+
   if (years >= 1) return getYears(years);
-  if (days <= 0 || months <= 0 || years <= 0) {
-    return { age: '', ageUnitSelection: '' };
-  }
+  if (months >= 1 && months < 11) return getMonths(months);
+  if (days >= 1) return getDays(days);
+  return { age: '', ageUnitSelection: '' };
 }
 
 function getYears(years) {
