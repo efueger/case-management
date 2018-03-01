@@ -11,11 +11,25 @@ describe('getAgeUtil()', () => {
     });
   });
 
-  describe('When the age is one month', () => {
+  describe('when the age is one month', () => {
     it('should return age as 1 & ageUnitSelection as M', () => {
       var pastMonth = moment(currentDate).subtract(1, 'month');
       expect(getAgeUtil(pastMonth).age).toBe(1);
       expect(getAgeUtil(pastMonth).ageUnitSelection).toBe('M');
+    });
+  });
+
+  describe('when 1 month between short month dates like 2/28 to 3/29', () => {
+    it('returns 1 month', () => {
+      const february = moment('2005-02-28');
+      expect(getAgeUtil(february, moment('2005-03-29')).age).toBe(1);
+    });
+  });
+
+  describe('when less than 1 month between short month dates like 2/28 to 3/27', () => {
+    it('returns days', () => {
+      const february = moment('2005-02-28');
+      expect(getAgeUtil(february, moment('2005-03-27')).age).toBe(27);
     });
   });
 
